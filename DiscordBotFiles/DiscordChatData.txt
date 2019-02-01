@@ -1,0 +1,109 @@
+11:57:54 Discord     Discord.Net v2.0.0 (API v6)
+11:57:54 Gateway     Connecting
+11:57:56 Gateway     Connected
+11:57:56 Gateway     Ready
+12:01:12 Discord     Discord.Net v2.0.0 (API v6)
+12:01:13 Gateway     Connecting
+12:01:14 Gateway     Connected
+12:01:14 Gateway     Ready
+Time: 2/1/2019 8:01:18 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: fuck
+
+12:04:12 Discord     Discord.Net v2.0.0 (API v6)
+12:04:13 Gateway     Connecting
+12:04:13 Gateway     Connected
+12:04:14 Gateway     Ready
+Time: 2/1/2019 8:04:23 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: fuck
+
+Time: 2/1/2019 8:04:31 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: !QUIT
+
+12:05:04 Discord     Discord.Net v2.0.0 (API v6)
+12:05:05 Gateway     Connecting
+12:05:05 Gateway     Connected
+12:05:06 Gateway     Ready
+Time: 2/1/2019 8:05:12 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: fuck
+
+Time: 2/1/2019 8:05:17 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Quit
+
+12:18:13 Discord     Discord.Net v2.0.0 (API v6)
+12:18:13 Gateway     Connecting
+12:18:15 Gateway     Connected
+12:18:16 Gateway     Ready
+Time: 2/1/2019 8:18:19 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *help
+
+Time: 2/1/2019 8:18:27 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/1/2019 8:18:36 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ping
+
+Time: 2/1/2019 8:18:38 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/1/2019 8:18:53 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Quit
+
+12:24:11 Discord     Discord.Net v2.0.0 (API v6)
+12:24:12 Gateway     Connecting
+12:24:13 Gateway     Connected
+12:24:14 Gateway     Ready
+Time: 2/1/2019 8:24:20 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ping
+
+Time: 2/1/2019 8:24:22 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/1/2019 8:24:26 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: fuck
+
+Time: 2/1/2019 8:24:30 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/1/2019 8:24:35 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ToggleChatFilter
+
+Time: 2/1/2019 8:24:43 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: fuck
+
+Time: 2/1/2019 8:24:55 PM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Quit
+
