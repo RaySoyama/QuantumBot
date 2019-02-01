@@ -62,12 +62,21 @@ namespace DiscordBot
                 return;
             }
 
+
             string path = "DiscordChatData.txt";
+
+
+
+            path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath(path)).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path += "\\DiscordChatData.txt";
+
             string chatLog = "Time: " + msg.Timestamp.ToString() + "\nChannel: " + msg.Channel.ToString() + "\nUsername: " + msg.Author.ToString() + "\nMessage: " + msg.ToString() + "\n\n";
 
+            
             File.AppendAllText(path, chatLog);
-            
-            
 
             Console.WriteLine(chatLog);
             int argPos = 0;
