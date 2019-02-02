@@ -460,3 +460,96 @@ Channel: bot-commands
 Username: Quantum Blue#1234
 Message: *Quit
 
+17:11:59 Discord     Discord.Net v2.0.0 (API v6)
+17:12:00 Gateway     Connecting
+17:12:01 Gateway     Connected
+17:12:01 Gateway     Ready
+Time: 2/2/2019 1:12:14 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/2/2019 1:12:22 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!212078925868826624>
+
+Time: 2/2/2019 1:12:42 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile Add
+
+Time: 2/2/2019 1:12:47 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Quit
+
+17:16:02 Discord     Discord.Net v2.0.0 (API v6)
+17:16:03 Gateway     Connecting
+17:16:04 Gateway     Connected
+17:16:04 Gateway     Ready
+Time: 2/2/2019 1:16:12 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/2/2019 1:16:18 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+17:45:35 Discord     Discord.Net v2.0.0 (API v6)
+17:45:36 Gateway     Connecting
+17:45:36 Gateway     Connected
+17:45:37 Gateway     Ready
+Time: 2/2/2019 1:45:53 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd test testURL
+
+Time: 2/2/2019 1:46:48 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd test123 asd
+
+17:47:12 Discord     Discord.Net v2.0.0 (API v6)
+17:47:13 Gateway     Connecting
+17:47:14 Gateway     Connected
+17:47:14 Gateway     Ready
+Time: 2/2/2019 1:47:24 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd test123 TestURL
+
+17:48:01 Discord     Discord.Net v2.0.0 (API v6)
+17:48:02 Gateway     Connecting
+17:48:03 Gateway     Connected
+17:48:03 Gateway     Ready
+Time: 2/2/2019 1:48:07 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/2/2019 1:48:16 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd testKey TestURL
+
+17:51:42 Discord     Discord.Net v2.0.0 (API v6)
+17:51:42 Gateway     Connecting
+17:51:43 Gateway     Connected
+17:51:44 Gateway     Ready
+Time: 2/2/2019 1:51:49 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd testKey TestURL
+
+17:52:37 Discord     Discord.Net v2.0.0 (API v6)
+17:52:38 Gateway     Connecting
+17:52:39 Gateway     Connected
+17:52:40 Gateway     Ready
+Time: 2/2/2019 1:52:43 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *ProfileAdd testKey TestURL
+

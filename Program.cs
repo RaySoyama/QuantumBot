@@ -37,7 +37,7 @@ namespace DiscordBot
             GetFilePath(userFileSavePath, ref userFileSavePath);
 
             //Read User Data
-            GetDataFromConfig(userFileSavePath, ref ListOfHuman);
+            GetUserDataFromFile(userFileSavePath, ref ListOfHuman);
 
             //setup
             _client.Log += Log;
@@ -46,7 +46,7 @@ namespace DiscordBot
             await _client.StartAsync();
 
             _client.MessageReceived += MessageReceived; //Runs if a msg was received
-           
+
             await Task.Delay(-1);  // Block this task until the program is closed.
         }
 
@@ -56,7 +56,7 @@ namespace DiscordBot
             File.AppendAllText(logFileSavePath, msg.ToString() + "\n");
             return Task.CompletedTask;
         }
-                     
+
         private async Task MessageReceived(SocketMessage message)
         {
             SocketUserMessage msg = message as SocketUserMessage; // cast to a USER msg;
@@ -68,7 +68,7 @@ namespace DiscordBot
 
             string chatLog = "Time: " + msg.Timestamp.ToString() + "\nChannel: " + msg.Channel.ToString() + "\nUsername: " + msg.Author.ToString() + "\nMessage: " + msg.ToString() + "\n\n";
 
-            
+
             File.AppendAllText(logFileSavePath, chatLog);
 
             Console.WriteLine(chatLog);
@@ -97,6 +97,8 @@ namespace DiscordBot
                         "\n" +
                         "Help or Commands - Prints what you're reading now\n" +
                         "Ping             - Pong, a good way to make sure I'm alive\n" +
+                        "Profile @User    - Returns Info bout User" +
+                        "ProfileAdd KeyName URL - Adds URL, and Key into the system" +
                         "\n" +
                         "Mod Commands\n" +
                         "Quit             - Closes Bot\n" +
@@ -136,40 +138,14 @@ namespace DiscordBot
                     @! - Human
                     @& - Role
                     */
+
                     if (msgContent.Substring(8, 3) == ("<@!"))//Human
                     {
-                        for(int i = 0; i < ListOfHuman.Count; i++)
+                        for (int i = 0; i < ListOfHuman.Count; i++)
                         {
                             if (ListOfHuman[i].discordID == msgContent.Substring(8, msgContent.Length - 8))
                             {
                                 string userLinks = "";
-                                string tempLink = "";
-
-                                ////opens all the fucking keys cuz im a dumbass
-                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("LinkedIn", out tempLink) == true)
-                                //{
-                                //    userLinks += "Linkedin: <" + tempLink + ">\n";
-                                //}
-
-                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("GitHub", out tempLink) == true)
-                                //{
-                                //    userLinks += "GitHub: <" + tempLink + ">\n";
-                                //}
-
-                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Creddle", out tempLink) == true)
-                                //{
-                                //    userLinks += "Creddle: <" + tempLink + ">\n";
-                                //}
-
-                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Instagram", out tempLink) == true)
-                                //{
-                                //    userLinks += "Instagram: <" + tempLink + ">\n";
-                                //}
-
-                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Twitter", out tempLink) == true)
-                                //{
-                                //    userLinks += "Twitter: <" + tempLink + ">\n";
-                                //}
 
                                 foreach (KeyValuePair<string, string> entry in ListOfHuman[i].HumanSiteData)
                                 {
@@ -177,20 +153,34 @@ namespace DiscordBot
                                 }
 
                                 await message.Channel.SendMessageAsync(ListOfHuman[i].discordID + "\n" + userLinks);
+                                return;
                             }
                         }
-                        
-
+                        await message.Channel.SendMessageAsync(msgContent.Substring(8, msgContent.Length - 8) + "is not in our database");
                     }
-                    //{
-                    //    Console.WriteLine("NAME FOUND");
+                    else if (msgContent.Substring(7,3) == "Add")
+                    {
+                        int keyToURLIndex = msgContent.Substring(11).IndexOf(" ");
 
-                    //}
+                        if (keyToURLIndex == -1)
+                        {
+                            await message.Channel.SendMessageAsync("Formatting Error, please sperate the name of the URL, and the URL with an space");
+                            return;
+                        }
+
+                        Console.WriteLine(msg.Author.Id.ToString());
+                        //AddUserDataToFile(msg.Author.ToString(), msg.Id.ToString(), );
+
+                        Console.WriteLine(msgContent.Substring(11,keyToURLIndex));
+                        Console.WriteLine(msgContent.Substring(11 + keyToURLIndex + 1, msgContent.Length - (11 + keyToURLIndex + 1) ));
+                    }
+
+
 
                     //@Name (returns all)
                     //Add link
                     //Edit Key
-                    
+
                     else
                     {
                         await message.Channel.SendMessageAsync("Command not found");
@@ -198,19 +188,13 @@ namespace DiscordBot
 
                 }
             }
-
-
-
+    
             //Language Filter
             if (LanguageFilter(msg.ToString().Substring(argPos)) == true && chatFilterEnabled == true)
             {
                 await message.Channel.SendMessageAsync("watch your profanity\n<https://youtu.be/25f2IgIrkD4>");
                 return;
             }
-
-            
-
-            
         }
 
         public bool LanguageFilter(string sentence)
@@ -230,7 +214,7 @@ namespace DiscordBot
                     "Ass"
                 };
 
-            for(int i = 0; i < BadWords.Length; i++)
+            for (int i = 0; i < BadWords.Length; i++)
             {
                 if (temp.Contains(BadWords[i].ToLower()) == true)
                 {
@@ -251,7 +235,7 @@ namespace DiscordBot
             path += "\\DiscordBotFiles\\" + textFileName;
         }
 
-        public void GetDataFromConfig(string path, ref List<DiscordHuman> ListOfHuman)
+        public void GetUserDataFromFile(string path, ref List<DiscordHuman> ListOfHuman)
         {
             ListOfHuman = new List<DiscordHuman>();
 
@@ -265,18 +249,25 @@ namespace DiscordBot
                 {
                     tempHuman = new DiscordHuman();
                     i++;
+                    tempHuman.dicordUserName = allFileLines[i];
+                    i++;
                     tempHuman.discordID = allFileLines[i];
                 }
                 else if (allFileLines[i].Equals("<LINK>"))
                 {
                     i++;
-                    tempHuman.HumanSiteData.Add(allFileLines[i], allFileLines[i + 1]); //THIS IS BREAKING FOR SOME REASON  
+                    tempHuman.HumanSiteData.Add(allFileLines[i], allFileLines[i + 1]);
                 }
                 else if (allFileLines[i].Equals("<END>"))
                 {
                     ListOfHuman.Add(tempHuman);
                 }
             }
+        }
+
+        public void AddUserDataToFile(string userID, string userName, string key, string URL)
+        {
+
         }
     }
 }

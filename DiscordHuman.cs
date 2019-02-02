@@ -6,6 +6,7 @@ namespace DiscordBot
 {
     class DiscordHuman
     {
+        public string dicordUserName;
         public string discordID;
         public Dictionary<string, string> HumanSiteData = new Dictionary<string, string>();
 
