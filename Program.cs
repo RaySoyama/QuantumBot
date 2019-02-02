@@ -99,7 +99,7 @@ namespace DiscordBot
                         "Ping             - Pong, a good way to make sure I'm alive\n" +
                         "\n" +
                         "Mod Commands\n" +
-                        "Quit             - Closes Bot\n" + 
+                        "Quit             - Closes Bot\n" +
                         "ToggleChatFilter - Turns Chat Filter On/Off\n" +
                         "```\n"
                         );
@@ -117,7 +117,89 @@ namespace DiscordBot
                         await message.Channel.SendMessageAsync("Chat filter activated");
                     }
                 }
+                else if (msgContent.Substring(0, 7) == ("Profile"))
+                {
+                    //Console.WriteLine(msgContent.Substring(11, msgContent.Length - 1 - 11));
+
+                    //await message.Channel.SendMessageAsync(msgContent);
+
+                    if (msgContent.Length <= 10)
+                    {
+                        await message.Channel.SendMessageAsync("Specify Command");
+                        return;
+                    }
+
+
+                    /*
+                    ID TAG 
+                    @ - Bot
+                    @! - Human
+                    @& - Role
+                    */
+                    if (msgContent.Substring(8, 3) == ("<@!"))//Human
+                    {
+                        for(int i = 0; i < ListOfHuman.Count; i++)
+                        {
+                            if (ListOfHuman[i].discordID == msgContent.Substring(8, msgContent.Length - 8))
+                            {
+                                string userLinks = "";
+                                string tempLink = "";
+
+                                ////opens all the fucking keys cuz im a dumbass
+                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("LinkedIn", out tempLink) == true)
+                                //{
+                                //    userLinks += "Linkedin: <" + tempLink + ">\n";
+                                //}
+
+                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("GitHub", out tempLink) == true)
+                                //{
+                                //    userLinks += "GitHub: <" + tempLink + ">\n";
+                                //}
+
+                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Creddle", out tempLink) == true)
+                                //{
+                                //    userLinks += "Creddle: <" + tempLink + ">\n";
+                                //}
+
+                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Instagram", out tempLink) == true)
+                                //{
+                                //    userLinks += "Instagram: <" + tempLink + ">\n";
+                                //}
+
+                                //if (ListOfHuman[i].HumanSiteData.TryGetValue("Twitter", out tempLink) == true)
+                                //{
+                                //    userLinks += "Twitter: <" + tempLink + ">\n";
+                                //}
+
+                                foreach (KeyValuePair<string, string> entry in ListOfHuman[i].HumanSiteData)
+                                {
+                                    userLinks += entry.Key + ": <" + ListOfHuman[i].HumanSiteData[entry.Key] + ">\n";
+                                }
+
+                                await message.Channel.SendMessageAsync(ListOfHuman[i].discordID + "\n" + userLinks);
+                            }
+                        }
+                        
+
+                    }
+                    //{
+                    //    Console.WriteLine("NAME FOUND");
+
+                    //}
+
+                    //@Name (returns all)
+                    //Add link
+                    //Edit Key
+                    
+                    else
+                    {
+                        await message.Channel.SendMessageAsync("Command not found");
+                    }
+
+                }
             }
+
+
 
             //Language Filter
             if (LanguageFilter(msg.ToString().Substring(argPos)) == true && chatFilterEnabled == true)
@@ -188,7 +270,7 @@ namespace DiscordBot
                 else if (allFileLines[i].Equals("<LINK>"))
                 {
                     i++;
-                    tempHuman.HumanSiteData.Add(allFileLines[i], allFileLines[i + 1]);
+                    tempHuman.HumanSiteData.Add(allFileLines[i], allFileLines[i + 1]); //THIS IS BREAKING FOR SOME REASON  
                 }
                 else if (allFileLines[i].Equals("<END>"))
                 {
