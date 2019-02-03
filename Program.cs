@@ -21,7 +21,6 @@ namespace DiscordBot
         public string logFileSavePath = "DiscordChatData.txt";
         public string configFileSavePath = "DiscordChatConfig.txt";
         public string userFileSavePath = "DiscordUserData.txt";
-        public string[] userSaveFileData;
 
         List<DiscordHuman> ListOfHuman = new List<DiscordHuman>();
 
@@ -99,11 +98,19 @@ namespace DiscordBot
                         "Help or Commands - Prints what you're reading now\n" +
                         "Ping             - Pong, a good way to make sure I'm alive\n" +
                         "Profile @User    - Returns Info bout User" +
-                        "ProfileAdd KeyName URL - Adds URL, and Key into the system" +
+                        "ProfileAdd URL_NAME URL - Adds URL, and Key into the system" +
+                        "Example:\n" +
+                        "Profile @Quantum Bot\n" +
+                        "ProfileAdd Github https://github.com/RaySoyama " +
+                        "ProfileEdit Github GitHub https://github.com/RaySoyama" +
                         "\n" +
                         "Mod Commands\n" +
                         "Quit             - Closes Bot\n" +
                         "ToggleChatFilter - Turns Chat Filter On/Off\n" +
+                        "\n" +
+                        "\n" +
+                        "I know the Profile Functions are a pain in the ass\n" +
+                        "If you have any recomendations, or need help @Quantum Blue#1234\n" +
                         "```\n"
                         );
                 }
@@ -140,9 +147,9 @@ namespace DiscordBot
                     @& - Role
                     */
 
-                    if (msgContent.Substring(8, 3) == ("<@!"))//Human
+                    if (msgContent.Substring(8, 3) == ("<@!"))//Checks if @ is a human
                     {
-                        for (int i = 0; i < ListOfHuman.Count; i++)
+                        for (int i = 0; i < ListOfHuman.Count; i++) //goes through database, 
                         {
                             if (ListOfHuman[i].discordID == msgContent.Substring(8, msgContent.Length - 8))
                             {
@@ -156,8 +163,17 @@ namespace DiscordBot
                                 await message.Channel.SendMessageAsync(ListOfHuman[i].discordID + "\n" + userLinks);
                                 return;
                             }
-                        }
+                        }//If the human is not in our data base, print out (below)
                         await message.Channel.SendMessageAsync(msgContent.Substring(8, msgContent.Length - 8) + "is not in our database");
+                    }
+                    else if (msgContent.Substring(8, 3) == ("<@&"))//Checks if @ is a Role
+                    {
+                        await message.Channel.SendMessageAsync("I can only get data for a specific user, not a Role ");
+
+                    }
+                    else if (msgContent.Substring(8, 2) == ("<@"))//Checks if @ is a Role
+                    {
+                        await message.Channel.SendMessageAsync("WOAH, WHY IS A ROBOT TALKIN TO ME, WHO THE HECK YOU THINK YOU ARE");
                     }
                     else if (msgContent.Substring(7, 3) == "Add")
                     {
@@ -188,12 +204,10 @@ namespace DiscordBot
 
                     }
 
-
-
-                    //@Name (returns all)
-                    //Add link
-                    //Edit Key
-
+                    else if (msgContent.Substring(7, 4) == "Edit")
+                    {
+                        await message.Channel.SendMessageAsync("Edit Function not yet added, if you really want to change it, Ping @Quantum Blue#1234");
+                    }
                     else
                     {
                         await message.Channel.SendMessageAsync("Command not found");
@@ -259,7 +273,7 @@ namespace DiscordBot
                 ListOfHuman = new List<DiscordHuman>();
             }
 
-            userSaveFileData = System.IO.File.ReadAllLines(path);
+            string[] userSaveFileData = System.IO.File.ReadAllLines(path);
 
 
             for (int i = 0; i < userSaveFileData.Length; i++)
@@ -324,9 +338,23 @@ namespace DiscordBot
 
         public void UpdateUserDataFile()
         {
+            StreamWriter streamWriter = File.CreateText(userFileSavePath);
 
+            for (int i = 0; i < ListOfHuman.Count; i++)
+            {
+                streamWriter.WriteLine("<NAME>");
+                streamWriter.WriteLine(ListOfHuman[i].dicordUserName);
+                streamWriter.WriteLine(ListOfHuman[i].discordID);
 
-
+                foreach (KeyValuePair<string, string> entry in ListOfHuman[i].HumanSiteData)
+                {
+                    streamWriter.WriteLine("<LINK>");
+                    streamWriter.WriteLine(entry.Key);
+                    streamWriter.WriteLine(entry.Value);
+                }
+                streamWriter.WriteLine("<END>");
+            }
+            streamWriter.Close();
         }
 
     }
