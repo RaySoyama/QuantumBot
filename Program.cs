@@ -21,6 +21,7 @@ namespace DiscordBot
         public string logFileSavePath = "DiscordChatData.txt";
         public string configFileSavePath = "DiscordChatConfig.txt";
         public string userFileSavePath = "DiscordUserData.txt";
+        public string[] userSaveFileData;
 
         List<DiscordHuman> ListOfHuman = new List<DiscordHuman>();
 
@@ -158,7 +159,7 @@ namespace DiscordBot
                         }
                         await message.Channel.SendMessageAsync(msgContent.Substring(8, msgContent.Length - 8) + "is not in our database");
                     }
-                    else if (msgContent.Substring(7,3) == "Add")
+                    else if (msgContent.Substring(7, 3) == "Add")
                     {
                         int keyToURLIndex = msgContent.Substring(11).IndexOf(" ");
 
@@ -168,11 +169,23 @@ namespace DiscordBot
                             return;
                         }
 
-                        Console.WriteLine(msg.Author.Id.ToString());
-                        //AddUserDataToFile(msg.Author.ToString(), msg.Id.ToString(), );
 
-                        Console.WriteLine(msgContent.Substring(11,keyToURLIndex));
-                        Console.WriteLine(msgContent.Substring(11 + keyToURLIndex + 1, msgContent.Length - (11 + keyToURLIndex + 1) ));
+                        int updateResult = UpdateUserDataList(
+                                                              "<@!" + msg.Author.Id.ToString() + ">",
+                                                              msg.Author.ToString(), msgContent.Substring(11, keyToURLIndex),
+                                                              msgContent.Substring(11 + keyToURLIndex + 1,
+                                                              msgContent.Length - (11 + keyToURLIndex + 1))
+                                                              );
+
+                        if (updateResult == 1)
+                        {
+                            await message.Channel.SendMessageAsync("There is already a Link with the same name as this, if you would like to edit, type ProfileEdit");
+                        }
+                        else if (updateResult == 0)
+                        {
+                            await message.Channel.SendMessageAsync("Link Successfully Added");
+                        }
+
                     }
 
 
@@ -188,7 +201,7 @@ namespace DiscordBot
 
                 }
             }
-    
+
             //Language Filter
             if (LanguageFilter(msg.ToString().Substring(argPos)) == true && chatFilterEnabled == true)
             {
@@ -238,36 +251,83 @@ namespace DiscordBot
         public void GetUserDataFromFile(string path, ref List<DiscordHuman> ListOfHuman)
         {
             ListOfHuman = new List<DiscordHuman>();
-
-            string[] allFileLines = System.IO.File.ReadAllLines(path);
-
             DiscordHuman tempHuman = new DiscordHuman();
 
-            for (int i = 0; i < allFileLines.Length; i++)
+            if (System.IO.File.Exists(path) == false) //If File Doesn't Exsist
             {
-                if (allFileLines[i].Equals("<NAME>"))
+                System.IO.File.CreateText(path).Close();
+                ListOfHuman = new List<DiscordHuman>();
+            }
+
+            userSaveFileData = System.IO.File.ReadAllLines(path);
+
+
+            for (int i = 0; i < userSaveFileData.Length; i++)
+            {
+                if (userSaveFileData[i].Equals("<NAME>"))
                 {
                     tempHuman = new DiscordHuman();
                     i++;
-                    tempHuman.dicordUserName = allFileLines[i];
+                    tempHuman.dicordUserName = userSaveFileData[i];
                     i++;
-                    tempHuman.discordID = allFileLines[i];
+                    tempHuman.discordID = userSaveFileData[i];
                 }
-                else if (allFileLines[i].Equals("<LINK>"))
+                else if (userSaveFileData[i].Equals("<LINK>"))
                 {
                     i++;
-                    tempHuman.HumanSiteData.Add(allFileLines[i], allFileLines[i + 1]);
+                    tempHuman.HumanSiteData.Add(userSaveFileData[i], userSaveFileData[i + 1]);
                 }
-                else if (allFileLines[i].Equals("<END>"))
+                else if (userSaveFileData[i].Equals("<END>"))
                 {
                     ListOfHuman.Add(tempHuman);
                 }
             }
         }
 
-        public void AddUserDataToFile(string userID, string userName, string key, string URL)
+        public int UpdateUserDataList(string userID, string userName, string key, string URL)
+        {
+            //Seperate Adding to Method, from writting to file
+
+            for (int i = 0; i < ListOfHuman.Count; i++)
+            {
+                if (ListOfHuman[i].discordID == userID)
+                {
+                    ListOfHuman[i].dicordUserName = userName;
+
+                    string throwAwayString;
+
+                    if (ListOfHuman[i].HumanSiteData.TryGetValue(key, out throwAwayString) == true) // Chekcks if the link already exsist
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        ListOfHuman[i].HumanSiteData.Add(key, URL);
+                        UpdateUserDataFile();
+                        return 0;
+                    }
+                }
+            }
+
+            //Adding new Human
+            DiscordHuman newHuman = new DiscordHuman
+            {
+                discordID = userID,
+                dicordUserName = userName
+            };
+            newHuman.HumanSiteData.Add(key, URL);
+
+            ListOfHuman.Add(newHuman);
+            UpdateUserDataFile();
+            return 0;
+        }
+
+        public void UpdateUserDataFile()
         {
 
+
+
         }
+
     }
 }
