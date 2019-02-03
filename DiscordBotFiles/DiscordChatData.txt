@@ -1,0 +1,54 @@
+06:07:39 Discord     Discord.Net v2.0.0 (API v6)
+06:07:39 Gateway     Connecting
+06:07:40 Gateway     Connected
+06:07:41 Gateway     Ready
+Time: 2/3/2019 2:08:44 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd Creddle https://resume.creddle.io/resume/ijwq0koycmm
+
+Time: 2/3/2019 2:09:04 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd Instagram https://www.instagram.com/raysoyama/
+
+Time: 2/3/2019 2:09:28 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd GitHub https://github.com/raysoyama
+
+Time: 2/3/2019 2:09:47 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd LinkedIn https://www.linkedin.com/in/raysoyama/
+
+Time: 2/3/2019 2:10:18 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/3/2019 2:11:12 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd Twitter https://twitter.com/ray_soyama
+
+Time: 2/3/2019 2:11:53 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/3/2019 2:12:20 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ToggleChatFilter
+
+Time: 2/3/2019 2:12:25 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: FUCK SHIT
+
+Time: 2/3/2019 2:12:29 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Quit
+

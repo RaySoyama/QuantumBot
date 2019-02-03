@@ -98,11 +98,12 @@ namespace DiscordBot
                         "Help or Commands - Prints what you're reading now\n" +
                         "Ping             - Pong, a good way to make sure I'm alive\n" +
                         "Profile @User    - Returns Info bout User" +
-                        "ProfileAdd URL_NAME URL - Adds URL, and Key into the system" +
+                        "ProfileAdd URL_NAME URL - Adds URL, and Key into the system\n\n" +
                         "Example:\n" +
                         "Profile @Quantum Bot\n" +
                         "ProfileAdd Github https://github.com/RaySoyama " +
                         "ProfileEdit Github GitHub https://github.com/RaySoyama" +
+                        "\n" +
                         "\n" +
                         "Mod Commands\n" +
                         "Quit             - Closes Bot\n" +
@@ -164,7 +165,7 @@ namespace DiscordBot
                                 return;
                             }
                         }//If the human is not in our data base, print out (below)
-                        await message.Channel.SendMessageAsync(msgContent.Substring(8, msgContent.Length - 8) + "is not in our database");
+                        await message.Channel.SendMessageAsync(msgContent.Substring(8, msgContent.Length - 8) + " is not in our database");
                     }
                     else if (msgContent.Substring(8, 3) == ("<@&"))//Checks if @ is a Role
                     {
