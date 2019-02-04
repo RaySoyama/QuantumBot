@@ -128,6 +128,18 @@ namespace DiscordBot
                         await message.Channel.SendMessageAsync("Chat filter activated");
                     }
                 }
+                else if (msgContent == "Test")
+                {
+                    var builder = new EmbedBuilder()
+                         .WithTitle("Test Title")
+                         .WithDescription("Test Description")
+                         .WithColor(new Color(0x4C9D55));
+                    var embed = builder.Build();
+                    await message.Channel.SendMessageAsync("Test",embed: embed).ConfigureAwait(false);
+                    //https://leovoel.github.io/embed-visualizer/
+
+
+                }
                 else if (msgContent.Substring(0, 7) == ("Profile"))
                 {
                     //Console.WriteLine(msgContent.Substring(11, msgContent.Length - 1 - 11));

@@ -52,3 +52,60 @@ Channel: other
 Username: Quantum Blue#1234
 Message: *Quit
 
+17:26:06 Discord     Discord.Net v2.0.0 (API v6)
+17:26:07 Gateway     Connecting
+17:26:09 Gateway     Connected
+17:26:10 Gateway     Ready
+Time: 2/4/2019 1:26:14 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 1:26:16 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Test
+
+Time: 2/4/2019 1:26:50 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Test
+
+17:26:56 Gateway     A MessageReceived handler is blocking the gateway task.
+17:26:57 Gateway     A MessageReceived handler has thrown an unhandled exception.:
+System.ArgumentException: Url must be a well-formed URI.
+Parameter name: Url
+   at Discord.EmbedBuilder.set_Url(String value)
+   at Discord.EmbedBuilder.WithUrl(String url)
+   at DiscordBot.Program.MessageReceived(SocketMessage message) in D:\School\Year 1\VS C#\DiscordBot\Quantum-Bot\Program.cs:line 133
+   at Discord.EventExtensions.InvokeAsync[T](AsyncEvent`1 eventHandler, T arg)
+   at Discord.WebSocket.DiscordSocketClient.TimeoutWrap(String name, Func`1 action)
+17:27:22 Discord     Discord.Net v2.0.0 (API v6)
+17:27:22 Gateway     Connecting
+17:27:23 Gateway     Connected
+17:27:23 Gateway     Ready
+Time: 2/4/2019 1:27:25 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Test
+
+Time: 2/4/2019 1:27:28 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: OOO
+
+Time: 2/4/2019 1:27:29 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: OOOOOOOOOOOOOOOOOOO
+
+Time: 2/4/2019 1:27:48 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: I'll add this later
+
+Time: 2/4/2019 1:27:57 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Quit
+
