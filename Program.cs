@@ -82,7 +82,7 @@ namespace DiscordBot
                 //QUIT Function
                 if (msgContent == "Quit" && msg.Author.ToString() == "Quantum Blue#1234")
                 {
-                    await message.Channel.SendMessageAsync("I'll be back - Steve Jobs\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+                    await message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
                     System.Environment.Exit(1);
                 }
                 else if (msgContent == "Ping")
@@ -128,24 +128,8 @@ namespace DiscordBot
                         await message.Channel.SendMessageAsync("Chat filter activated");
                     }
                 }
-                else if (msgContent == "Test")
-                {
-                    var builder = new EmbedBuilder()
-                         .WithTitle("Test Title")
-                         .WithDescription("Test Description")
-                         .WithColor(new Color(0x4C9D55));
-                    var embed = builder.Build();
-                    await message.Channel.SendMessageAsync("Test",embed: embed).ConfigureAwait(false);
-                    //https://leovoel.github.io/embed-visualizer/
-
-
-                }
                 else if (msgContent.Substring(0, 7) == ("Profile"))
                 {
-                    //Console.WriteLine(msgContent.Substring(11, msgContent.Length - 1 - 11));
-
-                    //await message.Channel.SendMessageAsync(msgContent);
-
                     if (msgContent.Length <= 10)
                     {
                         await message.Channel.SendMessageAsync("Specify Command");
@@ -166,14 +150,40 @@ namespace DiscordBot
                         {
                             if (ListOfHuman[i].discordID == msgContent.Substring(8, msgContent.Length - 8))
                             {
+
                                 string userLinks = "";
 
                                 foreach (KeyValuePair<string, string> entry in ListOfHuman[i].HumanSiteData)
                                 {
-                                    userLinks += entry.Key + ": <" + ListOfHuman[i].HumanSiteData[entry.Key] + ">\n";
+                                    userLinks += "[" + entry.Key + "](" + ListOfHuman[i].HumanSiteData[entry.Key] + ")\n\n";
                                 }
 
-                                await message.Channel.SendMessageAsync(ListOfHuman[i].discordID + "\n" + userLinks);
+                                //https://leovoel.github.io/embed-visualizer/
+
+
+                                var builder = new EmbedBuilder()
+                                    .WithTitle("\n" + ListOfHuman[i].dicordUserName)
+                                    .WithDescription(userLinks)
+                                    .WithColor(new Color(128, 128, 128))
+                                    .WithTimestamp(DateTimeOffset.Now)
+                                    .WithFooter(footer =>
+                                    {
+                                        footer
+                                          .WithText("Quantum Bot")
+                                          .WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
+                                    })
+                                    .WithThumbnailUrl("https://scontent-sea1-1.cdninstagram.com/vp/0d61cb4d1e534df2362d576808b49009/5CF44268/t51.2885-15/sh0.08/e35/p750x750/24327974_193834761176358_6741651937936015360_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com")
+                                    //.WithImageUrl("Big dick image at the bottom")
+                                    .WithAuthor(author =>
+                                    {
+                                        author
+                                        .WithName("Summoned by " + msg.Author.ToString())
+                                        .WithIconUrl(msg.Author.GetAvatarUrl());
+                                    });
+
+
+                                var embed = builder.Build();
+                                await message.Channel.SendMessageAsync("", embed: embed);
                                 return;
                             }
                         }//If the human is not in our data base, print out (below)

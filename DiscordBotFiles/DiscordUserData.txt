@@ -5,9 +5,6 @@ Quantum Blue#1234
 Creddle
 https://resume.creddle.io/resume/ijwq0koycmm
 <LINK>
-Instagram
-https://www.instagram.com/raysoyama/
-<LINK>
 GitHub
 https://github.com/raysoyama
 <LINK>
@@ -19,6 +16,9 @@ https://twitter.com/ray_soyama
 <LINK>
 Instagram(Personal)
 https://www.instagram.com/quantum_espresso/
+<LINK>
+Instagram
+https://www.instagram.com/raysoyama/
 <END>
 <NAME>
 diammentrodon#3401

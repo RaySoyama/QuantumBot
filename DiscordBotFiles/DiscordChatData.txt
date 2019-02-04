@@ -667,3 +667,338 @@ Channel: other
 Username: Quantum Blue#1234
 Message: *Quit
 
+01:58:09 Discord     Discord.Net v2.0.0 (API v6)
+01:58:10 Gateway     Connecting
+01:58:11 Gateway     Connected
+01:58:12 Gateway     Ready
+Time: 2/4/2019 9:58:13 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 9:58:19 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:09:02 Discord     Discord.Net v2.0.0 (API v6)
+02:09:03 Gateway     Connecting
+02:09:04 Gateway     Connected
+02:09:04 Gateway     Ready
+Time: 2/4/2019 10:09:14 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:14:05 Discord     Discord.Net v2.0.0 (API v6)
+02:14:06 Gateway     Connecting
+02:14:07 Gateway     Connected
+02:14:07 Gateway     Ready
+Time: 2/4/2019 10:14:17 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!144581320243281920>
+
+Time: 2/4/2019 10:14:28 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!228344819422855168>
+
+02:16:15 Discord     Discord.Net v2.0.0 (API v6)
+02:16:16 Gateway     Connecting
+02:16:17 Gateway     Connected
+02:16:17 Gateway     Ready
+Time: 2/4/2019 10:16:25 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:16:46 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:16:50 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:17:19 Discord     Discord.Net v2.0.0 (API v6)
+02:17:20 Gateway     Connecting
+02:17:20 Gateway     Connected
+02:17:21 Gateway     Ready
+Time: 2/4/2019 10:17:28 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:17:57 Discord     Discord.Net v2.0.0 (API v6)
+02:17:57 Gateway     Connecting
+02:17:58 Gateway     Connected
+02:17:58 Gateway     Ready
+Time: 2/4/2019 10:18:05 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:20:09 Discord     Discord.Net v2.0.0 (API v6)
+02:20:09 Gateway     Connecting
+02:20:10 Gateway     Connected
+02:20:10 Gateway     Ready
+Time: 2/4/2019 10:20:16 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:21:27 Discord     Discord.Net v2.0.0 (API v6)
+02:21:28 Gateway     Connecting
+02:21:29 Gateway     Connected
+02:21:29 Gateway     Ready
+Time: 2/4/2019 10:21:42 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@540677080296194079>
+
+Time: 2/4/2019 10:21:50 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:22:02 Discord     Discord.Net v2.0.0 (API v6)
+02:22:03 Gateway     Connecting
+02:22:03 Gateway     Connected
+02:22:04 Gateway     Ready
+Time: 2/4/2019 10:22:10 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:30:27 Discord     Discord.Net v2.0.0 (API v6)
+02:30:28 Gateway     Connecting
+02:30:28 Gateway     Connected
+02:30:29 Gateway     Ready
+Time: 2/4/2019 10:30:39 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:31:25 Discord     Discord.Net v2.0.0 (API v6)
+02:31:26 Gateway     Connecting
+02:31:26 Gateway     Connected
+02:31:27 Gateway     Ready
+Time: 2/4/2019 10:31:36 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &Profile
+
+Time: 2/4/2019 10:31:41 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:31:52 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:34:00 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: &Ping
+
+Time: 2/4/2019 10:34:06 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:06 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:07 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: assd
+
+Time: 2/4/2019 10:34:07 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:08 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:08 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:08 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: ad
+
+Time: 2/4/2019 10:34:11 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: asd
+
+Time: 2/4/2019 10:34:12 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: s
+
+Time: 2/4/2019 10:34:12 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: s
+
+Time: 2/4/2019 10:34:17 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: s
+
+Time: 2/4/2019 10:34:17 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: s
+
+Time: 2/4/2019 10:34:18 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: s
+
+Time: 2/4/2019 10:34:30 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: &Ping
+
+Time: 2/4/2019 10:34:39 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:35:05 Discord     Discord.Net v2.0.0 (API v6)
+02:35:06 Gateway     Connecting
+02:35:07 Gateway     Connected
+02:35:07 Gateway     Ready
+Time: 2/4/2019 10:35:20 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:35:27 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:35:32 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Help
+
+02:36:57 Discord     Discord.Net v2.0.0 (API v6)
+02:36:58 Gateway     Connecting
+02:36:59 Gateway     Connected
+02:36:59 Gateway     Ready
+Time: 2/4/2019 10:37:16 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:37:19 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/4/2019 10:37:26 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:37:36 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *ProfileAdd Instagram https://www.instagram.com/raysoyama/
+
+Time: 2/4/2019 10:37:42 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+02:40:13 Discord     Discord.Net v2.0.0 (API v6)
+02:40:13 Gateway     Connecting
+02:40:14 Gateway     Connected
+02:40:15 Gateway     Ready
+Time: 2/4/2019 10:40:20 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:40:22 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/4/2019 10:40:30 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:40:42 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *ProfileAdd Instagram https://www.instagram.com/raysoyama/
+
+Time: 2/4/2019 10:40:47 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:40:53 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Quit
+
+02:43:02 Discord     Discord.Net v2.0.0 (API v6)
+02:43:03 Gateway     Connecting
+02:43:04 Gateway     Connected
+02:43:04 Gateway     Ready
+Time: 2/4/2019 10:43:16 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:43:36 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 10:43:41 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Help
+
+Time: 2/4/2019 10:43:50 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:44:01 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *ProfileAdd Instagram https://www.instagram.com/raysoyama/
+
+Time: 2/4/2019 10:44:06 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 10:44:12 AM +00:00
+Channel: hello-world
+Username: Quantum Blue#1234
+Message: *Quit
+
