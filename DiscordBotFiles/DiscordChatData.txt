@@ -52,3 +52,568 @@ Channel: other
 Username: Quantum Blue#1234
 Message: *Quit
 
+15:32:40 Discord     Discord.Net v2.0.0 (API v6)
+15:32:42 Gateway     Connecting
+15:32:44 Gateway     Connected
+15:32:44 Gateway     Ready
+Time: 2/3/2019 11:32:36 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/3/2019 11:32:41 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: Bots up,
+
+Time: 2/3/2019 11:33:00 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: I'll log its run time info onto a text file,
+
+Time: 2/3/2019 11:33:20 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *help
+
+Time: 2/3/2019 11:33:23 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *ping
+
+Time: 2/3/2019 11:33:36 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: wow case sensitive
+
+Time: 2/3/2019 11:33:36 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: Cap H
+
+Time: 2/3/2019 11:33:38 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: yeah
+
+Time: 2/3/2019 11:33:40 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: I can change that
+
+Time: 2/3/2019 11:33:50 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *Help
+
+Time: 2/3/2019 11:34:09 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *Profile diammentrodon
+
+Time: 2/3/2019 11:34:19 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *Profile <@150391468320620544>
+
+Time: 2/3/2019 11:34:21 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!150391468320620544>
+
+Time: 2/3/2019 11:34:31 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: oh god, my comp is lagging
+
+Time: 2/3/2019 11:34:37 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: Wait
+
+Time: 2/3/2019 11:34:39 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: Wait
+
+Time: 2/3/2019 11:34:44 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: hmmm
+
+Time: 2/3/2019 11:34:53 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: hmm, its lagging
+
+Time: 2/3/2019 11:34:53 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: spam bot commansa
+
+Time: 2/3/2019 11:34:54 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: lol
+
+Time: 2/3/2019 11:35:29 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!150391468320620544>
+
+Time: 2/3/2019 11:35:37 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: try adding a link
+
+Time: 2/3/2019 11:36:31 PM +00:00
+Channel: other
+Username: diammentrodon#3401
+Message: *ProfileAdd Github https://github.com/Diammen
+
+Time: 2/3/2019 11:37:01 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!150391468320620544>
+
+Time: 2/3/2019 11:37:11 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: the edit function doesnt work atm
+
+Time: 2/3/2019 11:37:16 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: also I closed my laptop lid,
+
+Time: 2/3/2019 11:37:20 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: it should still keep workinng but
+
+Time: 2/3/2019 11:37:24 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Pinkg
+
+Time: 2/3/2019 11:37:27 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/3/2019 11:37:34 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: yeah, lets see what the uptime's like
+
+Time: 2/3/2019 11:38:09 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ToggleChatFilter
+
+Time: 2/3/2019 11:38:24 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: fuck shit
+
+Time: 2/3/2019 11:38:38 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ToggleChatFilter
+
+Time: 2/3/2019 11:51:55 PM +00:00
+Channel: other
+Username: Cade (Edacth)#5673
+Message: *ProfileAdd Google https://www.google.com
+
+Time: 2/3/2019 11:52:13 PM +00:00
+Channel: other
+Username: Cade (Edacth)#5673
+Message: *Profile <@!144581320243281920>
+
+Time: 2/3/2019 11:52:15 PM +00:00
+Channel: other
+Username: Cade (Edacth)#5673
+Message: Perfect
+
+Time: 2/3/2019 11:52:27 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: nice
+
+Time: 2/3/2019 11:54:35 PM +00:00
+Channel: other
+Username: terrehbyte#4628
+Message: I meant Charlene has _never_ had a snow day so she'd like one
+
+Time: 2/3/2019 11:54:43 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: ah
+
+Time: 2/3/2019 11:54:44 PM +00:00
+Channel: other
+Username: terrehbyte#4628
+Message: I think it's like her second or something year idk
+
+Time: 2/3/2019 11:54:51 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: Where did she live before?
+
+Time: 2/3/2019 11:54:55 PM +00:00
+Channel: other
+Username: terrehbyte#4628
+Message: Florida
+
+Time: 2/3/2019 11:54:58 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: ah
+
+Time: 2/3/2019 11:55:22 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/3/2019 11:56:14 PM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: ||Terry is the best senapi||
+
+Time: 2/4/2019 12:00:05 AM +00:00
+Channel: other
+Username: Cade (Edacth)#5673
+Message: *ProfileAdd Google https://www.google.com/
+
+Time: 2/4/2019 12:00:16 AM +00:00
+Channel: other
+Username: Cade (Edacth)#5673
+Message: 👏 Good job Ray
+
+Time: 2/4/2019 12:00:20 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: lol
+
+Time: 2/4/2019 12:05:24 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: if you spell google wro
+
+Time: 2/4/2019 12:05:50 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: if you spell google wrong, it ont work
+
+Time: 2/4/2019 12:05:54 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: like, its case sensitve
+
+Time: 2/4/2019 12:07:01 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: so if you do *ProfileAdd goOgle link.poop
+
+Time: 2/4/2019 12:07:04 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: itll be like
+
+Time: 2/4/2019 12:07:05 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: sure
+
+Time: 2/4/2019 12:07:06 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: add t hat
+
+17:03:04 Gateway     System.Exception: WebSocket connection was closed ---> System.Net.WebSockets.WebSocketException: The remote party closed the WebSocket connection without completing the close handshake. ---> System.IO.IOException: Unable to read data from the transport connection: An established connection was aborted by the software in your host machine. ---> System.Net.Sockets.SocketException: An established connection was aborted by the software in your host machine
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.GetResult(Int16 token)
+   at System.Net.Security.SslStreamInternal.<FillBufferAsync>g__InternalFillBufferAsync|38_0[TReadAdapter](TReadAdapter adap, ValueTask`1 task, Int32 min, Int32 initial)
+   at System.Net.Security.SslStreamInternal.ReadAsyncInternal[TReadAdapter](TReadAdapter adapter, Memory`1 buffer)
+   at System.Net.Http.HttpConnection.ReadBufferedAsyncCore(Memory`1 destination)
+   at System.Net.Http.HttpConnection.RawConnectionStream.ReadAsync(Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Net.WebSockets.ManagedWebSocket.EnsureBufferContainsAsync(Int32 minimumRequiredBytes, CancellationToken cancellationToken, Boolean throwOnPrematureClosure)
+   at System.Net.WebSockets.ManagedWebSocket.ReceiveAsyncPrivate[TWebSocketReceiveResultGetter,TWebSocketReceiveResult](Memory`1 payloadBuffer, CancellationToken cancellationToken, TWebSocketReceiveResultGetter resultGetter)
+   --- End of inner exception stack trace ---
+   at System.Net.WebSockets.ManagedWebSocket.ReceiveAsyncPrivate[TWebSocketReceiveResultGetter,TWebSocketReceiveResult](Memory`1 payloadBuffer, CancellationToken cancellationToken, TWebSocketReceiveResultGetter resultGetter)
+   at Discord.Net.WebSockets.DefaultWebSocketClient.RunAsync(CancellationToken cancelToken)
+   --- End of inner exception stack trace ---
+   at Discord.ConnectionManager.<>c__DisplayClass29_0.<<StartAsync>b__0>d.MoveNext()
+17:03:04 Gateway     Disconnecting
+17:03:04 Gateway     Disconnected
+17:03:05 Gateway     Connecting
+17:03:05 Gateway     System.Net.Http.HttpRequestException: No such host is known ---> System.Net.Sockets.SocketException: No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.DecompressionHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Discord.Net.Rest.DefaultRestClient.SendInternalAsync(HttpRequestMessage request, CancellationToken cancelToken, Boolean headerOnly)
+   at Discord.Net.Rest.DefaultRestClient.SendAsync(String method, String endpoint, CancellationToken cancelToken, Boolean headerOnly, String reason)
+   at Discord.Net.Queue.RestRequest.SendAsync()
+   at Discord.Net.Queue.RequestBucket.SendAsync(RestRequest request)
+   at Discord.Net.Queue.RequestQueue.SendAsync(RestRequest request)
+   at Discord.API.DiscordRestApiClient.SendInternalAsync(String method, String endpoint, RestRequest request)
+   at Discord.API.DiscordRestApiClient.SendAsync[TResponse](String method, String endpoint, String bucketId, ClientBucketType clientBucket, RequestOptions options)
+   at Discord.API.DiscordRestApiClient.GetGatewayAsync(RequestOptions options)
+   at Discord.API.DiscordSocketApiClient.ConnectInternalAsync()
+   at Discord.API.DiscordSocketApiClient.ConnectInternalAsync()
+   at Discord.API.DiscordSocketApiClient.ConnectAsync()
+   at Discord.WebSocket.DiscordSocketClient.OnConnectingAsync()
+   at Discord.WebSocket.DiscordSocketClient.OnConnectingAsync()
+   at Discord.ConnectionManager.ConnectAsync(CancellationTokenSource reconnectCancelToken)
+   at Discord.ConnectionManager.<>c__DisplayClass29_0.<<StartAsync>b__0>d.MoveNext()
+17:03:05 Gateway     Disconnecting
+17:03:05 Gateway     Disconnected
+17:03:07 Gateway     Connecting
+17:03:10 Gateway     Failed to resume previous session
+17:03:11 Gateway     Connected
+17:03:12 Gateway     Ready
+Time: 2/4/2019 1:02:58 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: oh
+
+Time: 2/4/2019 1:03:02 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: my computer just went to sleep
+
+Time: 2/4/2019 1:03:04 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Ping
+
+Time: 2/4/2019 1:03:18 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:03:40 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GitHub https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:03:55 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: So if I do it a second time does it add it a second time?
+
+Time: 2/4/2019 1:03:56 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GitHub https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:04:00 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: Oh neato
+
+Time: 2/4/2019 1:04:08 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: but try spelling it differently
+
+Time: 2/4/2019 1:04:17 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GITHub https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:04:19 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: yeah
+
+Time: 2/4/2019 1:04:24 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GitHuB https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:04:27 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: its case sensitive rn
+
+Time: 2/4/2019 1:04:29 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GiTHub https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:04:30 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: I can manually delete it
+
+Time: 2/4/2019 1:04:32 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: STAHH{
+
+Time: 2/4/2019 1:04:37 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *ProfileAdd GitHUUUUUb https://github.com/JusticeShultz
+
+Time: 2/4/2019 1:04:42 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *profile
+
+Time: 2/4/2019 1:04:48 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: *Profile
+
+Time: 2/4/2019 1:04:57 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!228344819422855168>
+
+Time: 2/4/2019 1:05:04 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: It's a feature
+
+Time: 2/4/2019 1:05:41 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: You can do like
+
+Time: 2/4/2019 1:05:49 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 1:06:16 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *ProfileAdd Instagram(Personal) https://www.instagram.com/quantum_espresso/
+
+Time: 2/4/2019 1:06:23 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Profile <@!173226502710755328>
+
+Time: 2/4/2019 1:06:35 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: it seperates via Space
+
+Time: 2/4/2019 1:06:41 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: so as long as there is no space, it should be fine
+
+Time: 2/4/2019 1:07:30 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: You should get it to format it so that it has the colored bar beside it to make it stand out
+
+Time: 2/4/2019 1:07:53 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: what do you mean?
+
+Time: 2/4/2019 1:07:57 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: colored bar?
+
+Time: 2/4/2019 1:08:13 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: 
+
+Time: 2/4/2019 1:08:15 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: Like this
+
+Time: 2/4/2019 1:08:17 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: oh
+
+Time: 2/4/2019 1:08:19 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: what the
+
+Time: 2/4/2019 1:08:22 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: how do you do that
+
+Time: 2/4/2019 1:08:27 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: Gives it a colored background and makes it look good
+
+Time: 2/4/2019 1:08:29 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: like, even without a bot
+
+Time: 2/4/2019 1:08:37 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: whats the chat syntax?
+
+Time: 2/4/2019 1:08:42 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: `
+test
+`
+
+Time: 2/4/2019 1:08:46 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: ``
+test
+``
+
+Time: 2/4/2019 1:08:48 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: hmmm
+
+Time: 2/4/2019 1:09:07 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: I have no idea, all I know is I see bots do it constantly
+
+Time: 2/4/2019 1:09:52 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: If you figured it out you could have the bot put the profile icon on the top right and people could put a short snippet/bio on their user card
+
+Time: 2/4/2019 1:09:58 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: https://www.reddit.com/r/discordapp/comments/7kzk72/how_do_you_format_discord_to_have_that_red_line/
+
+Time: 2/4/2019 1:13:31 AM +00:00
+Channel: other
+Username: Robin#1000
+Message: I never realized how many languages Discord allowed for its devs, geez it has a ton
+
+Time: 2/4/2019 1:17:06 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: *Quit
+
