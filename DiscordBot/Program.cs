@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+namespace DiscordBot
+{
+    class Program
+    {
+        private const string TOKEN = "NTQwNjc3MDgwMjk2MTk0MDc5.DzUbVQ.EBSdDBSLjVN_L3Ho_aES9MNG-Fo";
+        private DiscordSocketClient _client;
+        private CommandService _commands;
+        private IServiceProvider _services;
+
+        private char prefix = '&';
+
+        public string logFileSavePath = "DiscordChatData.txt";
+        public string configFileSavePath = "DiscordChatConfig.txt";
+        public string userFileSavePath = "DiscordUserData.txt";
+
+
+        static void Main(string[] args)
+            => new Program().MainAsync().GetAwaiter().GetResult();
+
+
+        private async Task MainAsync()
+        {
+
+            GetFilePath(logFileSavePath, ref logFileSavePath);
+            GetFilePath(configFileSavePath, ref configFileSavePath);
+            GetFilePath(userFileSavePath, ref userFileSavePath);
+
+
+
+            _client = new DiscordSocketClient(new DiscordSocketConfig
+            {
+                LogLevel = LogSeverity.Debug
+            });
+
+            _commands = new CommandService(new CommandServiceConfig
+            {
+                CaseSensitiveCommands = true,
+                DefaultRunMode = RunMode.Async,
+                LogLevel = LogSeverity.Debug
+            });
+
+
+            _client.Ready += _client_Ready;
+            _client.Log += _client_Log;
+
+            await _client.LoginAsync(TokenType.Bot, TOKEN);
+            await _client.StartAsync();
+
+
+            _client.MessageReceived += _client_MessageReceived;
+            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+
+            _services = new ServiceCollection().BuildServiceProvider();
+
+            await Task.Delay(-1);
+
+        }
+
+        private async Task _client_MessageReceived(SocketMessage arg)
+        {
+            var message = arg as SocketUserMessage;
+            var context = new SocketCommandContext(_client, message);
+
+            string chatLog = $"\n\n" +
+                             $"Time: {arg.Timestamp}\n" +
+                             $"Channel: {arg.Channel}\n" +
+                             $"Username: {arg.Author}\n" +
+                             $"Message: {arg}\n";
+
+            Console.WriteLine(chatLog);
+            File.AppendAllText(logFileSavePath, chatLog);
+
+            if (context.Message == null || context.Message.Content == "" || context.User.IsBot == true) //Checks if the msg is from a user, or bot
+            {
+                return;
+            }
+
+            int argPos = 0;
+
+            if (!(message.HasCharPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
+            {
+                return;
+            }
+
+            var result = await _commands.ExecuteAsync(context, argPos, _services);
+
+            if (result.IsSuccess == false)
+            {
+                await arg.Channel.SendMessageAsync($"{DateTime.Now} {message} from {message.Author} Command Failed");
+            }
+        }
+
+
+        private Task _client_Log(LogMessage arg)
+        {
+
+            Console.WriteLine($"{DateTime.Now} {arg.Message}");
+
+            switch (arg.Severity)
+            {
+                case LogSeverity.Critical:
+                    File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
+                    break;                                    
+                case LogSeverity.Debug:                       
+                    File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
+                    break;                                    
+                case LogSeverity.Error:                       
+                    File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
+                    break;                                    
+                case LogSeverity.Info:                        
+                    break;                                    
+                case LogSeverity.Verbose:                     
+                    break;                                    
+                case LogSeverity.Warning:                     
+                    File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
+                    break;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private async Task _client_Ready()
+        {
+            await _client.SetGameAsync($"{prefix}Help");
+        }
+
+        public void GetFilePath(string textFileName, ref string path)
+        {
+            path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath(textFileName)).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path = System.IO.Directory.GetParent(path).ToString();
+            path += "\\DiscordBotFiles\\" + textFileName;
+        }
+
+    }
+}

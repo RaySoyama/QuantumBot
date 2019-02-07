@@ -1,0 +1,25 @@
+
+2/6/2019 5:44:56 PM Connecting ApiClient
+2/6/2019 5:44:57 PM Received Hello
+2/6/2019 5:44:57 PM Heartbeat Started
+2/6/2019 5:44:57 PM Identifying
+2/6/2019 5:44:57 PM Sent Heartbeat
+2/6/2019 5:44:57 PM Sent Identify
+2/6/2019 5:44:57 PM Received HeartbeatAck
+2/6/2019 5:44:57 PM Latency = 141 ms
+2/6/2019 5:44:57 PM Received Dispatch (READY)
+2/6/2019 5:44:57 PM GuildDownloader Started
+2/6/2019 5:44:57 PM Sending Status
+2/6/2019 5:44:57 PM Sent StatusUpdate
+2/6/2019 5:44:57 PM Raising Event
+2/6/2019 5:44:57 PM Received Dispatch (GUILD_AVAILABLE)
+2/6/2019 5:44:58 PM GuildDownloader Stopped
+2/6/2019 5:44:58 PM Sent StatusUpdate
+2/6/2019 5:44:58 PM Received Dispatch (TYPING_START)
+2/6/2019 5:45:01 PM Received Dispatch (MESSAGE_CREATE)
+Time: 2/7/2019 1:45:01 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: test
+
+2/6/2019 5:45:03 PM Received Dispatch (PRESENCE_UPDATE)

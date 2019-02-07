@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBot", "DiscordBot.csproj", "{BDD16179-7036-4BC0-8C00-5B3157480322}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{F7246C82-FDF0-4EF6-8489-6FA214C51D53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BDD16179-7036-4BC0-8C00-5B3157480322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDD16179-7036-4BC0-8C00-5B3157480322}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDD16179-7036-4BC0-8C00-5B3157480322}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDD16179-7036-4BC0-8C00-5B3157480322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7246C82-FDF0-4EF6-8489-6FA214C51D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7246C82-FDF0-4EF6-8489-6FA214C51D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7246C82-FDF0-4EF6-8489-6FA214C51D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7246C82-FDF0-4EF6-8489-6FA214C51D53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {099A983C-993D-4969-BBDB-35BA64082F5E}
+		SolutionGuid = {5FE22ED0-61EF-46E5-AB3B-780DFF43A25F}
 	EndGlobalSection
 EndGlobal
