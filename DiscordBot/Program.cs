@@ -9,9 +9,10 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace DiscordBot
 {
-    class Program
+    public class Program
     {
         private const string TOKEN = "NTQwNjc3MDgwMjk2MTk0MDc5.DzUbVQ.EBSdDBSLjVN_L3Ho_aES9MNG-Fo";
         private DiscordSocketClient _client;
@@ -20,10 +21,11 @@ namespace DiscordBot
 
         private char prefix = '&';
 
-        public string logFileSavePath = "DiscordChatData.txt";
-        public string configFileSavePath = "DiscordChatConfig.txt";
-        public string userFileSavePath = "DiscordUserData.txt";
+        public static string logFileSavePath = "DiscordChatData.txt";
+        public static string configFileSavePath = "DiscordChatConfig.txt";
+        public static string userFileSavePath = "DiscordUserData.txt";
 
+        public static List<Human> ListOfHumans = new List<Human>();
 
         static void Main(string[] args)
             => new Program().MainAsync().GetAwaiter().GetResult();
@@ -36,7 +38,8 @@ namespace DiscordBot
             GetFilePath(configFileSavePath, ref configFileSavePath);
             GetFilePath(userFileSavePath, ref userFileSavePath);
 
-
+            //Read User Data
+            GetUserDataFromFile(userFileSavePath, ref ListOfHumans);
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -95,7 +98,7 @@ namespace DiscordBot
 
             var result = await _commands.ExecuteAsync(context, argPos, _services);
 
-            if (result.IsSuccess == false)
+            if (result.IsSuccess == false) //If the command failed, run this
             {
                 await arg.Channel.SendMessageAsync($"{DateTime.Now} {message} from {message.Author} Command Failed");
             }
@@ -111,18 +114,18 @@ namespace DiscordBot
             {
                 case LogSeverity.Critical:
                     File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
-                    break;                                    
-                case LogSeverity.Debug:                       
+                    break;
+                case LogSeverity.Debug:
                     File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
-                    break;                                    
-                case LogSeverity.Error:                       
+                    break;
+                case LogSeverity.Error:
                     File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
-                    break;                                    
-                case LogSeverity.Info:                        
-                    break;                                    
-                case LogSeverity.Verbose:                     
-                    break;                                    
-                case LogSeverity.Warning:                     
+                    break;
+                case LogSeverity.Info:
+                    break;
+                case LogSeverity.Verbose:
+                    break;
+                case LogSeverity.Warning:
                     File.AppendAllText(logFileSavePath, $"\n{DateTime.Now} {arg.Message}");
                     break;
             }
@@ -142,6 +145,101 @@ namespace DiscordBot
             path = System.IO.Directory.GetParent(path).ToString();
             path = System.IO.Directory.GetParent(path).ToString();
             path += "\\DiscordBotFiles\\" + textFileName;
+        }
+
+        public void GetUserDataFromFile(string path, ref List<Human> _ListOfHumans)
+        {
+            _ListOfHumans = new List<Human>();
+            Human tempHuman = new Human();
+
+            if (System.IO.File.Exists(path) == false) //If File Doesn't Exsist
+            {
+                System.IO.File.CreateText(path).Close();
+                _ListOfHumans = new List<Human>();
+            }
+
+            string[] userSaveFileData = System.IO.File.ReadAllLines(path);
+
+
+            for (int i = 0; i < userSaveFileData.Length; i++)
+            {
+                if (userSaveFileData[i].Equals("<NAME>"))
+                {
+                    tempHuman = new Human();
+                    i++;
+                    tempHuman.dicordUserName = userSaveFileData[i];
+                    i++;
+                    tempHuman.discordID = userSaveFileData[i];
+                }
+                else if (userSaveFileData[i].Equals("<LINK>"))
+                {
+                    i++;
+                    tempHuman.HumanSiteData.Add(userSaveFileData[i], userSaveFileData[i + 1]);
+                }
+                else if (userSaveFileData[i].Equals("<END>"))
+                {
+                    _ListOfHumans.Add(tempHuman);
+                }
+            }
+        }
+
+        public int UpdateUserDataList(string userID, string userName, string key, string URL)
+        {
+            //Seperate Adding to Method, from writting to file
+
+            for (int i = 0; i < ListOfHumans.Count; i++)
+            {
+                if (ListOfHumans[i].discordID == userID)
+                {
+                    ListOfHumans[i].dicordUserName = userName;
+
+                    string throwAwayString;
+
+                    if (ListOfHumans[i].HumanSiteData.TryGetValue(key, out throwAwayString) == true) // Chekcks if the link already exsist
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        ListOfHumans[i].HumanSiteData.Add(key, URL);
+                        UpdateUserDataFile();
+                        return 0;
+                    }
+                }
+            }
+
+            //Adding new Human
+            Human newHuman = new Human
+            {
+                discordID = userID,
+                dicordUserName = userName
+            };
+            newHuman.HumanSiteData.Add(key, URL);
+
+            ListOfHumans.Add(newHuman);
+            UpdateUserDataFile();
+            return 0;
+        }
+
+        public void UpdateUserDataFile()
+        {
+            StreamWriter streamWriter = File.CreateText(userFileSavePath);
+
+            for (int i = 0; i < ListOfHumans.Count; i++)
+            {
+                streamWriter.WriteLine("<NAME>");
+                streamWriter.WriteLine(ListOfHumans[i].dicordUserName);
+                streamWriter.WriteLine(ListOfHumans[i].discordID);
+
+                foreach (KeyValuePair<string, string> entry in ListOfHumans[i].HumanSiteData)
+                {
+                    streamWriter.WriteLine("<LINK>");
+                    streamWriter.WriteLine(entry.Key);
+                    streamWriter.WriteLine(entry.Value);
+                }
+                streamWriter.WriteLine("<END>");
+            }
+            streamWriter.Close();
         }
 
     }
