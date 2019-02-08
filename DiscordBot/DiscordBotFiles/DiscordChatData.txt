@@ -296,3 +296,590 @@ Message:
 
 2/7/2019 1:00:38 PM Received Dispatch (MESSAGE_UPDATE)
 2/7/2019 1:00:40 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 2:37:47 PM Connecting ApiClient
+2/7/2019 2:37:47 PM Received Hello
+2/7/2019 2:37:47 PM Heartbeat Started
+2/7/2019 2:37:47 PM Identifying
+2/7/2019 2:37:47 PM Sent Heartbeat
+2/7/2019 2:37:47 PM Sent Identify
+2/7/2019 2:37:48 PM Received HeartbeatAck
+2/7/2019 2:37:48 PM Latency = 172 ms
+2/7/2019 2:37:48 PM Received Dispatch (READY)
+2/7/2019 2:37:48 PM GuildDownloader Started
+2/7/2019 2:37:48 PM Sending Status
+2/7/2019 2:37:48 PM Sent StatusUpdate
+2/7/2019 2:37:48 PM Raising Event
+2/7/2019 2:37:48 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 2:37:48 PM GuildDownloader Stopped
+2/7/2019 2:37:48 PM Sent StatusUpdate
+2/7/2019 2:40:15 PM Connecting ApiClient
+2/7/2019 2:40:15 PM Received Hello
+2/7/2019 2:40:15 PM Heartbeat Started
+2/7/2019 2:40:15 PM Identifying
+2/7/2019 2:40:15 PM Sent Heartbeat
+2/7/2019 2:40:15 PM Sent Identify
+2/7/2019 2:40:15 PM Received HeartbeatAck
+2/7/2019 2:40:15 PM Latency = 140 ms
+2/7/2019 2:40:15 PM Received Dispatch (READY)
+2/7/2019 2:40:15 PM GuildDownloader Started
+2/7/2019 2:40:15 PM Sending Status
+2/7/2019 2:40:15 PM Sent StatusUpdate
+2/7/2019 2:40:15 PM Raising Event
+2/7/2019 2:40:15 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 2:40:16 PM GuildDownloader Stopped
+2/7/2019 2:40:16 PM Sent StatusUpdate
+2/7/2019 4:03:51 PM Connecting ApiClient
+2/7/2019 4:03:51 PM Received Hello
+2/7/2019 4:03:51 PM Heartbeat Started
+2/7/2019 4:03:51 PM Identifying
+2/7/2019 4:03:51 PM Sent Heartbeat
+2/7/2019 4:03:51 PM Sent Identify
+2/7/2019 4:03:51 PM Received HeartbeatAck
+2/7/2019 4:03:51 PM Latency = 140 ms
+2/7/2019 4:03:51 PM Received Dispatch (READY)
+2/7/2019 4:03:51 PM GuildDownloader Started
+2/7/2019 4:03:51 PM Sending Status
+2/7/2019 4:03:51 PM Sent StatusUpdate
+2/7/2019 4:03:51 PM Raising Event
+2/7/2019 4:03:51 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:03:52 PM GuildDownloader Stopped
+2/7/2019 4:03:52 PM Sent StatusUpdate
+2/7/2019 4:03:56 PM Received Dispatch (TYPING_START)
+2/7/2019 4:03:57 PM Received Dispatch (TYPING_START)
+2/7/2019 4:04:02 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:04:04 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!173226502710755328>
+
+2/7/2019 4:04:03 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:04:04 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:04:03 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:04:05 PM Received Dispatch (TYPING_START)
+2/7/2019 4:04:08 PM Received Dispatch (TYPING_START)
+2/7/2019 4:04:12 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:04:13 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!144581320243281920>
+
+2/7/2019 4:04:12 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:04:13 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:04:12 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:04:13 PM Received Dispatch (TYPING_START)
+2/7/2019 4:04:14 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:04:15 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: wait
+
+2/7/2019 4:04:20 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:14:38 PM Connecting ApiClient
+2/7/2019 4:14:39 PM Received Hello
+2/7/2019 4:14:39 PM Heartbeat Started
+2/7/2019 4:14:39 PM Identifying
+2/7/2019 4:14:39 PM Sent Heartbeat
+2/7/2019 4:14:39 PM Sent Identify
+2/7/2019 4:14:39 PM Received HeartbeatAck
+2/7/2019 4:14:39 PM Latency = 172 ms
+2/7/2019 4:14:40 PM Received Dispatch (READY)
+2/7/2019 4:14:40 PM GuildDownloader Started
+2/7/2019 4:14:40 PM Sending Status
+2/7/2019 4:14:40 PM Sent StatusUpdate
+2/7/2019 4:14:40 PM Raising Event
+2/7/2019 4:14:40 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:14:40 PM GuildDownloader Stopped
+2/7/2019 4:14:40 PM Sent StatusUpdate
+2/7/2019 4:14:48 PM Received Dispatch (TYPING_START)
+2/7/2019 4:14:49 PM Received Dispatch (TYPING_START)
+2/7/2019 4:14:49 PM Received Dispatch (TYPING_START)
+2/7/2019 4:14:50 PM Received Dispatch (TYPING_START)
+2/7/2019 4:14:51 PM Received Dispatch (TYPING_START)
+2/7/2019 4:14:55 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:14:56 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!173226502710755328>
+
+2/7/2019 4:15:55 PM Connecting ApiClient
+2/7/2019 4:15:56 PM Received Hello
+2/7/2019 4:15:56 PM Heartbeat Started
+2/7/2019 4:15:56 PM Identifying
+2/7/2019 4:15:56 PM Sent Heartbeat
+2/7/2019 4:15:56 PM Sent Identify
+2/7/2019 4:15:56 PM Received HeartbeatAck
+2/7/2019 4:15:56 PM Latency = 141 ms
+2/7/2019 4:15:56 PM Received Dispatch (READY)
+2/7/2019 4:15:56 PM GuildDownloader Started
+2/7/2019 4:15:56 PM Sending Status
+2/7/2019 4:15:56 PM Sent StatusUpdate
+2/7/2019 4:15:56 PM Raising Event
+2/7/2019 4:15:56 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:15:57 PM GuildDownloader Stopped
+2/7/2019 4:15:57 PM Sent StatusUpdate
+2/7/2019 4:15:58 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:05 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:07 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@&490000585278357509>
+
+2/7/2019 4:16:06 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:07 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 2/7/2019 4:16:06 PM &profile <@&490000585278357509> from Quantum Blue#1234 Command Failed
+
+2/7/2019 4:16:09 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:09 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:11 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: OH
+
+2/7/2019 4:16:09 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:10 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:12 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: FUCK
+
+2/7/2019 4:16:11 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:12 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:14 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:16 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: thats dank
+
+2/7/2019 4:16:20 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:21 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:16:23 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: wait, but
+
+2/7/2019 4:16:22 PM Received Dispatch (TYPING_START)
+2/7/2019 4:16:27 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:16:35 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:16:37 PM Sent Heartbeat
+2/7/2019 4:16:37 PM Received HeartbeatAck
+2/7/2019 4:16:37 PM Latency = 78 ms
+2/7/2019 4:21:54 PM Connecting ApiClient
+2/7/2019 4:21:55 PM Received Hello
+2/7/2019 4:21:55 PM Heartbeat Started
+2/7/2019 4:21:55 PM Identifying
+2/7/2019 4:21:55 PM Sent Heartbeat
+2/7/2019 4:21:55 PM Sent Identify
+2/7/2019 4:21:55 PM Received HeartbeatAck
+2/7/2019 4:21:55 PM Latency = 125 ms
+2/7/2019 4:21:55 PM Received Dispatch (READY)
+2/7/2019 4:21:55 PM GuildDownloader Started
+2/7/2019 4:21:55 PM Sending Status
+2/7/2019 4:21:55 PM Sent StatusUpdate
+2/7/2019 4:21:55 PM Raising Event
+2/7/2019 4:21:55 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:21:56 PM GuildDownloader Stopped
+2/7/2019 4:21:56 PM Sent StatusUpdate
+2/7/2019 4:21:59 PM Received Dispatch (TYPING_START)
+2/7/2019 4:22:00 PM Received Dispatch (TYPING_START)
+2/7/2019 4:22:02 PM Received Dispatch (TYPING_START)
+2/7/2019 4:22:04 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:22:09 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:22:10 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &Profile <@!173226502710755328>
+
+2/7/2019 4:22:09 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:22:09 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:22:11 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: Quantum Blue is not in our database
+
+2/7/2019 4:22:33 PM Received Dispatch (TYPING_START)
+2/7/2019 4:22:35 PM Received Dispatch (TYPING_START)
+2/7/2019 4:22:36 PM Sent Heartbeat
+2/7/2019 4:22:36 PM Received HeartbeatAck
+2/7/2019 4:22:36 PM Latency = 282 ms
+2/7/2019 4:22:38 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:22:39 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!173226502710755328>
+
+2/7/2019 4:23:23 PM Connecting ApiClient
+2/7/2019 4:23:23 PM Received Hello
+2/7/2019 4:23:23 PM Heartbeat Started
+2/7/2019 4:23:23 PM Identifying
+2/7/2019 4:23:23 PM Sent Heartbeat
+2/7/2019 4:23:23 PM Sent Identify
+2/7/2019 4:23:23 PM Received HeartbeatAck
+2/7/2019 4:23:23 PM Latency = 172 ms
+2/7/2019 4:23:23 PM Received Dispatch (READY)
+2/7/2019 4:23:23 PM GuildDownloader Started
+2/7/2019 4:23:23 PM Sending Status
+2/7/2019 4:23:23 PM Sent StatusUpdate
+2/7/2019 4:23:23 PM Raising Event
+2/7/2019 4:23:23 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:23:24 PM GuildDownloader Stopped
+2/7/2019 4:23:24 PM Sent StatusUpdate
+2/7/2019 4:23:27 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:31 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:33 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!173226502710755328>
+
+2/7/2019 4:23:32 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:33 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:23:32 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:23:34 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:37 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:41 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:43 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: -profile <@!144581320243281920>
+
+2/7/2019 4:23:45 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:49 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:51 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!144581320243281920>
+
+2/7/2019 4:23:50 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:51 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:23:50 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:23:52 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:53 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:54 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: ay
+
+2/7/2019 4:23:53 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:55 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:56 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: AYYYYYYYYYYYYY
+
+2/7/2019 4:23:55 PM Received Dispatch (TYPING_START)
+2/7/2019 4:23:57 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:23:59 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: AYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+
+2/7/2019 4:24:02 PM Received Dispatch (TYPING_START)
+2/7/2019 4:24:04 PM Received Dispatch (TYPING_START)
+2/7/2019 4:24:04 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:24:05 PM Sent Heartbeat
+2/7/2019 4:24:05 PM Received HeartbeatAck
+2/7/2019 4:24:05 PM Latency = 125 ms
+2/7/2019 4:24:09 PM Received Dispatch (TYPING_START)
+2/7/2019 4:24:10 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 4:24:12 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:24:13 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile asdasdasd
+
+2/7/2019 4:24:12 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:24:14 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 2/7/2019 4:24:12 PM &profile asdasdasd from Quantum Blue#1234 Command Failed
+
+2/7/2019 4:28:23 PM Connecting ApiClient
+2/7/2019 4:28:24 PM Received Hello
+2/7/2019 4:28:24 PM Heartbeat Started
+2/7/2019 4:28:24 PM Identifying
+2/7/2019 4:28:24 PM Sent Heartbeat
+2/7/2019 4:28:24 PM Sent Identify
+2/7/2019 4:28:24 PM Received HeartbeatAck
+2/7/2019 4:28:24 PM Latency = 141 ms
+2/7/2019 4:28:24 PM Received Dispatch (READY)
+2/7/2019 4:28:24 PM GuildDownloader Started
+2/7/2019 4:28:24 PM Sending Status
+2/7/2019 4:28:24 PM Sent StatusUpdate
+2/7/2019 4:28:24 PM Raising Event
+2/7/2019 4:28:24 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:28:24 PM GuildDownloader Stopped
+2/7/2019 4:28:24 PM Sent StatusUpdate
+2/7/2019 4:28:28 PM Received Dispatch (TYPING_START)
+2/7/2019 4:28:30 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:28:31 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile asdasdasd
+
+2/7/2019 4:28:30 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:28:31 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:28:30 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:29:47 PM Connecting ApiClient
+2/7/2019 4:29:47 PM Received Hello
+2/7/2019 4:29:47 PM Heartbeat Started
+2/7/2019 4:29:47 PM Identifying
+2/7/2019 4:29:47 PM Sent Heartbeat
+2/7/2019 4:29:47 PM Sent Identify
+2/7/2019 4:29:47 PM Received HeartbeatAck
+2/7/2019 4:29:47 PM Latency = 141 ms
+2/7/2019 4:29:47 PM Received Dispatch (READY)
+2/7/2019 4:29:47 PM GuildDownloader Started
+2/7/2019 4:29:47 PM Sending Status
+2/7/2019 4:29:47 PM Sent StatusUpdate
+2/7/2019 4:29:47 PM Raising Event
+2/7/2019 4:29:47 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:29:48 PM GuildDownloader Stopped
+2/7/2019 4:29:48 PM Sent StatusUpdate
+2/7/2019 4:29:50 PM Received Dispatch (TYPING_START)
+2/7/2019 4:29:50 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:29:52 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile asdasdasd
+
+2/7/2019 4:29:50 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:29:52 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:29:51 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 4:32:57 PM Connecting ApiClient
+2/7/2019 4:32:58 PM Received Hello
+2/7/2019 4:32:58 PM Heartbeat Started
+2/7/2019 4:32:58 PM Identifying
+2/7/2019 4:32:58 PM Sent Heartbeat
+2/7/2019 4:32:58 PM Sent Identify
+2/7/2019 4:32:58 PM Received HeartbeatAck
+2/7/2019 4:32:58 PM Latency = 141 ms
+2/7/2019 4:32:58 PM Received Dispatch (READY)
+2/7/2019 4:32:58 PM GuildDownloader Started
+2/7/2019 4:32:58 PM Sending Status
+2/7/2019 4:32:58 PM Sent StatusUpdate
+2/7/2019 4:32:58 PM Raising Event
+2/7/2019 4:32:58 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 4:32:58 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:33:00 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile asdasdasd
+
+2/7/2019 4:32:58 PM GuildDownloader Stopped
+2/7/2019 4:32:58 PM Sent StatusUpdate
+2/7/2019 4:32:59 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 12:33:00 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 4:32:59 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 5:00:11 PM Connecting ApiClient
+2/7/2019 5:00:11 PM Received Hello
+2/7/2019 5:00:11 PM Heartbeat Started
+2/7/2019 5:00:12 PM Identifying
+2/7/2019 5:00:12 PM Sent Heartbeat
+2/7/2019 5:00:12 PM Sent Identify
+2/7/2019 5:00:12 PM Received HeartbeatAck
+2/7/2019 5:00:12 PM Latency = 141 ms
+2/7/2019 5:00:12 PM Received Dispatch (READY)
+2/7/2019 5:00:12 PM GuildDownloader Started
+2/7/2019 5:00:12 PM Sending Status
+2/7/2019 5:00:12 PM Sent StatusUpdate
+2/7/2019 5:00:12 PM Raising Event
+2/7/2019 5:00:12 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 5:00:12 PM GuildDownloader Stopped
+2/7/2019 5:00:12 PM Sent StatusUpdate
+2/7/2019 5:00:13 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 5:00:25 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:28 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:31 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:32 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:35 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:00:37 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &profile <@!173226502710755328>
+
+2/7/2019 5:00:35 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:00:37 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: 
+
+2/7/2019 5:00:36 PM Received Dispatch (MESSAGE_UPDATE)
+2/7/2019 5:00:37 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:41 PM Received Dispatch (TYPING_START)
+2/7/2019 5:00:43 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:00:44 AM +00:00
+Channel: bot-commands
+Username: Quantum Blue#1234
+Message: &quit
+
+2/7/2019 5:00:43 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:00:45 AM +00:00
+Channel: bot-commands
+Username: Quantum Bot#5354
+Message: I'll be back - Gandhi
+https://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif
+
+2/7/2019 5:00:56 PM Connecting ApiClient
+2/7/2019 5:00:57 PM Received Hello
+2/7/2019 5:00:57 PM Heartbeat Started
+2/7/2019 5:00:57 PM Identifying
+2/7/2019 5:00:57 PM Sent Heartbeat
+2/7/2019 5:00:57 PM Sent Identify
+2/7/2019 5:00:57 PM Received HeartbeatAck
+2/7/2019 5:00:57 PM Latency = 141 ms
+2/7/2019 5:00:57 PM Received Dispatch (READY)
+2/7/2019 5:00:57 PM GuildDownloader Started
+2/7/2019 5:00:57 PM Sending Status
+2/7/2019 5:00:57 PM Sent StatusUpdate
+2/7/2019 5:00:57 PM Raising Event
+2/7/2019 5:00:57 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 5:00:58 PM GuildDownloader Stopped
+2/7/2019 5:00:58 PM Sent StatusUpdate
+2/7/2019 5:01:07 PM Received Dispatch (TYPING_START)
+2/7/2019 5:01:16 PM Received Dispatch (TYPING_START)
+2/7/2019 5:01:16 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:01:18 AM +00:00
+Channel: other
+Username: BasedAmanda#7022
+Message: &quit
+
+2/7/2019 5:01:17 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 5:02:48 PM Connecting ApiClient
+2/7/2019 5:02:48 PM Received Hello
+2/7/2019 5:02:48 PM Heartbeat Started
+2/7/2019 5:02:48 PM Identifying
+2/7/2019 5:02:48 PM Sent Heartbeat
+2/7/2019 5:02:48 PM Sent Identify
+2/7/2019 5:02:48 PM Received HeartbeatAck
+2/7/2019 5:02:49 PM Latency = 141 ms
+2/7/2019 5:02:49 PM Received Dispatch (READY)
+2/7/2019 5:02:49 PM GuildDownloader Started
+2/7/2019 5:02:49 PM Sending Status
+2/7/2019 5:02:49 PM Sent StatusUpdate
+2/7/2019 5:02:49 PM Raising Event
+2/7/2019 5:02:49 PM Received Dispatch (GUILD_AVAILABLE)
+2/7/2019 5:02:49 PM GuildDownloader Stopped
+2/7/2019 5:02:49 PM Sent StatusUpdate
+2/7/2019 5:02:51 PM Received Dispatch (TYPING_START)
+2/7/2019 5:02:53 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:02:55 AM +00:00
+Channel: other
+Username: BasedAmanda#7022
+Message: &quit
+
+2/7/2019 5:02:54 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:02:55 AM +00:00
+Channel: other
+Username: Quantum Bot#5354
+Message: Admin Rights Required
+
+2/7/2019 5:02:58 PM Received Dispatch (TYPING_START)
+2/7/2019 5:03:00 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:03:01 AM +00:00
+Channel: other
+Username: BasedAmanda#7022
+Message: get shit on
+
+2/7/2019 5:03:02 PM Received Dispatch (TYPING_START)
+2/7/2019 5:03:04 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:03:06 AM +00:00
+Channel: other
+Username: BasedAmanda#7022
+Message: wait im amanda
+
+2/7/2019 5:03:05 PM Received Dispatch (TYPING_START)
+2/7/2019 5:03:06 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:03:08 AM +00:00
+Channel: other
+Username: BasedAmanda#7022
+Message: IM AMANDA
+
+2/7/2019 5:03:30 PM Sent Heartbeat
+2/7/2019 5:03:30 PM Received HeartbeatAck
+2/7/2019 5:03:30 PM Latency = 94 ms
+2/7/2019 5:03:38 PM Received Dispatch (PRESENCE_UPDATE)
+2/7/2019 5:03:39 PM Received Dispatch (TYPING_START)
+2/7/2019 5:03:40 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:03:42 AM +00:00
+Channel: other
+Username: Quantum Blue#1234
+Message: &quit
+
+2/7/2019 5:03:41 PM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/8/2019 1:03:42 AM +00:00
+Channel: other
+Username: Quantum Bot#5354
+Message: I'll be back - Gandhi
+https://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using DiscordBot;
 
 namespace DiscordBot.Commands
@@ -13,8 +15,13 @@ namespace DiscordBot.Commands
     {
         [Command("Profile"), Alias("profile"), Summary("Prints out a packet of data of @person")]
 
-        public async Task GetProfile([Remainder] string Input = "")
+        public async Task GetProfile(IUser user = null)
         {
+            if (user == null)
+            {
+                await Context.Message.Channel.SendMessageAsync("Not a valid name");
+                return;
+            }
 
             /*
             ID TAG 
@@ -22,16 +29,13 @@ namespace DiscordBot.Commands
             @! - Human
             @& - Role
             */
-
-           
-
-            Regex.Replace(Input, @"\s+", "");
-
-            if (Input.Substring(0, 3) == ("<@!"))//Checks if @ is a human
+            
+            
+            if (user.IsBot == false)//Checks if @ is a human
             {
                 for (int i = 0; i < Program.ListOfHumans.Count; i++) //goes through database, 
-                {
-                    if (Program.ListOfHumans[i].discordID == Input)
+                {   
+                    if (Program.ListOfHumans[i].discordID == $"<@!{user.Id}>")
                     {
 
                         string userLinks = "";
@@ -55,7 +59,7 @@ namespace DiscordBot.Commands
                                   .WithText("Quantum Bot")
                                   .WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
                             })
-                            .WithThumbnailUrl("https://scontent-sea1-1.cdninstagram.com/vp/0d61cb4d1e534df2362d576808b49009/5CF44268/t51.2885-15/sh0.08/e35/p750x750/24327974_193834761176358_6741651937936015360_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com")
+                            .WithThumbnailUrl(user.GetAvatarUrl())
                             //.WithImageUrl("Big dick image at the bottom")
                             .WithAuthor(author =>
                             {
@@ -72,20 +76,29 @@ namespace DiscordBot.Commands
                 }//If the human is not in our data base, print out (below)
 
 
-                await Context.Channel.SendMessageAsync($"{Input} is not in our database");
+                await Context.Channel.SendMessageAsync($"{user.Username} is not in our database");
             }
-            else if (Input.Substring(0, 3) == ("<@&"))//Checks if @ is a Role
-            {
-                await Context.Channel.SendMessageAsync("I can only get data for a specific user, not a Role ");
-
-            }
-            else if (Input.Substring(0, 2) == ("<@"))//Checks if @ is a Role
+            else if (user.IsBot == true)//Checks if @ is a Role
             {
                 await Context.Channel.SendMessageAsync("WOAH, WHY IS YOU TRYNNA GET INFO BOUT MY FELLOW BOTS, HUH?");
             }
+        }
+
+        [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
+
+        public async Task Quit()
+        {
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(487403594300129291);
+
+            if (user.Roles.Contains(AdminCode) == true)
+            {
+                await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+                System.Environment.Exit(1);
+            }
             else
             {
-                await Context.Channel.SendMessageAsync("Command requierments not met");
+                await Context.Message.Channel.SendMessageAsync("Admin Rights Required");
             }
         }
     }

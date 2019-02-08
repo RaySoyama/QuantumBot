@@ -100,7 +100,19 @@ namespace DiscordBot
 
             if (result.IsSuccess == false) //If the command failed, run this
             {
-                await arg.Channel.SendMessageAsync($"{DateTime.Now} {message} from {message.Author} Command Failed");
+                var builder = new EmbedBuilder()
+                          .WithTitle("Command Not Found, or is broken")
+                          .WithDescription($"\nMessage: {message}\n")
+                          .WithColor(new Color(255, 0, 0))
+                          .WithTimestamp(DateTimeOffset.Now)
+                          .WithAuthor(author =>
+                          {
+                              author
+                              .WithName("Summoned by " + message.Author.ToString())
+                              .WithIconUrl(message.Author.GetAvatarUrl());
+                          });
+                var embed = builder.Build();
+                await message.Channel.SendMessageAsync("", embed: embed);
             }
         }
 
