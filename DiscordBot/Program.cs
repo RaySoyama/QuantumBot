@@ -153,9 +153,13 @@ namespace DiscordBot
         public static void GetFilePath(string textFileName, ref string path)
         {
             path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath(textFileName)).ToString();
-            path = System.IO.Directory.GetParent(path).ToString();
-            path = System.IO.Directory.GetParent(path).ToString();
-            path = System.IO.Directory.GetParent(path).ToString();
+
+            //path = System.IO.Directory.GetParent(path).ToString();
+            //path = System.IO.Directory.GetParent(path).ToString();
+            //path = System.IO.Directory.GetParent(path).ToString();
+
+            Directory.CreateDirectory(path + "\\DiscordBotFiles\\");
+
             path += "\\DiscordBotFiles\\" + textFileName;
         }
 

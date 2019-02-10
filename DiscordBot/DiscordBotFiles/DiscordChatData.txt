@@ -631,3 +631,111 @@ Message:
 2/10/2019 4:08:08 AM Sent Heartbeat
 2/10/2019 4:08:08 AM Received HeartbeatAck
 2/10/2019 4:08:08 AM Latency = 265 ms
+2/10/2019 4:19:33 AM Connecting ApiClient
+2/10/2019 4:19:34 AM Received Hello
+2/10/2019 4:19:34 AM Heartbeat Started
+2/10/2019 4:19:34 AM Identifying
+2/10/2019 4:19:34 AM Sent Heartbeat
+2/10/2019 4:19:34 AM Sent Identify
+2/10/2019 4:19:34 AM Received HeartbeatAck
+2/10/2019 4:19:34 AM Latency = 125 ms
+2/10/2019 4:19:34 AM Received Dispatch (READY)
+2/10/2019 4:19:34 AM GuildDownloader Started
+2/10/2019 4:19:34 AM Sending Status
+2/10/2019 4:19:34 AM Sent StatusUpdate
+2/10/2019 4:19:34 AM Raising Event
+2/10/2019 4:19:34 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:19:34 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:19:34 AM GuildDownloader Stopped
+2/10/2019 4:19:34 AM Sent StatusUpdate
+2/10/2019 4:19:39 AM Received Dispatch (TYPING_START)
+2/10/2019 4:19:42 AM Received Dispatch (TYPING_START)
+2/10/2019 4:19:45 AM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/10/2019 12:19:46 PM +00:00
+Channel: bot
+Username: Quantum Blue#1234
+Message: &Profile <@184405311681986560>
+
+2/10/2019 4:19:45 AM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/10/2019 12:19:46 PM +00:00
+Channel: bot
+Username: Quantum Bot#5354
+Message: WOAH, WHY IS YOU TRYNNA GET INFO BOUT MY FELLOW BOTS, HUH?
+
+2/10/2019 4:19:48 AM Received Dispatch (TYPING_START)
+2/10/2019 4:19:52 AM Received Dispatch (TYPING_START)
+2/10/2019 4:19:52 AM Received Dispatch (PRESENCE_UPDATE)
+2/10/2019 4:19:59 AM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/10/2019 12:20:00 PM +00:00
+Channel: bot
+Username: Quantum Blue#1234
+Message: &profile <@173226502710755328>
+
+2/10/2019 4:19:59 AM Received Dispatch (MESSAGE_CREATE)
+
+Time: 2/10/2019 12:20:00 PM +00:00
+Channel: bot
+Username: Quantum Bot#5354
+Message: 
+
+2/10/2019 4:19:59 AM Received Dispatch (MESSAGE_UPDATE)
+2/10/2019 4:20:15 AM Sent Heartbeat
+2/10/2019 4:20:15 AM Received HeartbeatAck
+2/10/2019 4:20:15 AM Latency = 94 ms
+2/10/2019 4:24:03 AM Connecting ApiClient
+2/10/2019 4:24:05 AM Received Hello
+2/10/2019 4:24:05 AM Heartbeat Started
+2/10/2019 4:24:05 AM Identifying
+2/10/2019 4:24:06 AM Sent Heartbeat
+2/10/2019 4:24:06 AM Sent Identify
+2/10/2019 4:24:06 AM Received HeartbeatAck
+2/10/2019 4:24:06 AM Latency = 140 ms
+2/10/2019 4:24:06 AM Received Dispatch (READY)
+2/10/2019 4:24:06 AM GuildDownloader Started
+2/10/2019 4:24:06 AM Sending Status
+2/10/2019 4:24:06 AM Sent StatusUpdate
+2/10/2019 4:24:06 AM Raising Event
+2/10/2019 4:24:06 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:24:06 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:24:06 AM GuildDownloader Stopped
+2/10/2019 4:24:06 AM Sent StatusUpdate
+2/10/2019 4:28:08 AM Connecting ApiClient
+2/10/2019 4:28:09 AM Received Hello
+2/10/2019 4:28:09 AM Heartbeat Started
+2/10/2019 4:28:09 AM Identifying
+2/10/2019 4:28:09 AM Sent Heartbeat
+2/10/2019 4:28:09 AM Sent Identify
+2/10/2019 4:28:09 AM Received HeartbeatAck
+2/10/2019 4:28:09 AM Latency = 125 ms
+2/10/2019 4:28:09 AM Received Dispatch (READY)
+2/10/2019 4:28:09 AM GuildDownloader Started
+2/10/2019 4:28:09 AM Sending Status
+2/10/2019 4:28:09 AM Sent StatusUpdate
+2/10/2019 4:28:09 AM Raising Event
+2/10/2019 4:28:09 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:28:09 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:28:09 AM GuildDownloader Stopped
+2/10/2019 4:28:09 AM Sent StatusUpdate
+2/10/2019 4:29:01 AM Connecting ApiClient
+2/10/2019 4:29:02 AM Received Hello
+2/10/2019 4:29:02 AM Heartbeat Started
+2/10/2019 4:29:08 AM Connecting ApiClient
+2/10/2019 4:29:09 AM Received Hello
+2/10/2019 4:29:09 AM Heartbeat Started
+2/10/2019 4:29:09 AM Identifying
+2/10/2019 4:29:09 AM Sent Heartbeat
+2/10/2019 4:29:09 AM Sent Identify
+2/10/2019 4:29:09 AM Received HeartbeatAck
+2/10/2019 4:29:09 AM Latency = 125 ms
+2/10/2019 4:29:09 AM Received Dispatch (READY)
+2/10/2019 4:29:09 AM GuildDownloader Started
+2/10/2019 4:29:09 AM Sending Status
+2/10/2019 4:29:09 AM Sent StatusUpdate
+2/10/2019 4:29:09 AM Raising Event
+2/10/2019 4:29:09 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:29:09 AM Received Dispatch (GUILD_AVAILABLE)
+2/10/2019 4:29:09 AM GuildDownloader Stopped
+2/10/2019 4:29:09 AM Sent StatusUpdate
