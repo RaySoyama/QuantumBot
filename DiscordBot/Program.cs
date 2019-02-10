@@ -150,7 +150,7 @@ namespace DiscordBot
             await _client.SetGameAsync($"{prefix}Help");
         }
 
-        public void GetFilePath(string textFileName, ref string path)
+        public static void GetFilePath(string textFileName, ref string path)
         {
             path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath(textFileName)).ToString();
             path = System.IO.Directory.GetParent(path).ToString();
@@ -159,7 +159,7 @@ namespace DiscordBot
             path += "\\DiscordBotFiles\\" + textFileName;
         }
 
-        public void GetUserDataFromFile(string path, ref List<Human> _ListOfHumans)
+        public static void GetUserDataFromFile(string path, ref List<Human> _ListOfHumans)
         {
             _ListOfHumans = new List<Human>();
             Human tempHuman = new Human();
@@ -195,7 +195,7 @@ namespace DiscordBot
             }
         }
 
-        public int UpdateUserDataList(string userID, string userName, string key, string URL)
+        public static int UpdateUserDataList(string userID, string userName, string key, string URL)
         {
             //Seperate Adding to Method, from writting to file
 
@@ -207,7 +207,7 @@ namespace DiscordBot
 
                     string throwAwayString;
 
-                    if (ListOfHumans[i].HumanSiteData.TryGetValue(key, out throwAwayString) == true) // Chekcks if the link already exsist
+                    if (ListOfHumans[i].HumanSiteData.TryGetValue(key, out throwAwayString) == true) // Chekcks if the link already exsist, not case sensitive
                     {
                         return 1;
                     }
@@ -233,7 +233,7 @@ namespace DiscordBot
             return 0;
         }
 
-        public void UpdateUserDataFile()
+        public static void UpdateUserDataFile()
         {
             StreamWriter streamWriter = File.CreateText(userFileSavePath);
 
