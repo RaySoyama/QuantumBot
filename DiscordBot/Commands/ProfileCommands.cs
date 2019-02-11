@@ -194,15 +194,120 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync("Link Successfully Edited");
         }
 
+        [Command("ProfileDelete"), Alias("profiledelete", "Profiledelete", "profileDelete"), Summary("Delete a users profile")]
+
+        public async Task DeleteProfile([Remainder]string Input = "None")
+        {
+            if (Input != "DELETE")
+            {
+                await Context.Channel.SendMessageAsync("Please Write \"DELETE\" after command to remove your profile");
+                return;
+            }
+
+            int userIndex = -1;
+
+            for (int i = 0; i < Program.ListOfHumans.Count; i++) //goes through database, 
+            {
+                if (Program.ListOfHumans[i].discordID == $"<@!{Context.Message.Author.Id.ToString()}>")
+                {
+                    Program.ListOfHumans.Remove(Program.ListOfHumans[i]);
+                    Program.UpdateUserDataFile();
+                    await Context.Channel.SendMessageAsync("Profile Deleted");
+                    return;
+                }
+            }
+            await Context.Channel.SendMessageAsync("You are not in the data base");
+            return;
+
+        }
+
+        [Command("ProfileRemove"), Alias("profileremove", "Profileremove", "profileRemove"), Summary("Delete a Link on a users profile")]
+
+        public async Task DeleteLinkProfile(int index = -1)
+        {
+            int userIndex = -1;
+
+            if (index == -1)
+            {
+                await Context.Channel.SendMessageAsync("Please Specify what Link you would like to delete");
+            }
+
+            for (int i = 0; i < Program.ListOfHumans.Count; i++) //goes through database, 
+            {
+                if (Program.ListOfHumans[i].discordID == $"<@!{Context.Message.Author.Id.ToString()}>")
+                {
+                    userIndex = i;
+                    break;
+                }
+            }
+
+            if (userIndex == -1)
+            {
+                await Context.Channel.SendMessageAsync("You are not in the data base");
+                return;
+            }
+
+            if (index < 1 || index > Program.ListOfHumans[userIndex].HumanSiteData.Count)
+            {
+                await Context.Channel.SendMessageAsync("Link Index out of Bounds");
+                return;
+            }
+
+            //input is valid, lets deletin
+            index--; // maching it so index 1 is array start
+            Dictionary<string, string> NewList = new Dictionary<string, string>();
+
+            int fakeIndex = 0;
+
+            foreach (KeyValuePair<string, string> entry in Program.ListOfHumans[userIndex].HumanSiteData)
+            {
+                if (fakeIndex == index)
+                {
+                    continue;
+                }
+                else
+                {
+                    NewList.Add(entry.Key, entry.Value);
+                }
+                fakeIndex++;
+            }
+
+            fakeIndex = 0;
+
+            Program.ListOfHumans[userIndex].HumanSiteData = NewList;
+            Program.UpdateUserDataFile();
+
+            await Context.Channel.SendMessageAsync("Link Successfully Deleted");
+
+        }
+
         /*
          * Things to add
-         * Profile remove
+         *
          * Profile Delete
          * profileSwap
          * 
          * help
          */
 
+
+        [Command("UpdateList"), Alias("updatelist","Updatelist", "updateList"), Summary("Updates The human list from the file, admin only")]
+
+        public async Task UpdateList()
+        {
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(487403594300129291);
+
+            if (user.Roles.Contains(AdminCode) == true)
+            {
+                Program.GetUserDataFromFile(Program.userFileSavePath, ref Program.ListOfHumans);
+                await Context.Message.Channel.SendMessageAsync("Updated");
+            }
+            else
+            {
+                await Context.Message.Channel.SendMessageAsync("Admin Rights Required");
+            }
+        }
 
         [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
 
