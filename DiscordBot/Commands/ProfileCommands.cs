@@ -165,7 +165,7 @@ namespace DiscordBot.Commands
                 return;
             }
 
-            siteName = userMessage[1].Replace('_',' ');
+            siteName = userMessage[1].Replace('_', ' ');
             URL = userMessage[2];
 
             index--; // maching it so index 1 is array start
@@ -281,17 +281,154 @@ namespace DiscordBot.Commands
 
         }
 
+        [Command("ProfileSwap"), Alias("profileswap", "Profileswap", "profileSwap"), Summary("Delete a Link on a users profile")]
+
+        public async Task SwapLink(int index1 = -1, int index2 = -1)
+        {
+            int userIndex = -1;
+
+            if (index1 == -1 || index2 == -1)
+            {
+                await Context.Channel.SendMessageAsync("Please Specify what Link you would like to swap by giving the index");
+                return;
+            }
+
+            for (int i = 0; i < Program.ListOfHumans.Count; i++) //goes through database, 
+            {
+                if (Program.ListOfHumans[i].discordID == $"<@!{Context.Message.Author.Id.ToString()}>")
+                {
+                    userIndex = i;
+                    break;
+                }
+            }
+
+            if (userIndex == -1)
+            {
+                await Context.Channel.SendMessageAsync("You are not in the data base");
+                return;
+            }
+
+            if (index1 < 1 || index1 > Program.ListOfHumans[userIndex].HumanSiteData.Count || index2 < 1 || index2 > Program.ListOfHumans[userIndex].HumanSiteData.Count)
+            {
+                await Context.Channel.SendMessageAsync("Link Index out of Bounds");
+                return;
+            }
+
+            //input is valid, lets deletin
+            index1--; // maching it so index 1 is array start
+            index2--; // maching it so index 1 is array start
+            Dictionary<string, string> NewList = new Dictionary<string, string>();
+            KeyValuePair<string, string> index1Data = new KeyValuePair<string, string>();
+            KeyValuePair<string, string> index2Data = new KeyValuePair<string, string>();
+
+            int fakeIndex = 0;
+
+            foreach (KeyValuePair<string, string> entry in Program.ListOfHumans[userIndex].HumanSiteData)
+            {
+                if (fakeIndex == index1)
+                {
+                    index1Data = entry;
+                }
+
+                if (fakeIndex == index2)
+                {
+                    index2Data = entry;
+                }
+                fakeIndex++;
+            }
+            fakeIndex = 0;
+
+            foreach (KeyValuePair<string, string> entry in Program.ListOfHumans[userIndex].HumanSiteData)
+            {
+                if (fakeIndex == index1)
+                {
+                    NewList.Add(index2Data.Key, index2Data.Value);
+                    fakeIndex++;
+                    continue;
+                }
+
+                if (fakeIndex == index2)
+                {
+                    NewList.Add(index1Data.Key, index1Data.Value);
+                    fakeIndex++;
+                    continue;
+                }
+
+                else
+                {
+                    NewList.Add(entry.Key, entry.Value);
+                    fakeIndex++;
+                }
+            }
+
+            fakeIndex = 0;
+
+            Program.ListOfHumans[userIndex].HumanSiteData = NewList;
+            Program.UpdateUserDataFile();
+
+            await Context.Channel.SendMessageAsync("Link Successfully Swapped");
+        }
+
+        [Command("Help"), Alias("help"), Summary("List of all commands")]
+
+        public async Task HelpList()
+        {
+            var builder = new EmbedBuilder()
+                          .WithTitle("Quantum Bot Commands")
+                          .WithDescription(
+                                            //$"Prefix - {Program.prefix}\n" +
+                                            //$"Command        Parameter               Description\n" +
+                                            //$"Help           None                    Lists all commands\n" +
+                                            //$"\n" +
+                                            //$"Profile        @User                   Displays a users Links\n" +
+                                            //$"ProfileAdd     SiteName + URL          Adds a Link to a users profile\n" +
+                                            //$"ProfileEdit    index + SiteName + URL  Edit a Links Name and URL at that index\n" +
+                                            //$"ProfileSwap    index1 + index2         Swap the location of two links\n" +
+                                            //$"ProfileRemove  index                   Delete the Link at that index\n" +
+                                            //$"ProfileDelete  \"DELETE\"              Delete entire profile\n" +
+                                            //$""
+
+                                           $"Prefix - {Program.prefix}\n" +
+                                           $"Help\n" +
+                                           $"Profile - @User\n" +
+                                           $"ProfileAdd - SiteName + URL\n" +
+                                           $"ProfileEdit - index + SiteName + URL\n" +
+                                           $"ProfileSwap - index1 + index2\n" +
+                                           $"ProfileRemove  index                   Delete the Link at that index\n" +
+                                           $"ProfileDelete - \"DELETE\"\n" +
+                                           $""
+
+                                           )
+                          .WithColor(new Color(60, 179, 113))
+                          .WithTimestamp(DateTimeOffset.Now)
+                          .WithFooter(footer =>
+                          {
+                              footer
+                                .WithText("Quantum Bot")
+                                .WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
+                          });
+                          //.WithAuthor(author =>
+                          //{
+                          //    author
+                          //    .WithName("Summoned by " + Context.Message.Author.ToString())
+                          //    .WithIconUrl(Context.Message.Author.GetAvatarUrl());
+                          //});
+
+            
+
+            var embed = builder.Build();
+            await Context.Channel.SendMessageAsync("", embed: embed);
+            return;
+        }
+
         /*
          * Things to add
-         *
-         * Profile Delete
-         * profileSwap
          * 
          * help
          */
 
 
-        [Command("UpdateList"), Alias("updatelist","Updatelist", "updateList"), Summary("Updates The human list from the file, admin only")]
+        [Command("UpdateList"), Alias("updatelist", "Updatelist", "updateList"), Summary("Rearanges order of links")]
 
         public async Task UpdateList()
         {

@@ -19,7 +19,7 @@ namespace DiscordBot
         private CommandService _commands;
         private IServiceProvider _services;
 
-        private char prefix = '&';
+        public static char prefix = '&';
 
         public static string logFileSavePath = "DiscordChatData.txt";
         public static string configFileSavePath = "DiscordChatConfig.txt";
