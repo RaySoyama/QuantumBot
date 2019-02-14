@@ -103,6 +103,26 @@ namespace DiscordBot.Commands
 
             linkAndURL[0] = linkAndURL[0].Replace('_', ' ');
 
+            try
+            {
+                var link = new Uri(linkAndURL[1]);
+            }
+            catch (UriFormatException e)
+            {
+                linkAndURL[1] = "https://" + linkAndURL[1];
+            }
+
+            try
+            {
+                var link = new Uri(linkAndURL[1]);
+            }
+            catch (UriFormatException e)
+            {
+                await Context.Channel.SendMessageAsync("Link Invalid");
+                return;
+            }
+
+
             int updateResult = Program.UpdateUserDataList("<@!" + Context.Message.Author.Id.ToString() + ">",
                                                            Context.Message.Author.ToString(),
                                                            linkAndURL[0], linkAndURL[1]);
@@ -230,6 +250,7 @@ namespace DiscordBot.Commands
             if (index == -1)
             {
                 await Context.Channel.SendMessageAsync("Please Specify what Link you would like to delete");
+                return;
             }
 
             for (int i = 0; i < Program.ListOfHumans.Count; i++) //goes through database, 
@@ -376,17 +397,17 @@ namespace DiscordBot.Commands
             var builder = new EmbedBuilder()
                           .WithTitle("Quantum Bot Commands")
                           .WithDescription(
-                                            //$"Prefix - {Program.prefix}\n" +
-                                            //$"Command        Parameter               Description\n" +
-                                            //$"Help           None                    Lists all commands\n" +
-                                            //$"\n" +
-                                            //$"Profile        @User                   Displays a users Links\n" +
-                                            //$"ProfileAdd     SiteName + URL          Adds a Link to a users profile\n" +
-                                            //$"ProfileEdit    index + SiteName + URL  Edit a Links Name and URL at that index\n" +
-                                            //$"ProfileSwap    index1 + index2         Swap the location of two links\n" +
-                                            //$"ProfileRemove  index                   Delete the Link at that index\n" +
-                                            //$"ProfileDelete  \"DELETE\"              Delete entire profile\n" +
-                                            //$""
+                                           //$"Prefix - {Program.prefix}\n" +
+                                           //$"Command        Parameter               Description\n" +
+                                           //$"Help           None                    Lists all commands\n" +
+                                           //$"\n" +
+                                           //$"Profile        @User                   Displays a users Links\n" +
+                                           //$"ProfileAdd     SiteName + URL          Adds a Link to a users profile\n" +
+                                           //$"ProfileEdit    index + SiteName + URL  Edit a Links Name and URL at that index\n" +
+                                           //$"ProfileSwap    index1 + index2         Swap the location of two links\n" +
+                                           //$"ProfileRemove  index                   Delete the Link at that index\n" +
+                                           //$"ProfileDelete  \"DELETE\"              Delete entire profile\n" +
+                                           //$""
 
                                            $"Prefix - {Program.prefix}\n" +
                                            $"Help\n" +
@@ -407,26 +428,13 @@ namespace DiscordBot.Commands
                                 .WithText("Quantum Bot")
                                 .WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
                           });
-                          //.WithAuthor(author =>
-                          //{
-                          //    author
-                          //    .WithName("Summoned by " + Context.Message.Author.ToString())
-                          //    .WithIconUrl(Context.Message.Author.GetAvatarUrl());
-                          //});
-
-            
 
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync("", embed: embed);
             return;
         }
 
-        /*
-         * Things to add
-         * 
-         * help
-         */
-
+        //[Command("Break"), Alias()]
 
         [Command("UpdateList"), Alias("updatelist", "Updatelist", "updateList"), Summary("Rearanges order of links")]
 
