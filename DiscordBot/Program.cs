@@ -10,17 +10,23 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
+using Newtonsoft.Json;
+
 namespace DiscordBot
 {
     public class Program
     {
         //List of Chat References
-        public Dictionary<string, ulong> PointersAnonChatID = new Dictionary<string, ulong>();
+        public static Dictionary<string, ulong> PointersAnonChatID = new Dictionary<string, ulong>();
         //List of Role References
-        public Dictionary<string, ulong> PointersAnonRoleID = new Dictionary<string, ulong>();
+        public static Dictionary<string, ulong> PointersAnonRoleID = new Dictionary<string, ulong>();
         //List of User References
-        public Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
+        public static Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
+        //List of User Chat References
+        public static Dictionary<string, ulong> PointersAnonWebsiteID = new Dictionary<string, ulong>();
+        
 
+        public static List<UserProfile> UserData = new List<UserProfile>();
 
         private const string TOKEN = "NTQwNjc3MDgwMjk2MTk0MDc5.DzUbVQ.EBSdDBSLjVN_L3Ho_aES9MNG-Fo";
         private DiscordSocketClient _client;
@@ -34,7 +40,7 @@ namespace DiscordBot
 
         public static string logFileSavePath = "DiscordChatData.txt";
         public static string configFileSavePath = "DiscordChatConfig.txt";
-        public static string userFileSavePath = "DiscordUserData.txt";
+        public static string userFileSavePath = "DiscordUserData.json";
 
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 
@@ -50,6 +56,29 @@ namespace DiscordBot
             InitializeChatID();
             InitializeRoleID();
             InitializeUserID();
+            InitializeWebsiteID();
+
+            //User Data shit test
+            LoadUserDataFromFile();
+
+            //UserProfile Ray = new UserProfile
+            //{
+            //    userID = 173226502710755328,
+            //    userNickname = "Ray S",
+            //    GradYear = 2020,
+            //    isStudent = true,
+            //    isTeacher = false,
+            //    isGuest = false,
+            //    Creddle = "https://resume.creddle.io/resume/ijwq0koycmm",
+            //    LinkedIn = "https://www.linkedin.com/in/raysoyama/",
+            //    GitHub = "https://github.com/RaySoyama",
+            //    ArtStation = null,
+            //    Personal = null,
+            //    Instagram = "https://www.instagram.com/raysoyama/",
+            //    Twitter = "https://twitter.com/RaySoyama"
+            //};
+            //UserData.Add(Ray);
+            //SaveUserDataToFile();
 
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
@@ -94,7 +123,7 @@ namespace DiscordBot
                              $"Time: {arg.Timestamp}\n" +
                              $"Channel: {arg.Channel}\n" +
                              $"Discord ID: {arg.Author.Id}\n" +
-                             $"Username: {arg.Author}\n" +
+                             $"Username: {((IGuildUser)arg.Author).Nickname}\n" +
                              $"Message: {arg}\n";
 
             Console.WriteLine(chatLog);
@@ -188,8 +217,30 @@ namespace DiscordBot
         }
 
 
-        //LOCAL ACTIONS
+        //User Data Handling
+        public void LoadUserDataFromFile()
+        {
+            string contents = File.ReadAllText(userFileSavePath);
+            UserData = JsonConvert.DeserializeObject<List<UserProfile>>(contents);
 
+            if (UserData == null)
+            {
+                UserData = new List<UserProfile>();
+            }
+
+            return;          
+        }
+
+        public void SaveUserDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(UserData, Formatting.Indented);
+            File.WriteAllText(userFileSavePath, contents);
+            return;
+        }
+
+
+
+        //LOCAL ACTIONS
         //Create References
         private void InitializeChatID()
         {
@@ -210,6 +261,26 @@ namespace DiscordBot
             PointersAnonUserID.Add("Terry Nguyen", 99563003434782720);
         }
 
+        private void InitializeWebsiteID()
+        {
+            /*
+            * Creddle
+            * Linkedin
+            * Github
+            * Artstation
+            * Personal
+            * Instagram
+            * Twitter
+            */
+            PointersAnonWebsiteID.Add("Creddle", 626316256756105236);
+            PointersAnonWebsiteID.Add("LinkedIn", 626316257532182538);
+            PointersAnonWebsiteID.Add("GitHub", 626316257985167381);
+            PointersAnonWebsiteID.Add("ArtStation", 626316259083943936);
+            PointersAnonWebsiteID.Add("Personal", 626316259843244032);
+            PointersAnonWebsiteID.Add("Twitter", 626316281879986186);
+            PointersAnonWebsiteID.Add("Instagram", 626316282421051402);
+        }
+
         //Gets the save files
         public static void GetFilePath(string textFileName, ref string path)
         {
@@ -221,7 +292,14 @@ namespace DiscordBot
 
             Directory.CreateDirectory(path + "\\Poiners Anonymous Bot Files\\");
 
-            path += "\\DiscordBotFiles\\" + textFileName;
+            path += "\\Poiners Anonymous Bot Files\\" + textFileName;
+
+            //if no file exsist, create
+            if (File.Exists(path) == false)
+            {
+                var myfile =  File.Create(path);
+                myfile.Close();
+            }
         }
 
         #region depricated

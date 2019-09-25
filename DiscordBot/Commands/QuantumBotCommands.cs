@@ -478,7 +478,110 @@ namespace DiscordBot.Commands
         public async Task Ping()
         {
             await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
+            return;
         }
+
+        [Command("InitializeWebEmbeds"), Alias("InitializeWeb"), Summary("Seeds the website embeds")]
+
+        public async Task InitializeWebsites()
+        {
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+
+            if (user.Roles.Contains(AdminCode) == false)
+            {
+                return;
+            }   
+
+            List<Embed> newWebsiteEmbedList = CreateWebsiteEmbeds();
+
+            foreach (Embed embed in newWebsiteEmbedList)
+            {
+                await Context.Channel.SendMessageAsync(null,embed: embed).ConfigureAwait(false);
+            }
+
+            return;
+        }
+
+        /*
+        [Command("UpdateAllWebEmbeds"), Alias("UpdateAllWeb"), Summary("Edits the already exsisting Web embeds, this reaches the Rate Limit, so dont call this")]
+        public async Task UpdateAllWebEmbed()
+        {
+            List<IMessage> ChatReferences = new List<IMessage>
+            {
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Creddle"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["LinkedIn"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["GitHub"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["ArtStation"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Personal"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Twitter"], CacheMode.AllowDownload),
+                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Instagram"], CacheMode.AllowDownload)
+            };
+
+            //I DON'T HAVE AN ERROR CHECK TO MAKE SURE THE CHATS EXIST, CUZ THEY SHOULD
+
+            List<Embed> UpdatedWebsiteEmbeds = UpdateAllWebsiteEmbeds();
+
+            for (int i = 0; i < UpdatedWebsiteEmbeds.Count; i++)
+            {
+                await ((IUserMessage)ChatReferences[i]).ModifyAsync(x => x.Embed = UpdatedWebsiteEmbeds[i]);
+            }
+
+
+            return;
+        }
+        */
+
+        [Command("UpdateCreddleEmbed"), Alias("UpdateCreddle"), Summary("Updates the Creddle Embed")]
+
+        public async Task UpdateCreddleEmbed()
+        {
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+
+            if (user.Roles.Contains(AdminCode) == false)
+            {
+                return;
+            }
+
+            IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Creddle"], CacheMode.AllowDownload);
+
+            if (ChatReferences is IUserMessage msg)
+            {
+                await msg.ModifyAsync(x => x.Embed = GetCreddleEmbed());
+            }
+            return;
+        }
+
+
+        [Command("UpdateLinkedInEmbed"), Alias("UpdateLinkedIn"), Summary("Updates the LinkedIn Embed")]
+
+        public async Task UpdateLinkedInEmbed()
+        {
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+
+            if (user.Roles.Contains(AdminCode) == false)
+            {
+                return;
+            }
+
+            IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["LinkedIn"], CacheMode.AllowDownload);
+
+            if (ChatReferences is IUserMessage msg)
+            {
+                await msg.ModifyAsync(x => x.Embed = GetLinkedInEmbed());
+            }
+            return;
+        }
+
+
+
+
+
+
+
+
 
         [Command("Help"), Alias("help"), Summary("List of all commands")]
 
@@ -487,26 +590,8 @@ namespace DiscordBot.Commands
             var builder = new EmbedBuilder()
                           .WithTitle("Quantum Bot Commands")
                           .WithDescription(
-                                           //$"Prefix - {Program.prefix}\n" +
-                                           //$"Command        Parameter               Description\n" +
-                                           //$"Help           None                    Lists all commands\n" +
-                                           //$"\n" +
-                                           //$"Profile        @User                   Displays a users Links\n" +
-                                           //$"ProfileAdd     SiteName + URL          Adds a Link to a users profile\n" +
-                                           //$"ProfileEdit    index + SiteName + URL  Edit a Links Name and URL at that index\n" +
-                                           //$"ProfileSwap    index1 + index2         Swap the location of two links\n" +
-                                           //$"ProfileRemove  index                   Delete the Link at that index\n" +
-                                           //$"ProfileDelete  \"DELETE\"              Delete entire profile\n" +
-                                           //$""
-
                                            $"Prefix - '{Program.prefix}'\n" +
                                            $"Help\n" +
-                                           //$"Profile - @User\n" +
-                                           //$"ProfileAdd - SiteName + URL\n" +
-                                           //$"ProfileEdit - index + SiteName + URL\n" +
-                                           //$"ProfileSwap - index1 + index2\n" +
-                                           //$"ProfileRemove  index                   Delete the Link at that index\n" +
-                                           //$"ProfileDelete - \"DELETE\"\n" +
                                            $""
 
                                            )
@@ -529,7 +614,7 @@ namespace DiscordBot.Commands
         public async Task Quit()
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(487403594300129291);
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
             
             if (user.Roles.Contains(AdminCode) == true)
             {
@@ -542,6 +627,452 @@ namespace DiscordBot.Commands
             }
         }
         
+
+        //Embed Creation Scripts
+
+
+        private List<Embed> CreateWebsiteEmbeds()
+        {
+            List<Embed> newWebsiteEmbedList = new List<Embed>();
+
+            //Creddle Default Embed
+            var CreddleEmbed = new EmbedBuilder()
+               .WithColor(new Color(39, 130, 130))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //Linkedin Default Embed
+            var LinkedInEmbed = new EmbedBuilder()
+               .WithColor(new Color(0, 119, 181))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //GitHub Default Embed
+            var GitHubEmbed = new EmbedBuilder()
+               .WithColor(new Color(27, 29, 35))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //ArtStation Default Embed
+            var ArtStationEmbed = new EmbedBuilder()
+               .WithColor(new Color(19, 175, 240))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //Personal Default Embed
+            var PersonalEmbed = new EmbedBuilder()
+               .WithColor(new Color(0, 0, 0))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+
+            //////////////////////////////////////////////////////////
+
+            //Instagram Default Embed
+            var InstagramEmbed = new EmbedBuilder()
+               .WithColor(new Color(131, 58, 180))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //Twitter Default Embed
+            var TwitterEmbed = new EmbedBuilder()
+               .WithColor(new Color(29, 161, 242))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png")
+               .AddField("Teachers", "Placeholder")
+               .AddField("2020", "Placeholder")
+               .AddField("2021", "Placeholder");
+
+
+            newWebsiteEmbedList.Add(CreddleEmbed.Build());
+            newWebsiteEmbedList.Add(LinkedInEmbed.Build());
+            newWebsiteEmbedList.Add(GitHubEmbed.Build());
+            newWebsiteEmbedList.Add(ArtStationEmbed.Build());
+            newWebsiteEmbedList.Add(PersonalEmbed.Build());
+            newWebsiteEmbedList.Add(TwitterEmbed.Build());
+            newWebsiteEmbedList.Add(InstagramEmbed.Build());
+
+            return newWebsiteEmbedList;
+        }
+
+        /*
+        private List<Embed> UpdateAllWebsiteEmbeds()
+        {
+            List<Embed> newWebsiteEmbedList = new List<Embed>();
+
+
+            //////////////////////////////////////////////////////////
+            string teacherData = "";
+            string gradData = "";
+            string TwoZeroData = "";
+            string TwoOneData = "";
+
+            //Creddle Default Embed
+            var CreddleEmbed = new EmbedBuilder()
+               .WithColor(new Color(39, 130, 130))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer =>
+               {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
+
+
+            foreach (UserProfile user in Program.UserData)
+            {
+                if (user.Creddle != null)
+                {
+                    if (user.isTeacher == true)
+                    {
+                        teacherData += $"[{user.userNickname}]({user.Creddle})\n";
+                        break;
+                    }
+                    else if (user.isStudent == true)
+                    {
+                        if (user.GradYear == 2020)
+                        {
+                            TwoZeroData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                        else if (user.GradYear == 2021)
+                        {
+                            TwoOneData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                        else if (user.GradYear < 2020)
+                        {
+                            gradData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (teacherData != "")
+            {
+                CreddleEmbed.AddField("Teachers", teacherData);
+            }
+            else if (gradData != "")
+            {
+                CreddleEmbed.AddField("Graduates", gradData);
+            }
+            else if (TwoZeroData != "")
+            {
+                CreddleEmbed.AddField("2020", TwoZeroData);
+            }
+            else if (TwoOneData != "")
+            {
+                CreddleEmbed.AddField("2021", TwoOneData);
+            }
+
+            teacherData = "";
+            gradData = "";
+            TwoZeroData = "";
+            TwoOneData = "";
+
+
+            //////////////////////////////////////////////////////////
+
+            //Linkedin Default Embed
+            var LinkedinEmbed = new EmbedBuilder()
+               .WithColor(new Color(0, 119, 181))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+
+            //////////////////////////////////////////////////////////
+
+            //GitHub Default Embed
+            var GitHubEmbed = new EmbedBuilder()
+               .WithColor(new Color(27, 29, 35))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //ArtStation Default Embed
+            var ArtStationEmbed = new EmbedBuilder()
+               .WithColor(new Color(19, 175, 240))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //Personal Default Embed
+            var PersonalEmbed = new EmbedBuilder()
+               .WithColor(new Color(0, 0, 0))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+
+            //////////////////////////////////////////////////////////
+
+            //Instagram Default Embed
+            var InstagramEmbed = new EmbedBuilder()
+               .WithColor(new Color(131, 58, 180))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+            //////////////////////////////////////////////////////////
+
+            //Twitter Default Embed
+            var TwitterEmbed = new EmbedBuilder()
+               .WithColor(new Color(29, 161, 242))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer => {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png")
+               .AddField("Teachers", "Updated Placeholder")
+               .AddField("2020", "Updated Placeholder")
+               .AddField("2021", "Updated Placeholder");
+
+
+            newWebsiteEmbedList.Add(CreddleEmbed.Build());
+            newWebsiteEmbedList.Add(LinkedinEmbed.Build());
+            newWebsiteEmbedList.Add(GitHubEmbed.Build());
+            newWebsiteEmbedList.Add(ArtStationEmbed.Build());
+            newWebsiteEmbedList.Add(PersonalEmbed.Build());
+            newWebsiteEmbedList.Add(TwitterEmbed.Build());
+            newWebsiteEmbedList.Add(InstagramEmbed.Build());
+
+            return newWebsiteEmbedList;
+        }
+         */
+
+        private Embed GetCreddleEmbed()
+        {
+            string teacherData = "";
+            string gradData = "";
+            string TwoZeroData = "";
+            string TwoOneData = "";
+
+            //Creddle Default Embed
+            var CreddleEmbed = new EmbedBuilder()
+               .WithColor(new Color(39, 130, 130))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer =>
+               {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
+
+
+            foreach (UserProfile user in Program.UserData)
+            {
+                if (user.Creddle != null)
+                {
+                    if (user.isTeacher == true)
+                    {
+                        teacherData += $"[{user.userNickname}]({user.Creddle})\n";
+                        break;
+                    }
+                    else if (user.isStudent == true)
+                    {
+                        if (user.GradYear == 2020)
+                        {
+                            TwoZeroData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                        else if (user.GradYear == 2021)
+                        {
+                            TwoOneData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                        else if (user.GradYear < 2020)
+                        {
+                            gradData += $"[{user.userNickname}]({user.Creddle})\n";
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (teacherData != "")
+            {
+                CreddleEmbed.AddField("Teachers", teacherData);
+            }
+            else if (gradData != "")
+            {
+                CreddleEmbed.AddField("Graduates", gradData);
+            }
+            else if (TwoZeroData != "")
+            {
+                CreddleEmbed.AddField("2020", TwoZeroData);
+            }
+            else if (TwoOneData != "")
+            {
+                CreddleEmbed.AddField("2021", TwoOneData);
+            }
+
+            return CreddleEmbed.Build();
+        }
+
+        private Embed GetLinkedInEmbed()
+        {
+            string teacherData = "";
+            string gradData = "";
+            string TwoZeroData = "";
+            string TwoOneData = "";
+
+            //LinkedIn Default Embed
+            var LinkedInEmbed = new EmbedBuilder()
+               .WithColor(new Color(39, 130, 130))
+               .WithTimestamp(DateTimeOffset.Now)
+               .WithFooter(footer =>
+               {
+                   footer
+                    .WithText("Last Updated");
+               })
+               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png");
+
+
+            foreach (UserProfile user in Program.UserData)
+            {
+                if (user.LinkedIn != null)
+                {
+                    if (user.isTeacher == true)
+                    {
+                        teacherData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                        break;
+                    }
+                    else if (user.isStudent == true)
+                    {
+                        if (user.GradYear == 2020)
+                        {
+                            TwoZeroData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            break;
+                        }
+                        else if (user.GradYear == 2021)
+                        {
+                            TwoOneData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            break;
+                        }
+                        else if (user.GradYear < 2020)
+                        {
+                            gradData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (teacherData != "")
+            {
+                LinkedInEmbed.AddField("Teachers", teacherData);
+            }
+            else if (gradData != "")
+            {
+                LinkedInEmbed.AddField("Graduates", gradData);
+            }
+            else if (TwoZeroData != "")
+            {
+                LinkedInEmbed.AddField("2020", TwoZeroData);
+            }
+            else if (TwoOneData != "")
+            {
+                LinkedInEmbed.AddField("2021", TwoOneData);
+            }
+
+            return LinkedInEmbed.Build();
+        }
     }
 
 
