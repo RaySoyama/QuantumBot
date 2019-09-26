@@ -534,19 +534,22 @@ namespace DiscordBot.Commands
 
             foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
             {
-                if (WebQuery.ToLower() == web.ToString().ToLower())
+                string test = web.ToString();
+                if (WebQuery.ToLower() == test.ToLower())
                 {
                     IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
                         await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        await Context.User.SendMessageAsync($"Link Updated");
+                        await Context.Message.DeleteAsync();
                         return;
                     }
                 }
             }
-
-            await Context.Message.Channel.SendMessageAsync($"Invalid Website Query");
+            await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nInvalid Website Query");
+            await Context.Message.DeleteAsync();
             return;
         }
 
@@ -626,13 +629,107 @@ namespace DiscordBot.Commands
                     if (ChatReferences is IUserMessage msg)
                     {
                         await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        await Context.User.SendMessageAsync($"Link Updated");
+                        await Context.Message.DeleteAsync();
+
                         return;
                     }
                 }
             }
-
-            await Context.Message.Channel.SendMessageAsync($"Invalid Website");
+            await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\nInvalid Website");
+            await Context.Message.DeleteAsync();
             return;
+        }
+
+        [Command("AdminWebsite"), Alias("adminwebsite"), Summary("Updates, or adds the users website")]
+
+        public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
+        {
+            var adminCheck = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+
+            if (adminCheck.Roles.Contains(AdminCode) == false)
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                    $"This Command can only be used by an Admin");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+            
+            string[] splitMsg = shitUserSaid.Split();
+
+            if (splitMsg.Length != 3)
+            {
+                return;
+            }
+
+            string WebQuery = splitMsg[1];
+            string webURL = splitMsg[2];
+
+            foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
+            {
+
+                if (WebQuery.ToLower() == web.ToString().ToLower())
+                { 
+
+                    UserProfile user = GetUserProfile(UInt64.Parse(splitMsg[0]));
+
+                    //Update User Data
+                    user.UserWebsiteIndex[web] = webURL;
+                    if (webURL == "null")
+                    {
+                        user.UserWebsiteIndex[web] = null;
+                    }
+
+
+                    user.userNickname = ((IGuildUser)Context.Guild.GetUser(UInt64.Parse(splitMsg[0]))).Nickname;
+
+                    var guildUser = Context.Guild.GetUser(UInt64.Parse(splitMsg[0])) as SocketGuildUser;
+
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Guest"])) == true)
+                    {
+                        user.isGuest = true;
+                    }
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Teacher"])) == true)
+                    {
+                        user.isTeacher = true;
+                    }
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Certified"])) == true)
+                    {
+                        user.isStudent = true;
+
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2020"])) == true)
+                        {
+                            user.GradYear = 2020;
+                        }
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2021"])) == true)
+                        {
+                            user.GradYear = 2021;
+                        }
+                        else
+                        {
+                            user.GradYear = 6969;
+                        }
+                    }
+
+                    Program.SaveUserDataToFile();
+
+                    IMessage ChatReferences = await Context.Guild.GetTextChannel(Program.PointersAnonChatID["Personal Links"]).GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, RequestOptions.Default);
+
+                    if (ChatReferences is IUserMessage msg)
+                    {
+                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nLink Updated");
+                        await Context.Message.DeleteAsync();
+
+                        return;
+                    }
+                }
+            }
+            await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\nInvalid Website");
+            await Context.Message.DeleteAsync();
+            return;
+
         }
 
         
@@ -762,24 +859,20 @@ namespace DiscordBot.Commands
                     if (user.isTeacher == true)
                     {
                         teacherData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
-                        break;
                     }
                     else if (user.isStudent == true)
                     {
                         if (user.GradYear == 2020)
                         {
                             TwoZeroData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
-                            break;
                         }
                         else if (user.GradYear == 2021)
                         {
                             TwoOneData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
-                            break;
                         }
                         else if (user.GradYear < 2020)
                         {
                             gradData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
-                            break;
                         }
                     }
 
@@ -790,15 +883,15 @@ namespace DiscordBot.Commands
             {
                 WebsiteEmbed.AddField("Teachers", teacherData);
             }
-            else if (gradData != "")
+            if (gradData != "")
             {
                 WebsiteEmbed.AddField("Graduates", gradData);
             }
-            else if (TwoZeroData != "")
+            if (TwoZeroData != "")
             {
                 WebsiteEmbed.AddField("2020", TwoZeroData);
             }
-            else if (TwoOneData != "")
+            if (TwoOneData != "")
             {
                 WebsiteEmbed.AddField("2021", TwoOneData);
             }

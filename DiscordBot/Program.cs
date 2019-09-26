@@ -316,7 +316,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.Creddle, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.Creddle,
-                WebsiteChatID = 626316256756105236,
+                WebsiteChatID = 626664819210059805,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png",
                 WebsiteColor = new Color(39, 130, 130)
             });
@@ -324,7 +324,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.LinkedIn, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.LinkedIn,
-                WebsiteChatID = 626316257532182538,
+                WebsiteChatID = 626664824180310026,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png",
                 WebsiteColor = new Color(0, 119, 181)
             });
@@ -332,7 +332,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.GitHub, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.GitHub,
-                WebsiteChatID = 626316257985167381,
+                WebsiteChatID = 626664829020667905,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png",
                 WebsiteColor = new Color(27, 29, 35)
             });
@@ -340,7 +340,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.ArtStation, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.ArtStation,
-                WebsiteChatID = 626316259083943936,
+                WebsiteChatID = 626664834360147969,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png",
                 WebsiteColor = new Color(19, 175, 240)
             });
@@ -348,7 +348,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.Personal, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.Personal,
-                WebsiteChatID = 626316259843244032,
+                WebsiteChatID = 626664839338786816,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png",
                 WebsiteColor = new Color(0, 0, 0)
             });
@@ -356,7 +356,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.Twitter, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.Twitter,
-                WebsiteChatID = 626316281879986186,
+                WebsiteChatID = 626664845047103489,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png",
                 WebsiteColor = new Color(29, 161, 242)
             });
@@ -364,7 +364,7 @@ namespace DiscordBot
             WebsiteData.Add(WEBSITES.Instagram, new WebsiteProfile
             {
                 WebsiteEnum = WEBSITES.Instagram,
-                WebsiteChatID = 626316282421051402,
+                WebsiteChatID = 626664849744855080,
                 WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png",
                 WebsiteColor = new Color(131, 58, 180)
             });
