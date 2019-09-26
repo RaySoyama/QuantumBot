@@ -16,15 +16,32 @@ namespace DiscordBot
 {
     public class Program
     {
+        /*
+         * LIST OF DATA
+         */
+
+        public enum WEBSITES
+        {
+            Creddle,
+            LinkedIn,
+            GitHub,
+            ArtStation,
+            Personal,
+            Instagram,
+            Twitter,
+        }
+    
         //List of Chat References
         public static Dictionary<string, ulong> PointersAnonChatID = new Dictionary<string, ulong>();
         //List of Role References
         public static Dictionary<string, ulong> PointersAnonRoleID = new Dictionary<string, ulong>();
         //List of User References
         public static Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
-        //List of User Chat References
-        public static Dictionary<string, ulong> PointersAnonWebsiteID = new Dictionary<string, ulong>();
-        
+
+        //List of Website Chat References
+        public static Dictionary<WEBSITES, ulong> PointersAnonWebsiteID = new Dictionary<WEBSITES, ulong>();
+        //List of Website Icons Links
+        public static Dictionary<WEBSITES, string> PointersAnonWebsiteURL = new Dictionary<WEBSITES, string>();
 
         public static List<UserProfile> UserData = new List<UserProfile>();
 
@@ -57,6 +74,7 @@ namespace DiscordBot
             InitializeRoleID();
             InitializeUserID();
             InitializeWebsiteID();
+            InitializeWebsiteURL();
 
             //User Data shit test
             LoadUserDataFromFile();
@@ -69,13 +87,16 @@ namespace DiscordBot
             //    isStudent = true,
             //    isTeacher = false,
             //    isGuest = false,
-            //    Creddle = "https://resume.creddle.io/resume/ijwq0koycmm",
-            //    LinkedIn = "https://www.linkedin.com/in/raysoyama/",
-            //    GitHub = "https://github.com/RaySoyama",
-            //    ArtStation = null,
-            //    Personal = null,
-            //    Instagram = "https://www.instagram.com/raysoyama/",
-            //    Twitter = "https://twitter.com/RaySoyama"
+            //    UserWebsiteIndex = new Dictionary<WEBSITES, string>
+            //    {
+            //        {WEBSITES.Creddle, "https://resume.creddle.io/resume/ijwq0koycmm"},
+            //        {WEBSITES.LinkedIn, "https://www.linkedin.com/in/raysoyama/"},
+            //        {WEBSITES.GitHub, "https://github.com/RaySoyama"},
+            //        {WEBSITES.ArtStation, null},
+            //        {WEBSITES.Personal, null},
+            //        {WEBSITES.Instagram, "https://www.instagram.com/raysoyama/"},
+            //        {WEBSITES.Twitter, "https://twitter.com/RaySoyama"}
+            //    },
             //};
             //UserData.Add(Ray);
             //SaveUserDataToFile();
@@ -272,13 +293,24 @@ namespace DiscordBot
             * Instagram
             * Twitter
             */
-            PointersAnonWebsiteID.Add("Creddle", 626316256756105236);
-            PointersAnonWebsiteID.Add("LinkedIn", 626316257532182538);
-            PointersAnonWebsiteID.Add("GitHub", 626316257985167381);
-            PointersAnonWebsiteID.Add("ArtStation", 626316259083943936);
-            PointersAnonWebsiteID.Add("Personal", 626316259843244032);
-            PointersAnonWebsiteID.Add("Twitter", 626316281879986186);
-            PointersAnonWebsiteID.Add("Instagram", 626316282421051402);
+            PointersAnonWebsiteID.Add(WEBSITES.Creddle, 626316256756105236);
+            PointersAnonWebsiteID.Add(WEBSITES.LinkedIn, 626316257532182538);
+            PointersAnonWebsiteID.Add(WEBSITES.GitHub, 626316257985167381);
+            PointersAnonWebsiteID.Add(WEBSITES.ArtStation, 626316259083943936);
+            PointersAnonWebsiteID.Add(WEBSITES.Personal, 626316259843244032);
+            PointersAnonWebsiteID.Add(WEBSITES.Twitter, 626316281879986186);
+            PointersAnonWebsiteID.Add(WEBSITES.Instagram, 626316282421051402);
+        }
+
+        private void InitializeWebsiteURL()
+        {
+            PointersAnonWebsiteURL.Add(WEBSITES.Creddle, "https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.LinkedIn, "https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.GitHub, "https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.ArtStation, "https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.Personal, "https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.Twitter, "https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png");
+            PointersAnonWebsiteURL.Add(WEBSITES.Instagram, "https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png");
         }
 
         //Gets the save files

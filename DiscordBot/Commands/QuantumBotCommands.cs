@@ -503,38 +503,9 @@ namespace DiscordBot.Commands
             return;
         }
 
-        /*
-        [Command("UpdateAllWebEmbeds"), Alias("UpdateAllWeb"), Summary("Edits the already exsisting Web embeds, this reaches the Rate Limit, so dont call this")]
-        public async Task UpdateAllWebEmbed()
-        {
-            List<IMessage> ChatReferences = new List<IMessage>
-            {
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Creddle"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["LinkedIn"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["GitHub"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["ArtStation"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Personal"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Twitter"], CacheMode.AllowDownload),
-                await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Instagram"], CacheMode.AllowDownload)
-            };
+        [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
 
-            //I DON'T HAVE AN ERROR CHECK TO MAKE SURE THE CHATS EXIST, CUZ THEY SHOULD
-
-            List<Embed> UpdatedWebsiteEmbeds = UpdateAllWebsiteEmbeds();
-
-            for (int i = 0; i < UpdatedWebsiteEmbeds.Count; i++)
-            {
-                await ((IUserMessage)ChatReferences[i]).ModifyAsync(x => x.Embed = UpdatedWebsiteEmbeds[i]);
-            }
-
-
-            return;
-        }
-        */
-
-        [Command("UpdateCreddleEmbed"), Alias("UpdateCreddle"), Summary("Updates the Creddle Embed")]
-
-        public async Task UpdateCreddleEmbed()
+        public async Task UpdateWebsiteEmbed(string WebQuery)
         {
             var user = Context.User as SocketGuildUser;
             var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
@@ -544,38 +515,23 @@ namespace DiscordBot.Commands
                 return;
             }
 
-            IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["Creddle"], CacheMode.AllowDownload);
-
-            if (ChatReferences is IUserMessage msg)
+            foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
             {
-                await msg.ModifyAsync(x => x.Embed = GetCreddleEmbed());
+                if (WebQuery.ToLower() == web.ToString().ToLower())
+                {
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID[web], CacheMode.AllowDownload);
+
+                    if (ChatReferences is IUserMessage msg)
+                    {
+                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        return;
+                    }
+                }
             }
+
+            await Context.Message.Channel.SendMessageAsync($"Invalid Website Query");
             return;
         }
-
-
-        [Command("UpdateLinkedInEmbed"), Alias("UpdateLinkedIn"), Summary("Updates the LinkedIn Embed")]
-
-        public async Task UpdateLinkedInEmbed()
-        {
-            var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
-
-            if (user.Roles.Contains(AdminCode) == false)
-            {
-                return;
-            }
-
-            IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID["LinkedIn"], CacheMode.AllowDownload);
-
-            if (ChatReferences is IUserMessage msg)
-            {
-                await msg.ModifyAsync(x => x.Embed = GetLinkedInEmbed());
-            }
-            return;
-        }
-
-
 
 
 
@@ -627,9 +583,6 @@ namespace DiscordBot.Commands
             }
         }
         
-
-        //Embed Creation Scripts
-
 
         private List<Embed> CreateWebsiteEmbeds()
         {
@@ -751,260 +704,7 @@ namespace DiscordBot.Commands
             return newWebsiteEmbedList;
         }
 
-        /*
-        private List<Embed> UpdateAllWebsiteEmbeds()
-        {
-            List<Embed> newWebsiteEmbedList = new List<Embed>();
-
-
-            //////////////////////////////////////////////////////////
-            string teacherData = "";
-            string gradData = "";
-            string TwoZeroData = "";
-            string TwoOneData = "";
-
-            //Creddle Default Embed
-            var CreddleEmbed = new EmbedBuilder()
-               .WithColor(new Color(39, 130, 130))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer =>
-               {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
-
-
-            foreach (UserProfile user in Program.UserData)
-            {
-                if (user.Creddle != null)
-                {
-                    if (user.isTeacher == true)
-                    {
-                        teacherData += $"[{user.userNickname}]({user.Creddle})\n";
-                        break;
-                    }
-                    else if (user.isStudent == true)
-                    {
-                        if (user.GradYear == 2020)
-                        {
-                            TwoZeroData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                        else if (user.GradYear == 2021)
-                        {
-                            TwoOneData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                        else if (user.GradYear < 2020)
-                        {
-                            gradData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-            if (teacherData != "")
-            {
-                CreddleEmbed.AddField("Teachers", teacherData);
-            }
-            else if (gradData != "")
-            {
-                CreddleEmbed.AddField("Graduates", gradData);
-            }
-            else if (TwoZeroData != "")
-            {
-                CreddleEmbed.AddField("2020", TwoZeroData);
-            }
-            else if (TwoOneData != "")
-            {
-                CreddleEmbed.AddField("2021", TwoOneData);
-            }
-
-            teacherData = "";
-            gradData = "";
-            TwoZeroData = "";
-            TwoOneData = "";
-
-
-            //////////////////////////////////////////////////////////
-
-            //Linkedin Default Embed
-            var LinkedinEmbed = new EmbedBuilder()
-               .WithColor(new Color(0, 119, 181))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-
-            //////////////////////////////////////////////////////////
-
-            //GitHub Default Embed
-            var GitHubEmbed = new EmbedBuilder()
-               .WithColor(new Color(27, 29, 35))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //ArtStation Default Embed
-            var ArtStationEmbed = new EmbedBuilder()
-               .WithColor(new Color(19, 175, 240))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //Personal Default Embed
-            var PersonalEmbed = new EmbedBuilder()
-               .WithColor(new Color(0, 0, 0))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-
-            //////////////////////////////////////////////////////////
-
-            //Instagram Default Embed
-            var InstagramEmbed = new EmbedBuilder()
-               .WithColor(new Color(131, 58, 180))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //Twitter Default Embed
-            var TwitterEmbed = new EmbedBuilder()
-               .WithColor(new Color(29, 161, 242))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png")
-               .AddField("Teachers", "Updated Placeholder")
-               .AddField("2020", "Updated Placeholder")
-               .AddField("2021", "Updated Placeholder");
-
-
-            newWebsiteEmbedList.Add(CreddleEmbed.Build());
-            newWebsiteEmbedList.Add(LinkedinEmbed.Build());
-            newWebsiteEmbedList.Add(GitHubEmbed.Build());
-            newWebsiteEmbedList.Add(ArtStationEmbed.Build());
-            newWebsiteEmbedList.Add(PersonalEmbed.Build());
-            newWebsiteEmbedList.Add(TwitterEmbed.Build());
-            newWebsiteEmbedList.Add(InstagramEmbed.Build());
-
-            return newWebsiteEmbedList;
-        }
-         */
-
-        private Embed GetCreddleEmbed()
-        {
-            string teacherData = "";
-            string gradData = "";
-            string TwoZeroData = "";
-            string TwoOneData = "";
-
-            //Creddle Default Embed
-            var CreddleEmbed = new EmbedBuilder()
-               .WithColor(new Color(39, 130, 130))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer =>
-               {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
-
-
-            foreach (UserProfile user in Program.UserData)
-            {
-                if (user.Creddle != null)
-                {
-                    if (user.isTeacher == true)
-                    {
-                        teacherData += $"[{user.userNickname}]({user.Creddle})\n";
-                        break;
-                    }
-                    else if (user.isStudent == true)
-                    {
-                        if (user.GradYear == 2020)
-                        {
-                            TwoZeroData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                        else if (user.GradYear == 2021)
-                        {
-                            TwoOneData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                        else if (user.GradYear < 2020)
-                        {
-                            gradData += $"[{user.userNickname}]({user.Creddle})\n";
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-            if (teacherData != "")
-            {
-                CreddleEmbed.AddField("Teachers", teacherData);
-            }
-            else if (gradData != "")
-            {
-                CreddleEmbed.AddField("Graduates", gradData);
-            }
-            else if (TwoZeroData != "")
-            {
-                CreddleEmbed.AddField("2020", TwoZeroData);
-            }
-            else if (TwoOneData != "")
-            {
-                CreddleEmbed.AddField("2021", TwoOneData);
-            }
-
-            return CreddleEmbed.Build();
-        }
-
-        private Embed GetLinkedInEmbed()
+        private Embed GetEmbedWebsite(Program.WEBSITES web)
         {
             string teacherData = "";
             string gradData = "";
@@ -1012,7 +712,7 @@ namespace DiscordBot.Commands
             string TwoOneData = "";
 
             //LinkedIn Default Embed
-            var LinkedInEmbed = new EmbedBuilder()
+            var WebsiteEmbed = new EmbedBuilder()
                .WithColor(new Color(39, 130, 130))
                .WithTimestamp(DateTimeOffset.Now)
                .WithFooter(footer =>
@@ -1020,33 +720,33 @@ namespace DiscordBot.Commands
                    footer
                     .WithText("Last Updated");
                })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png");
+               .WithThumbnailUrl(Program.PointersAnonWebsiteURL[web]);
 
 
             foreach (UserProfile user in Program.UserData)
             {
-                if (user.LinkedIn != null)
+                if (user.UserWebsiteIndex[web] != null)
                 {
                     if (user.isTeacher == true)
                     {
-                        teacherData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                        teacherData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
                         break;
                     }
                     else if (user.isStudent == true)
                     {
                         if (user.GradYear == 2020)
                         {
-                            TwoZeroData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            TwoZeroData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
                             break;
                         }
                         else if (user.GradYear == 2021)
                         {
-                            TwoOneData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            TwoOneData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
                             break;
                         }
                         else if (user.GradYear < 2020)
                         {
-                            gradData += $"[{user.userNickname}]({user.LinkedIn})\n";
+                            gradData += $"[{user.userNickname}]({user.UserWebsiteIndex[web]})\n";
                             break;
                         }
                     }
@@ -1056,22 +756,22 @@ namespace DiscordBot.Commands
 
             if (teacherData != "")
             {
-                LinkedInEmbed.AddField("Teachers", teacherData);
+                WebsiteEmbed.AddField("Teachers", teacherData);
             }
             else if (gradData != "")
             {
-                LinkedInEmbed.AddField("Graduates", gradData);
+                WebsiteEmbed.AddField("Graduates", gradData);
             }
             else if (TwoZeroData != "")
             {
-                LinkedInEmbed.AddField("2020", TwoZeroData);
+                WebsiteEmbed.AddField("2020", TwoZeroData);
             }
             else if (TwoOneData != "")
             {
-                LinkedInEmbed.AddField("2021", TwoOneData);
+                WebsiteEmbed.AddField("2021", TwoOneData);
             }
 
-            return LinkedInEmbed.Build();
+            return WebsiteEmbed.Build();
         }
     }
 
