@@ -739,12 +739,13 @@ namespace DiscordBot.Commands
         {
             var builder = new EmbedBuilder()
                           .WithTitle("Quantum Bot Commands")
-                          .WithDescription(
-                                           $"Prefix - '{Program.prefix}'\n" +
-                                           $"Help\n" +
-                                           $""
-
-                                           )
+                           .AddField("General",$"Prefix is {Program.prefix}\n" +
+                                               $"[Command] - [Description]\n" +
+                                               $"Help - See list of Commands\n" +
+                                               $"Ping - See the Latency of bot")
+                          .AddField("Personal Link Stuff", $"Website (Domain) (URL) - Posting your link\n" +
+                                                           $"`Website LinkedIn https://www.linkedin.com/in/raysoyama/` \n" +
+                                                           $"Website (Domain) null - Removes your link")
                           .WithColor(new Color(60, 179, 113))
                           .WithTimestamp(DateTimeOffset.Now)
                           .WithFooter(footer =>
@@ -777,6 +778,57 @@ namespace DiscordBot.Commands
             }
         }
 
+
+        [Command("RaidArea51")]
+
+        public async Task SendMessege()
+        {
+            var adminCheck = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+
+            if (adminCheck.Roles.Contains(AdminCode) == false)
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                    $"This Command can only be used by an Admin");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+           
+            foreach (UserProfile user in Program.UserData)
+            {
+                var target = Context.Guild.GetUser(user.userID);
+                
+                await target.SendMessageAsync($" \n" +
+                                          $"Hello~,\n" +
+                                          $"I am Quantum Bot, the helper bot created by <@!{Program.PointersAnonUserID["Ray Soyama"]}> (Ray) to maintain the server~\n" +
+                                          $"I recently added a new feature in the <#{Program.PointersAnonChatID["Personal Links"]}> channel, and I made it real nice lookin' ( ͡• ͜ʖ ͡•)\n\n" +
+                                          $"`I ported over the old links to this squeeky clean version; so could you double check to see if you links are working?`\n\n" +
+                                          $"Also if you want to add more links to  the posts, you can use the command \n" +
+                                          $"{Program.prefix}Website [Domain] [URL]\n" +
+                                          $"These are the current list of Domains you can choose from~\n" +
+                                          $"`Creddle` `LinkedIn` `GitHub` `ArtStation` `Personal` `Twitter` `Instagram`\n\n" +
+                                          $"If you have any questions, or have any requests for new features, you can put them in <#{Program.PointersAnonChatID["Quantum Bot"]}> and I'll peek at them later~");
+
+                await Task.Delay(TimeSpan.FromSeconds(1));
+
+            }
+            
+
+            //var target = Context.Guild.GetUser(Program.PointersAnonUserID["Ray Alt"]);
+
+            //await target.SendMessageAsync($" \n" +
+            //                              $"Hello~,\n" +
+            //                              $"I am Quantum Bot, the helper bot created by <@!{Program.PointersAnonUserID["Ray Soyama"]}> (Ray) to maintain the server~\n" +
+            //                              $"I recently added a new feature in the <#{Program.PointersAnonChatID["Personal Links"]}> channel, and I made it real nice lookin' ( ͡• ͜ʖ ͡•)\n\n" +
+            //                              $"`I ported over the old links to this squeeky clean version; so could you double check to see if you links are working?`\n\n" +
+            //                              $"Also if you want to add more links to  the posts, you can use the command \n" +
+            //                              $"{Program.prefix}Website [Domain] [URL]\n" +
+            //                              $"These are the current list of Domains you can choose from~\n" +
+            //                              $"`Creddle` `LinkedIn` `GitHub` `ArtStation` `Personal` `Twitter` `Instagram`\n\n" +
+            //                              $"If you have any questions, or have any requests for new features, you can put them in <#{Program.PointersAnonChatID["Quantum Bot"]}> and I'll peek at them later~");
+            return;
+        }
 
 
         private UserProfile GetUserProfile(ulong userID)

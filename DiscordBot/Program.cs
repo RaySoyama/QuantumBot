@@ -78,31 +78,6 @@ namespace DiscordBot
             //User Data shit test
             LoadUserDataFromFile();
 
-            //UserProfile Ray = new UserProfile
-            //{
-            //    userID = 173226502710755328,
-            //    userNickname = "Ray S",
-            //    GradYear = 2020,
-            //    isStudent = true,
-            //    isTeacher = false,
-            //    isGuest = false,
-            //    UserWebsiteIndex = new Dictionary<WEBSITES, string>
-            //    {
-            //        {WEBSITES.Creddle, "https://resume.creddle.io/resume/ijwq0koycmm"},
-            //        {WEBSITES.LinkedIn, "https://www.linkedin.com/in/raysoyama/"},
-            //        {WEBSITES.GitHub, "https://github.com/RaySoyama"},
-            //        {WEBSITES.ArtStation, null},
-            //        {WEBSITES.Personal, null},
-            //        {WEBSITES.Instagram, "https://www.instagram.com/raysoyama/"},
-            //        {WEBSITES.Twitter, "https://twitter.com/RaySoyama"}
-            //    },
-            //};
-            //UserData.Clear();
-            //UserData.Add(Ray);            
-            
-            //SaveUserDataToFile();
-
-
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info
@@ -292,6 +267,7 @@ namespace DiscordBot
             PointersAnonChatID.Add("Town Hall", 566017637721571342);
             PointersAnonChatID.Add("Bot Commands", 489949750762668035);
             PointersAnonChatID.Add("Personal Links", 487883949033652246);
+            PointersAnonChatID.Add("Quantum Bot", 626691961339904005);
         }
 
         private void InitializeRoleID()
@@ -308,6 +284,7 @@ namespace DiscordBot
         {
             PointersAnonUserID.Add("Ray Soyama", 173226502710755328);
             PointersAnonUserID.Add("Terry Nguyen", 99563003434782720);
+            PointersAnonUserID.Add("Ray Alt", 603024147513344031);
         }
 
 
