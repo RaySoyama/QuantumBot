@@ -1,0 +1,325 @@
+[
+  {
+    "userID": 173226502710755328,
+    "userNickname": "Ray S",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/ijwq0koycmm",
+      "LinkedIn": "https://www.linkedin.com/in/raysoyama/",
+      "GitHub": "https://github.com/RaySoyama",
+      "ArtStation": null,
+      "Personal": null,
+      "Instagram": "https://www.instagram.com/raysoyama/",
+      "Twitter": "https://twitter.com/RaySoyama"
+    }
+  },
+  {
+    "userID": 405986374458540041,
+    "userNickname": "Handa",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": true,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/i3f18tgd7zn",
+      "LinkedIn": "https://www.linkedin.com/in/handayoh/",
+      "GitHub": null,
+      "ArtStation": "https://www.artstation.com/handayoh",
+      "Personal": null,
+      "Twitter": null,
+      "Instagram": "https://www.instagram.com/hellahanda/"
+    }
+  },
+  {
+    "userID": 288124094077992960,
+    "userNickname": "Alexi",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/f51bjzx3lh",
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/most_alyoshenka",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 150391468320620544,
+    "userNickname": "Marcel",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/4qa1v2ccaiz",
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": null,
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 144581320243281920,
+    "userNickname": "Cade A",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/7f92kqljcxe",
+      "LinkedIn": "https://www.linkedin.com/in/cadenanderson",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/CadeAnder",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 95382371729154048,
+    "userNickname": "Joshua",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/uqzjn4ga31",
+      "LinkedIn": "https://www.linkedin.com/in/joshy409",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": null,
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 121048436588937219,
+    "userNickname": "Carter P",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/idi7ut76dg8",
+      "LinkedIn": "https://www.linkedin.com/in/carterpatterson/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/DevCarterRP",
+      "Instagram": "https://www.instagram.com/devcarterpatterson/"
+    }
+  },
+  {
+    "userID": 243004826185629697,
+    "userNickname": "Jonathan D",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://resume.creddle.io/resume/cx7xepb5yl9",
+      "LinkedIn": "https://www.linkedin.com/in/jday151r/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/Dayveloper",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 228344819422855168,
+    "userNickname": "Justice S",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": "https://justiceshultz.github.io/pages/Resume",
+      "LinkedIn": "https://www.linkedin.com/in/justice-shultz/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/JusticeShultz",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 294493428333674509,
+    "userNickname": "Cami S",
+    "GradYear": 0,
+    "isStudent": false,
+    "isTeacher": true,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/camismith/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/CamiSmithTweets",
+      "Instagram": "https://www.instagram.com/happyatsealevel/"
+    }
+  },
+  {
+    "userID": 99563003434782720,
+    "userNickname": "Terry N.",
+    "GradYear": 0,
+    "isStudent": false,
+    "isTeacher": true,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/terrehbyte/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/terrehbyte",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 266306624107446291,
+    "userNickname": "Travis F",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/travispfisk/",
+      "GitHub": null,
+      "ArtStation": "https://www.artstation.com/tpfiskart",
+      "Personal": null,
+      "Twitter": "https://twitter.com/TravisPFisk",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 298217025673756673,
+    "userNickname": "Kate K",
+    "GradYear": 2020,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/frontfangs/",
+      "GitHub": null,
+      "ArtStation": "https://frontfangs.artstation.com/",
+      "Personal": null,
+      "Twitter": "https://twitter.com/frontfangs",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 234103780759568385,
+    "userNickname": "Daniel R",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/delaresdanny/",
+      "GitHub": null,
+      "ArtStation": "https://danielmramirez.artstation.com/",
+      "Personal": null,
+      "Twitter": "https://twitter.com/DeLaresDanny",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 228310791852392448,
+    "userNickname": "Kevin B",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": "https://www.linkedin.com/in/KevinCBryan/",
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/Kevincbr",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 274380165075697665,
+    "userNickname": "Mari",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": "https://www.artstation.com/moody_mari_blues",
+      "Personal": null,
+      "Twitter": "https://twitter.com/MoodyMari_Blues",
+      "Instagram": "https://www.instagram.com/moody_mari_blues/"
+    }
+  },
+  {
+    "userID": 401922728283602945,
+    "userNickname": "Arieal R",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": "https://www.artstation.com/mythical_arieal",
+      "Personal": null,
+      "Twitter": "https://twitter.com/arieal_turtle_",
+      "Instagram": "https://www.instagram.com/aris_art_1224/"
+    }
+  },
+  {
+    "userID": 241736082427740160,
+    "userNickname": "Evan",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/Toskasha1",
+      "Instagram": null
+    }
+  },
+  {
+    "userID": 335646513885741056,
+    "userNickname": "Bruce H",
+    "GradYear": 2021,
+    "isStudent": true,
+    "isTeacher": false,
+    "isGuest": false,
+    "UserWebsiteIndex": {
+      "Creddle": null,
+      "LinkedIn": null,
+      "GitHub": null,
+      "ArtStation": null,
+      "Personal": null,
+      "Twitter": "https://twitter.com/CathodeRayBlues",
+      "Instagram": null
+    }
+  }
+]

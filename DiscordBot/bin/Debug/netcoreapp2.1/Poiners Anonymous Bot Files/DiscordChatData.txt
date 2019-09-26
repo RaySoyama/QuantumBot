@@ -1,0 +1,1249 @@
+
+
+Time: 9/25/2019 8:50:55 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >ping
+
+
+Time: 9/25/2019 8:50:55 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: MS 141
+
+
+Time: 9/25/2019 8:50:58 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >hello
+
+
+Time: 9/25/2019 8:51:06 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >help
+
+
+Time: 9/25/2019 8:51:06 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/25/2019 10:20:35 PM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >updatecreddle
+
+
+Time: 9/25/2019 10:21:12 PM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:08:51 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:09:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:09:07 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:11:29 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:12:32 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:14:53 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateCreddleEmbed
+
+
+Time: 9/26/2019 3:51:00 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed
+
+
+Time: 9/26/2019 3:51:00 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: Missing Website Query
+
+
+Time: 9/26/2019 3:51:28 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed
+
+
+Time: 9/26/2019 3:51:29 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: Missing Website Query
+
+
+Time: 9/26/2019 3:51:38 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 3:51:57 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed test word word
+
+
+Time: 9/26/2019 3:52:24 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed test word word
+
+
+Time: 9/26/2019 3:52:36 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed
+
+
+Time: 9/26/2019 3:56:10 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed asd
+
+
+Time: 9/26/2019 3:56:31 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed asd asd asd asd
+
+
+Time: 9/26/2019 3:56:40 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed asd
+
+
+Time: 9/26/2019 3:57:35 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Hello
+
+
+Time: 9/26/2019 3:58:14 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Hello
+
+
+Time: 9/26/2019 3:58:14 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: Invalid Website Query
+
+
+Time: 9/26/2019 3:58:27 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed GitHub
+
+
+Time: 9/26/2019 4:21:06 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >InitializeWeb
+
+
+Time: 9/26/2019 4:21:07 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:07 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:08 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:08 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:08 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:13 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:21:14 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: 
+
+
+Time: 9/26/2019 4:28:01 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed All
+
+
+Time: 9/26/2019 4:30:22 AM +00:00
+Channel: introductions
+Discord ID: 603024147513344031
+Username: 
+Message: >InitializeWeb
+
+
+Time: 9/26/2019 5:24:50 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >Website asdaadjdsija aosidjiosaj
+
+
+Time: 9/26/2019 5:24:58 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website asdasd
+
+
+Time: 9/26/2019 5:30:46 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website asdasdasd asdasd
+
+
+Time: 9/26/2019 5:31:04 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: Invalid Website
+
+
+Time: 9/26/2019 5:31:19 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website twitter null
+
+
+Time: 9/26/2019 5:31:46 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website twitter https://twitter.com/RaySoyama
+
+
+Time: 9/26/2019 5:33:44 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website twitter https://twitter.com/RaySoyama
+
+
+Time: 9/26/2019 5:43:13 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website asd asd
+
+9/25/2019 10:43:13 PM A MessageReceived handler has thrown an unhandled exception.
+
+Time: 9/26/2019 5:43:14 AM +00:00
+Channel: bot-commands
+Discord ID: 540677080296194079
+Username: 
+Message: Invalid Website
+
+9/25/2019 10:46:12 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:46:19 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:47:07 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 10:47:07 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:48:56 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 10:48:56 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:48:56 PM 
+9/25/2019 10:56:15 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:15 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:16 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:16 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:16 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:19 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 10:56:21 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:56:22 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:57:50 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:59:36 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 10:59:36 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:00:15 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:01:25 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:02:32 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:03:08 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:03:30 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:04:12 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:05:24 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:06:08 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:08:28 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:10:38 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:13:04 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:13:38 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:14:06 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:14:13 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:14:22 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:14:59 PM A MessageReceived handler is blocking the gateway task.
+9/25/2019 11:14:59 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:15:38 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:16:25 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:18:35 PM A MessageReceived handler has thrown an unhandled exception.
+9/25/2019 11:19:55 PM A MessageReceived handler has thrown an unhandled exception.
+
+Time: 9/26/2019 6:20:36 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: test
+
+
+Time: 9/26/2019 6:21:52 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >website test
+
+
+Time: 9/26/2019 6:22:15 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >InitializeWeb
+
+
+Time: 9/26/2019 6:25:16 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed
+
+
+Time: 9/26/2019 6:25:36 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed
+
+
+Time: 9/26/2019 6:25:58 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed all
+
+
+Time: 9/26/2019 6:26:11 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed All
+
+
+Time: 9/26/2019 6:30:11 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >Website Twitter https://twitter.com/RaySoyama
+
+
+Time: 9/26/2019 6:40:46 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: \<@!173226502710755328>
+
+
+Time: 9/26/2019 6:40:53 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <@!228310791852392448>
+
+
+Time: 9/26/2019 6:41:45 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 405986374458540041 Creddle https://resume.creddle.io/resume/i3f18tgd7zn
+
+
+Time: 9/26/2019 6:49:11 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 405986374458540041 Creddle https://resume.creddle.io/resume/i3f18tgd7zn
+
+
+Time: 9/26/2019 6:50:27 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Creddle
+
+
+Time: 9/26/2019 6:51:45 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Creddle
+
+
+Time: 9/26/2019 6:52:24 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Creddle
+
+
+Time: 9/26/2019 6:54:43 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Creddle
+
+
+Time: 9/26/2019 6:56:31 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <a:BlueCrystalHeart:453444943403286528> 
+```
+Creddle
+```
+``
+Teachers
+``
+\<@!405986374458540041>  <https://resume.creddle.io/resume/i3f18tgd7zn>
+
+``
+Class of 2020
+``
+\<@!173226502710755328> <https://resume.creddle.io/resume/ijwq0koycmm>
+\<@!288124094077992960> <https://resume.creddle.io/resume/f51bjzx3lh>
+\<@!150391468320620544>  <https://resume.creddle.io/resume/4qa1v2ccaiz>
+\<@!144581320243281920> <https://resume.creddle.io/resume/7f92kqljcxe>
+\<@!95382371729154048> <https://resume.creddle.io/resume/uqzjn4ga31>
+\<@!121048436588937219> <https://resume.creddle.io/resume/idi7ut76dg8>
+\<@!243004826185629697> <https://resume.creddle.io/resume/cx7xepb5yl9>
+\<@!228344819422855168> <https://justiceshultz.github.io/pages/Resume>
+
+
+Time: 9/26/2019 6:56:36 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: sorrryy
+
+
+Time: 9/26/2019 7:00:25 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Creddle https://resume.creddle.io/resume/ijwq0koycmm
+
+
+Time: 9/26/2019 7:04:09 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Creddle https://resume.creddle.io/resume/ijwq0koycmm
+
+
+Time: 9/26/2019 7:04:30 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Creddle https://resume.creddle.io/resume/ijwq0koycmm
+
+
+Time: 9/26/2019 7:12:14 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Creddle https://resume.creddle.io/resume/ijwq0koycmm
+
+
+Time: 9/26/2019 7:12:49 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 288124094077992960 Creddle https://resume.creddle.io/resume/f51bjzx3lh
+
+
+Time: 9/26/2019 7:15:06 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 150391468320620544 Creddle https://resume.creddle.io/resume/4qa1v2ccaiz
+
+
+Time: 9/26/2019 7:15:31 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 144581320243281920 Creddle https://resume.creddle.io/resume/7f92kqljcxe
+
+
+Time: 9/26/2019 7:15:35 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 95382371729154048  Creddle https://resume.creddle.io/resume/uqzjn4ga31
+
+
+Time: 9/26/2019 7:16:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 95382371729154048  Creddle https://resume.creddle.io/resume/uqzjn4ga31
+
+
+Time: 9/26/2019 7:16:47 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ?ping
+
+
+Time: 9/26/2019 7:16:50 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >ping
+
+
+Time: 9/26/2019 7:16:52 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 95382371729154048  Creddle https://resume.creddle.io/resume/uqzjn4ga31
+
+
+Time: 9/26/2019 7:17:08 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 95382371729154048 Creddle https://resume.creddle.io/resume/uqzjn4ga31
+
+
+Time: 9/26/2019 7:17:31 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 121048436588937219 Creddle https://resume.creddle.io/resume/idi7ut76dg8
+
+
+Time: 9/26/2019 7:17:39 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 243004826185629697 Creddle https://resume.creddle.io/resume/cx7xepb5yl9
+
+
+Time: 9/26/2019 7:17:40 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228344819422855168 Creddle https://justiceshultz.github.io/pages/Resume
+
+
+Time: 9/26/2019 7:18:46 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: \<@294493428333674509> <https://www.linkedin.com/in/camismith/>
+\<@!405986374458540041> <https://www.linkedin.com/in/handayoh/>
+\<@!173226502710755328>  <https://www.linkedin.com/in/raysoyama/>
+\<@!266306624107446291> <https://www.linkedin.com/in/travispfisk/>
+\<@!121048436588937219> <https://www.linkedin.com/in/carterpatterson/>
+\<@!95382371729154048> <https://www.linkedin.com/in/joshy409>
+\<@!228344819422855168> <https://www.linkedin.com/in/justice-shultz/>
+\<@!298217025673756673> <https://www.linkedin.com/in/frontfangs/>
+\<@!144581320243281920> <https://www.linkedin.com/in/cadenanderson>
+\<@!243004826185629697> <https://www.linkedin.com/in/jday151r/>
+\<@!234103780759568385> <https://www.linkedin.com/in/delaresdanny/>
+\<@!228310791852392448> <https://www.linkedin.com/in/KevinCBryan/>
+
+
+Time: 9/26/2019 7:20:20 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: wtf
+
+
+Time: 9/26/2019 7:20:24 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <@294493428333674509>
+
+
+Time: 9/26/2019 7:20:26 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <@!294493428333674509>
+
+
+Time: 9/26/2019 7:20:28 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ???
+
+
+Time: 9/26/2019 7:20:28 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ????
+
+
+Time: 9/26/2019 7:20:30 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ???????????
+
+
+Time: 9/26/2019 7:22:39 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 https://www.linkedin.com/in/camismith/
+
+
+Time: 9/26/2019 7:23:41 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 LinkedIn https://www.linkedin.com/in/camismith/
+
+
+Time: 9/26/2019 7:23:47 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 405986374458540041 LinkedIn https://www.linkedin.com/in/handayoh/
+
+
+Time: 9/26/2019 7:23:57 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 LinkedIn https://www.linkedin.com/in/raysoyama/
+
+
+Time: 9/26/2019 7:24:55 AM +00:00
+Channel: personal-links
+Discord ID: 603024147513344031
+Username: 
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:25:22 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:25:44 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:26:19 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 LinkedIn https://www.linkedin.com/in/camismith/
+
+9/26/2019 12:27:13 AM 
+
+Time: 9/26/2019 7:27:58 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 LinkedIn https://www.linkedin.com/in/camismith/
+
+9/26/2019 12:29:39 AM 
+
+Time: 9/26/2019 7:31:18 AM +00:00
+Channel: personal-links
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 LinkedIn https://www.linkedin.com/in/camismith/
+
+
+Time: 9/26/2019 7:32:44 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: LMFAO, Cami's Discord account is some phantom s hit
+
+
+Time: 9/26/2019 7:33:07 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: usually, a humans discord account has a <@!
+\<@!173226502710755328>
+
+
+Time: 9/26/2019 7:33:26 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: but cami is <@
+<@294493428333674509>
+
+
+Time: 9/26/2019 7:33:39 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: its fucking black magic, and my bot breaks cuz of it
+
+
+Time: 9/26/2019 7:35:09 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: what the fuckkkk
+
+
+Time: 9/26/2019 7:35:29 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <@!99563003434782720>
+
+
+Time: 9/26/2019 7:35:34 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: WTFreee
+
+
+Time: 9/26/2019 7:35:50 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 99563003434782720 LinkedIn https://www.linkedin.com/in/terrehbyte/
+
+
+Time: 9/26/2019 7:36:09 AM +00:00
+Channel: admin
+Discord ID: 173226502710755328
+Username: Ray S
+Message: I'm so fucking confused
+
+
+Time: 9/26/2019 7:36:25 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 266306624107446291 LinkedIn https://www.linkedin.com/in/travispfisk/
+
+
+Time: 9/26/2019 7:36:30 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 121048436588937219 LinkedIn https://www.linkedin.com/in/carterpatterson/
+
+
+Time: 9/26/2019 7:36:34 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 95382371729154048 LinkedIn https://www.linkedin.com/in/joshy409
+
+
+Time: 9/26/2019 7:36:37 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228344819422855168 LinkedIn https://www.linkedin.com/in/justice-shultz/
+
+
+Time: 9/26/2019 7:36:40 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 298217025673756673 LinkedIn https://www.linkedin.com/in/frontfangs/
+
+
+Time: 9/26/2019 7:36:43 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 144581320243281920 LinkedIn https://www.linkedin.com/in/cadenanderson
+
+
+Time: 9/26/2019 7:36:46 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 243004826185629697 LinkedIn https://www.linkedin.com/in/jday151r/
+
+
+Time: 9/26/2019 7:36:49 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 234103780759568385 LinkedIn https://www.linkedin.com/in/delaresdanny/
+
+
+Time: 9/26/2019 7:36:49 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228310791852392448 LinkedIn https://www.linkedin.com/in/KevinCBryan/
+
+
+Time: 9/26/2019 7:37:30 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: lmfao
+
+
+Time: 9/26/2019 7:37:30 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: 
+
+
+Time: 9/26/2019 7:38:32 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: <@173226502710755328>
+
+
+Time: 9/26/2019 7:38:34 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ??
+
+
+Time: 9/26/2019 7:38:45 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: ????
+
+
+Time: 9/26/2019 7:41:55 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: Its when people have nick names
+
+
+Time: 9/26/2019 7:42:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: Camis discord ID is Cami
+
+
+Time: 9/26/2019 7:42:12 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: so it was printing out null for her nickname
+
+
+Time: 9/26/2019 7:44:32 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:44:56 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:46:44 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:48:41 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:49:59 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed LinkedIn
+
+
+Time: 9/26/2019 7:52:34 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >UpdateEmbed Linkedin
+
+
+Time: 9/26/2019 7:53:26 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 LinkedIn https://www.linkedin.com/in/camismith/
+
+
+Time: 9/26/2019 7:54:24 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: \<@!405986374458540041> <https://www.artstation.com/handayoh>
+\bbblehh#5191 <https://www.artstation.com/tpfiskart>
+\<@!298217025673756673> <https://frontfangs.artstation.com>
+\<@!234103780759568385> <https://danielmramirez.artstation.com/>
+\<@!274380165075697665> <https://www.artstation.com/moody_mari_blues>
+\<@!401922728283602945> <https://www.artstation.com/mythical_arieal>
+
+
+Time: 9/26/2019 7:55:43 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 405986374458540041 ArtStation https://www.artstation.com/handayoh
+
+
+Time: 9/26/2019 7:55:52 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 266306624107446291 ArtStation https://www.artstation.com/tpfiskart
+
+
+Time: 9/26/2019 7:55:55 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 298217025673756673 ArtStation https://frontfangs.artstation.com/
+
+
+Time: 9/26/2019 7:56:00 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 234103780759568385 ArtStation https://danielmramirez.artstation.com/
+
+
+Time: 9/26/2019 7:56:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 274380165075697665 ArtStation https://www.artstation.com/moody_mari_blues
+
+
+Time: 9/26/2019 7:56:03 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 401922728283602945 ArtStation https://www.artstation.com/mythical_arieal
+
+
+Time: 9/26/2019 7:57:12 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: \<@!294493428333674509> <https://www.instagram.com/happyatsealevel/>
+\<@!405986374458540041> <https://www.instagram.com/hellahanda/>
+\<@!173226502710755328>   <https://www.instagram.com/raysoyama/>
+\<@!121048436588937219>  <https://www.instagram.com/devcarterpatterson/>
+\<@!274380165075697665> <https://www.instagram.com/moody_mari_blues/>
+\<@!401922728283602945> <https://www.instagram.com/aris_art_1224/>
+
+
+Time: 9/26/2019 7:57:53 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 Instagram https://www.instagram.com/happyatsealevel/
+
+
+Time: 9/26/2019 7:57:56 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 405986374458540041 Instagram https://www.instagram.com/hellahanda/
+
+
+Time: 9/26/2019 7:58:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Instagram https://www.instagram.com/raysoyama/
+
+
+Time: 9/26/2019 7:58:05 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 121048436588937219 Instagram https://www.instagram.com/devcarterpatterson/
+
+
+Time: 9/26/2019 7:58:08 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 274380165075697665 Instagram https://www.instagram.com/moody_mari_blues/
+
+
+Time: 9/26/2019 7:58:10 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 401922728283602945 Instagram https://www.instagram.com/aris_art_1224/
+
+
+Time: 9/26/2019 7:59:18 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: \<@!99563003434782720> <https://twitter.com/terrehbyte>
+\<@!294493428333674509> <https://twitter.com/CamiSmithTweets>
+\<@!173226502710755328> <https://twitter.com/RaySoyama>
+\<@!266306624107446291>  <https://twitter.com/TravisPFisk>
+\<@!121048436588937219> <https://twitter.com/DevCarterRP>
+\<@!288124094077992960>  <https://twitter.com/most_alyoshenka>
+\<@!228344819422855168> <https://twitter.com/JusticeShultz>
+\<@!298217025673756673> <https://twitter.com/frontfangs>
+\<@!144581320243281920> <https://twitter.com/CadeAnder>
+\<@!243004826185629697> <https://twitter.com/Dayveloper>
+\<@!241736082427740160> <https://twitter.com/Toskasha1>
+\<@!234103780759568385>  <https://twitter.com/DeLaresDanny>
+\<@!274380165075697665> <https://twitter.com/MoodyMari_Blues>
+\<@!401922728283602945> <https://twitter.com/arieal_turtle_>
+\<@!335646513885741056> <https://twitter.com/CathodeRayBlues>
+\<@!228310791852392448> <https://twitter.com/Kevincbr>
+
+
+Time: 9/26/2019 8:00:06 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 99563003434782720 Twitter https://twitter.com/terrehbyte
+
+
+Time: 9/26/2019 8:00:11 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 294493428333674509 Twitter https://twitter.com/CamiSmithTweets
+
+
+Time: 9/26/2019 8:00:16 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 173226502710755328 Twitter https://twitter.com/RaySoyama
+
+
+Time: 9/26/2019 8:00:20 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 266306624107446291 Twitter https://twitter.com/TravisPFisk
+
+
+Time: 9/26/2019 8:00:23 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 121048436588937219 Twitter https://twitter.com/DevCarterRP
+
+
+Time: 9/26/2019 8:00:27 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 288124094077992960 Twitter https://twitter.com/most_alyoshenka
+
+
+Time: 9/26/2019 8:00:32 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228344819422855168 Twitter https://twitter.com/JusticeShultz
+>AdminWebsite 298217025673756673 Twitter https://twitter.com/frontfangs
+>AdminWebsite 144581320243281920 Twitter https://twitter.com/CadeAnder
+>AdminWebsite 243004826185629697 Twitter https://twitter.com/Dayveloper
+>AdminWebsite 241736082427740160 Twitter https://twitter.com/Toskasha1
+>AdminWebsite 234103780759568385 Twitter https://twitter.com/DeLaresDanny
+>AdminWebsite 274380165075697665 Twitter https://twitter.com/MoodyMari_Blues
+>AdminWebsite 401922728283602945 Twitter https://twitter.com/arieal_turtle_
+>AdminWebsite 335646513885741056 Twitter https://twitter.com/CathodeRayBlues
+>AdminWebsite 228310791852392448 Twitter https://twitter.com/Kevincbr
+
+
+Time: 9/26/2019 8:00:58 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228344819422855168 Twitter https://twitter.com/JusticeShultz
+
+
+Time: 9/26/2019 8:01:02 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 298217025673756673 Twitter https://twitter.com/frontfangs
+
+
+Time: 9/26/2019 8:01:05 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 144581320243281920 Twitter https://twitter.com/CadeAnder
+
+
+Time: 9/26/2019 8:01:08 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 243004826185629697 Twitter https://twitter.com/Dayveloper
+
+
+Time: 9/26/2019 8:01:12 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 241736082427740160 Twitter https://twitter.com/Toskasha1
+
+
+Time: 9/26/2019 8:01:15 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 234103780759568385 Twitter https://twitter.com/DeLaresDanny
+
+
+Time: 9/26/2019 8:01:18 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 274380165075697665 Twitter https://twitter.com/MoodyMari_Blues
+
+
+Time: 9/26/2019 8:01:23 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 401922728283602945 Twitter https://twitter.com/arieal_turtle_
+
+
+Time: 9/26/2019 8:01:25 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 335646513885741056 Twitter https://twitter.com/CathodeRayBlues
+
+
+Time: 9/26/2019 8:01:26 AM +00:00
+Channel: bot-commands
+Discord ID: 173226502710755328
+Username: Ray S
+Message: >AdminWebsite 228310791852392448 Twitter https://twitter.com/Kevincbr
