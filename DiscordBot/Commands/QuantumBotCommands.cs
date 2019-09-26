@@ -551,6 +551,90 @@ namespace DiscordBot.Commands
         }
 
 
+        [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
+
+        public async Task UpdateWebsite([Remainder] string shitUserSaid )
+        {
+            if (Context.Channel.Id != Program.PointersAnonChatID["Personal Links"])
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.PointersAnonChatID["Personal Links"]}>");
+                await Context.Message.DeleteAsync();
+            }
+
+
+            string[] splitMsg = shitUserSaid.Split();
+
+            if (splitMsg.Length != 2)
+            {
+                return;
+            }
+
+
+            string WebQuery = splitMsg[0];
+            string webURL = splitMsg[1];
+
+            foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
+            {
+                if (WebQuery.ToLower() == web.ToString().ToLower())
+                {
+
+                    UserProfile user = GetUserProfile(Context.Message.Author.Id);
+
+                    //Update User Data
+                    user.UserWebsiteIndex[web] = webURL;
+                    if(webURL == "null")
+                    {
+                        user.UserWebsiteIndex[web] = null;
+                    }
+
+
+                    user.userNickname = ((IGuildUser)Context.Message.Author).Nickname;
+
+                    var guildUser = Context.User as SocketGuildUser;
+
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Guest"])) == true)
+                    {
+                        user.isGuest = true;
+                    }
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Teacher"])) == true)
+                    {
+                        user.isTeacher = true;
+                    }
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Certified"])) == true)
+                    {
+                        user.isStudent = true;
+
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2020"])) == true)
+                        {
+                            user.GradYear = 2020;
+                        }
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2021"])) == true)
+                        {
+                            user.GradYear = 2021;
+                        }
+                        else
+                        {
+                            user.GradYear = 6969;
+                        }
+                    }
+
+                    Program.SaveUserDataToFile();
+
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+
+                    if (ChatReferences is IUserMessage msg)
+                    {
+                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        return;
+                    }
+                }
+            }
+
+            await Context.Message.Channel.SendMessageAsync($"Invalid Website");
+            return;
+        }
+
         
         [Command("Help"), Alias("help"), Summary("List of all commands")]
 
@@ -595,10 +679,36 @@ namespace DiscordBot.Commands
                 await Context.Message.Channel.SendMessageAsync("Admin Rights Required");
             }
         }
-        
 
 
 
+        private UserProfile GetUserProfile(ulong userID)
+        {
+            foreach (UserProfile user in Program.UserData)
+            {
+                if (user.userID == userID)
+                {
+                    return user;
+                }
+            }
+
+            UserProfile newProfile = new UserProfile
+            {
+                userID = userID,
+                UserWebsiteIndex = new Dictionary<Program.WEBSITES, string>()
+            };
+
+            //makes an empty entry of null for each website.
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.WebsiteData)
+            {
+                newProfile.UserWebsiteIndex.Add(web.Key, null);
+            }
+
+            Program.UserData.Add(newProfile);
+            return newProfile;
+
+
+        }
 
         private List<Embed> CreateWebsiteEmbeds()
         {

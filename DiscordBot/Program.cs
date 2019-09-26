@@ -97,7 +97,9 @@ namespace DiscordBot
             //        {WEBSITES.Twitter, "https://twitter.com/RaySoyama"}
             //    },
             //};
-            //UserData.Add(Ray);
+            //UserData.Clear();
+            //UserData.Add(Ray);            
+            
             //SaveUserDataToFile();
 
 
@@ -139,20 +141,41 @@ namespace DiscordBot
 
             latecy = _client.Latency;
 
-            string chatLog = $"\n\n" +
-                             $"Time: {arg.Timestamp}\n" +
-                             $"Channel: {arg.Channel}\n" +
-                             $"Discord ID: {arg.Author.Id}\n" +
-                             $"Username: {((IGuildUser)arg.Author).Nickname}\n" +
-                             $"Message: {arg}\n";
 
-            Console.WriteLine(chatLog);
-            File.AppendAllText(logFileSavePath, chatLog);
 
-            if (context.Message == null || context.Message.Content == "" || context.User.IsBot == true) //Checks if the msg is from a user, or bot
+
+
+                    
+            if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
+            {
+                var Ray = _client.GetUser(PointersAnonUserID["Ray Soyama"]);
+                await Ray.SendMessageAsync($"DM to Quantum Bot\n" +
+                                         $"Time: {arg.Timestamp}\n" +
+                                         $"Channel: {arg.Channel}\n" +
+                                         $"Discord ID: {arg.Author.Id}\n" +
+                                         $"Message: {arg.ToString()}\n");
+            }
+            else if(context.User.IsBot == false)
+            {
+
+                string chatLog = $"\n\n" +
+                                 $"Time: {arg.Timestamp}\n" +
+                                 $"Channel: {arg.Channel}\n" +
+                                 $"Discord ID: {arg.Author.Id}\n" +
+                                 $"Username: {((IGuildUser)arg.Author).Nickname}\n" +
+                                 $"Message: {arg}\n";
+
+                Console.WriteLine(chatLog);
+                File.AppendAllText(logFileSavePath, chatLog);
+            }
+                     
+
+
+            if (context.Message == null || context.Message.Content.ToString() == "" || context.User.IsBot == true) //Checks if the msg is from a user, or bot
             {
                 return;
             }
+
 
             int argPos = 0;
 
@@ -251,7 +274,7 @@ namespace DiscordBot
             return;          
         }
 
-        public void SaveUserDataToFile()
+        public static void SaveUserDataToFile()
         {
             string contents = JsonConvert.SerializeObject(UserData, Formatting.Indented);
             File.WriteAllText(userFileSavePath, contents);
@@ -268,11 +291,17 @@ namespace DiscordBot
             PointersAnonChatID.Add("The Law", 487666653690200064);
             PointersAnonChatID.Add("Town Hall", 566017637721571342);
             PointersAnonChatID.Add("Bot Commands", 489949750762668035);
+            PointersAnonChatID.Add("Personal Links", 487883949033652246);
         }
 
         private void InitializeRoleID()
         {
             PointersAnonRoleID.Add("Admin", 487403594300129291);
+            PointersAnonRoleID.Add("Certified", 487403476373078028);
+            PointersAnonRoleID.Add("Guest", 553001579146379281);
+            PointersAnonRoleID.Add("Teacher", 507411381461712896);
+            PointersAnonRoleID.Add("Class Of 2020", 603018181262704640);
+            PointersAnonRoleID.Add("Class Of 2021", 603018331775303720);
         }
 
         private void InitializeUserID()
