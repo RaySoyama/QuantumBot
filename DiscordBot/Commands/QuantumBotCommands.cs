@@ -498,6 +498,7 @@ namespace DiscordBot.Commands
             foreach (Embed embed in newWebsiteEmbedList)
             {
                 await Context.Channel.SendMessageAsync(null,embed: embed).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
 
             return;
@@ -515,11 +516,27 @@ namespace DiscordBot.Commands
                 return;
             }
 
+            if (WebQuery == "All") //update all
+            {
+                foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
+                {
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+
+                    if (ChatReferences is IUserMessage msg)
+                    {
+                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                        await Task.Delay(TimeSpan.FromSeconds(1));
+                    }
+                }
+                return;
+            }
+
+
             foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
             {
                 if (WebQuery.ToLower() == web.ToString().ToLower())
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.PointersAnonWebsiteID[web], CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -534,11 +551,7 @@ namespace DiscordBot.Commands
         }
 
 
-
-
-
-
-
+        
         [Command("Help"), Alias("help"), Summary("List of all commands")]
 
         public async Task HelpList()
@@ -584,122 +597,31 @@ namespace DiscordBot.Commands
         }
         
 
+
+
+
         private List<Embed> CreateWebsiteEmbeds()
         {
             List<Embed> newWebsiteEmbedList = new List<Embed>();
 
-            //Creddle Default Embed
-            var CreddleEmbed = new EmbedBuilder()
-               .WithColor(new Color(39, 130, 130))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.WebsiteData)
+            {
+                var WebsiteEmbed = new EmbedBuilder()
+                   .WithColor(web.Value.WebsiteColor)
+                   .WithTimestamp(DateTimeOffset.Now)
+                   .WithFooter(footer =>
+                   {
+                       footer
+                        .WithText("Last Updated");
+                   })
+                   .WithThumbnailUrl(web.Value.WebsiteIconURL)
+                   .AddField("Teachers", "Placeholder")
+                   .AddField("2020", "Placeholder")
+                   .AddField("2021", "Placeholder");
 
-            //////////////////////////////////////////////////////////
+                 newWebsiteEmbedList.Add(WebsiteEmbed.Build());
+            }
 
-            //Linkedin Default Embed
-            var LinkedInEmbed = new EmbedBuilder()
-               .WithColor(new Color(0, 119, 181))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //GitHub Default Embed
-            var GitHubEmbed = new EmbedBuilder()
-               .WithColor(new Color(27, 29, 35))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //ArtStation Default Embed
-            var ArtStationEmbed = new EmbedBuilder()
-               .WithColor(new Color(19, 175, 240))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //Personal Default Embed
-            var PersonalEmbed = new EmbedBuilder()
-               .WithColor(new Color(0, 0, 0))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-
-            //////////////////////////////////////////////////////////
-
-            //Instagram Default Embed
-            var InstagramEmbed = new EmbedBuilder()
-               .WithColor(new Color(131, 58, 180))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-            //////////////////////////////////////////////////////////
-
-            //Twitter Default Embed
-            var TwitterEmbed = new EmbedBuilder()
-               .WithColor(new Color(29, 161, 242))
-               .WithTimestamp(DateTimeOffset.Now)
-               .WithFooter(footer => {
-                   footer
-                    .WithText("Last Updated");
-               })
-               .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png")
-               .AddField("Teachers", "Placeholder")
-               .AddField("2020", "Placeholder")
-               .AddField("2021", "Placeholder");
-
-
-            newWebsiteEmbedList.Add(CreddleEmbed.Build());
-            newWebsiteEmbedList.Add(LinkedInEmbed.Build());
-            newWebsiteEmbedList.Add(GitHubEmbed.Build());
-            newWebsiteEmbedList.Add(ArtStationEmbed.Build());
-            newWebsiteEmbedList.Add(PersonalEmbed.Build());
-            newWebsiteEmbedList.Add(TwitterEmbed.Build());
-            newWebsiteEmbedList.Add(InstagramEmbed.Build());
 
             return newWebsiteEmbedList;
         }
@@ -713,14 +635,14 @@ namespace DiscordBot.Commands
 
             //LinkedIn Default Embed
             var WebsiteEmbed = new EmbedBuilder()
-               .WithColor(new Color(39, 130, 130))
+               .WithColor(Program.WebsiteData[web].WebsiteColor)
                .WithTimestamp(DateTimeOffset.Now)
                .WithFooter(footer =>
                {
                    footer
                     .WithText("Last Updated");
                })
-               .WithThumbnailUrl(Program.PointersAnonWebsiteURL[web]);
+               .WithThumbnailUrl(Program.WebsiteData[web].WebsiteIconURL);
 
 
             foreach (UserProfile user in Program.UserData)

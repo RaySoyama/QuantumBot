@@ -27,8 +27,8 @@ namespace DiscordBot
             GitHub,
             ArtStation,
             Personal,
-            Instagram,
             Twitter,
+            Instagram,
         }
     
         //List of Chat References
@@ -38,10 +38,9 @@ namespace DiscordBot
         //List of User References
         public static Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
 
-        //List of Website Chat References
-        public static Dictionary<WEBSITES, ulong> PointersAnonWebsiteID = new Dictionary<WEBSITES, ulong>();
-        //List of Website Icons Links
-        public static Dictionary<WEBSITES, string> PointersAnonWebsiteURL = new Dictionary<WEBSITES, string>();
+        public static Dictionary<WEBSITES, WebsiteProfile> WebsiteData = new Dictionary<WEBSITES, WebsiteProfile>();
+
+
 
         public static List<UserProfile> UserData = new List<UserProfile>();
 
@@ -73,8 +72,8 @@ namespace DiscordBot
             InitializeChatID();
             InitializeRoleID();
             InitializeUserID();
-            InitializeWebsiteID();
-            InitializeWebsiteURL();
+
+            InitializeWebsiteData();
 
             //User Data shit test
             LoadUserDataFromFile();
@@ -282,36 +281,67 @@ namespace DiscordBot
             PointersAnonUserID.Add("Terry Nguyen", 99563003434782720);
         }
 
-        private void InitializeWebsiteID()
+
+        private void InitializeWebsiteData()
         {
-            /*
-            * Creddle
-            * Linkedin
-            * Github
-            * Artstation
-            * Personal
-            * Instagram
-            * Twitter
-            */
-            PointersAnonWebsiteID.Add(WEBSITES.Creddle, 626316256756105236);
-            PointersAnonWebsiteID.Add(WEBSITES.LinkedIn, 626316257532182538);
-            PointersAnonWebsiteID.Add(WEBSITES.GitHub, 626316257985167381);
-            PointersAnonWebsiteID.Add(WEBSITES.ArtStation, 626316259083943936);
-            PointersAnonWebsiteID.Add(WEBSITES.Personal, 626316259843244032);
-            PointersAnonWebsiteID.Add(WEBSITES.Twitter, 626316281879986186);
-            PointersAnonWebsiteID.Add(WEBSITES.Instagram, 626316282421051402);
+            WebsiteData.Add(WEBSITES.Creddle, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.Creddle,
+                WebsiteChatID = 626316256756105236,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png",
+                WebsiteColor = new Color(39, 130, 130)
+            });
+            
+            WebsiteData.Add(WEBSITES.LinkedIn, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.LinkedIn,
+                WebsiteChatID = 626316257532182538,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png",
+                WebsiteColor = new Color(0, 119, 181)
+            });
+            
+            WebsiteData.Add(WEBSITES.GitHub, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.GitHub,
+                WebsiteChatID = 626316257985167381,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png",
+                WebsiteColor = new Color(27, 29, 35)
+            });
+            
+            WebsiteData.Add(WEBSITES.ArtStation, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.ArtStation,
+                WebsiteChatID = 626316259083943936,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png",
+                WebsiteColor = new Color(19, 175, 240)
+            });
+
+            WebsiteData.Add(WEBSITES.Personal, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.Personal,
+                WebsiteChatID = 626316259843244032,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png",
+                WebsiteColor = new Color(0, 0, 0)
+            });
+
+            WebsiteData.Add(WEBSITES.Twitter, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.Twitter,
+                WebsiteChatID = 626316281879986186,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png",
+                WebsiteColor = new Color(29, 161, 242)
+            });
+            
+            WebsiteData.Add(WEBSITES.Instagram, new WebsiteProfile
+            {
+                WebsiteEnum = WEBSITES.Instagram,
+                WebsiteChatID = 626316282421051402,
+                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png",
+                WebsiteColor = new Color(131, 58, 180)
+            });
+
         }
 
-        private void InitializeWebsiteURL()
-        {
-            PointersAnonWebsiteURL.Add(WEBSITES.Creddle, "https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.LinkedIn, "https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.GitHub, "https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.ArtStation, "https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.Personal, "https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.Twitter, "https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png");
-            PointersAnonWebsiteURL.Add(WEBSITES.Instagram, "https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png");
-        }
 
         //Gets the save files
         public static void GetFilePath(string textFileName, ref string path)

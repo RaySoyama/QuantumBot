@@ -8,8 +8,8 @@ namespace DiscordBot
     public class WebsiteProfile
     {
         public Program.WEBSITES WebsiteEnum;
-        public ulong WebsiteID;
-        public ulong WebsiteURL;
+        public ulong WebsiteChatID;
+        public string WebsiteIconURL;
         public Color WebsiteColor;
     }
 }
