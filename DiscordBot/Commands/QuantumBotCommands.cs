@@ -480,7 +480,12 @@ namespace DiscordBot.Commands
             await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
             return;
         }
+        
+        // Personal Link Chunk
 
+
+        //Initialization
+        /*
         [Command("InitializeWebEmbeds"), Alias("InitializeWeb"), Summary("Seeds the website embeds")]
 
         public async Task InitializeWebsites()
@@ -504,6 +509,7 @@ namespace DiscordBot.Commands
             return;
         }
 
+        
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
 
         public async Task UpdateWebsiteEmbed(string WebQuery)
@@ -552,16 +558,16 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             return;
         }
-
+        */
 
         [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
 
         public async Task UpdateWebsite([Remainder] string shitUserSaid )
         {
-            if (Context.Channel.Id != Program.PointersAnonChatID["Personal Links"])
+            if (Context.Channel.Id != Program.serverConfigs.PointersAnonChatID["Personal Links"])
             {
                 await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                                    $"This Command can only be used in <#{Program.PointersAnonChatID["Personal Links"]}>");
+                                                    $"This Command can only be used in <#{Program.serverConfigs.PointersAnonChatID["Personal Links"]}>");
                 await Context.Message.DeleteAsync();
             }
 
@@ -588,6 +594,7 @@ namespace DiscordBot.Commands
                     user.UserWebsiteIndex[web] = webURL;
                     if(webURL == "null")
                     {
+                        await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nLink Removed");
                         user.UserWebsiteIndex[web] = null;
                     }
 
@@ -596,23 +603,23 @@ namespace DiscordBot.Commands
 
                     var guildUser = Context.User as SocketGuildUser;
 
-                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Guest"])) == true)
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Guest"])) == true)
                     {
                         user.isGuest = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Teacher"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Teacher"])) == true)
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Certified"])) == true)
                     {
                         user.isStudent = true;
 
-                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2020"])) == true)
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2020"])) == true)
                         {
                             user.GradYear = 2020;
                         }
-                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2021"])) == true)
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2021"])) == true)
                         {
                             user.GradYear = 2021;
                         }
@@ -624,12 +631,12 @@ namespace DiscordBot.Commands
 
                     Program.SaveUserDataToFile();
 
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
                         await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
-                        await Context.User.SendMessageAsync($"Link Updated");
+                        await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nLink Updated");
                         await Context.Message.DeleteAsync();
 
                         return;
@@ -646,7 +653,7 @@ namespace DiscordBot.Commands
         public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
         {
             var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
 
             if (adminCheck.Roles.Contains(AdminCode) == false)
             {
@@ -686,23 +693,23 @@ namespace DiscordBot.Commands
 
                     var guildUser = Context.Guild.GetUser(UInt64.Parse(splitMsg[0])) as SocketGuildUser;
 
-                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Guest"])) == true)
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Guest"])) == true)
                     {
                         user.isGuest = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Teacher"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Teacher"])) == true)
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Certified"])) == true)
                     {
                         user.isStudent = true;
 
-                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2020"])) == true)
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2020"])) == true)
                         {
                             user.GradYear = 2020;
                         }
-                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.PointersAnonRoleID["Class Of 2021"])) == true)
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2021"])) == true)
                         {
                             user.GradYear = 2021;
                         }
@@ -714,7 +721,7 @@ namespace DiscordBot.Commands
 
                     Program.SaveUserDataToFile();
 
-                    IMessage ChatReferences = await Context.Guild.GetTextChannel(Program.PointersAnonChatID["Personal Links"]).GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, RequestOptions.Default);
+                    IMessage ChatReferences = await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Personal Links"]).GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, RequestOptions.Default);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -731,15 +738,61 @@ namespace DiscordBot.Commands
             return;
 
         }
-
         
+        
+
+
+
+
+        [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
+
+        public async Task UnityVersion()
+        {
+            string versions = "";
+            foreach (string ver in Program.serverConfigs.UnityVersion)
+            {
+                versions += $"{ver}\n";
+            }
+
+            var builder = new EmbedBuilder()
+            .WithTitle("Current Unity Versions AIE Supports")
+            .WithDescription("[Click here to go to download page](https://unity3d.com/get-unity/download/archive)")
+            .WithColor(new Color(0,0,0))
+            .WithThumbnailUrl(Program.serverConfigs.UnityIconURL)
+            .AddField("Versions", versions);
+            var embed = builder.Build();
+
+            await Context.Channel.SendMessageAsync(
+                null,
+                embed: embed)
+                .ConfigureAwait(false);
+        }
+
+
+        [Command("ProposalTemplate"), Alias("PPTemplate", "pptemplate", "proposalTemplate", "proposaltemplate", "Proposaltemplate")]
+
+        public async Task SendProposalTemplate()
+        {
+            await Context.Message.DeleteAsync();
+            await Context.User.SendMessageAsync($"Here you go~ \n{Program.serverConfigs.ProjectProposalDocURL}");
+            return;
+        }
+
+
+
+
+
+
+
+
+
         [Command("Help"), Alias("help"), Summary("List of all commands")]
 
         public async Task HelpList()
         {
             var builder = new EmbedBuilder()
                           .WithTitle("Quantum Bot Commands")
-                           .AddField("General",$"Prefix is {Program.prefix}\n" +
+                           .AddField("General",$"Prefix is {Program.serverConfigs.prefix}\n" +
                                                $"[Command] - [Description]\n" +
                                                $"Help - See list of Commands\n" +
                                                $"Ping - See the Latency of bot")
@@ -765,7 +818,7 @@ namespace DiscordBot.Commands
         public async Task Quit()
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
             
             if (user.Roles.Contains(AdminCode) == true)
             {
@@ -778,7 +831,8 @@ namespace DiscordBot.Commands
             }
         }
 
-
+        //Raid Area 51, send msg
+        /*
         [Command("RaidArea51")]
 
         public async Task SendMessege()
@@ -829,6 +883,7 @@ namespace DiscordBot.Commands
             //                              $"If you have any questions, or have any requests for new features, you can put them in <#{Program.PointersAnonChatID["Quantum Bot"]}> and I'll peek at them later~");
             return;
         }
+            */
 
 
         private UserProfile GetUserProfile(ulong userID)
@@ -848,7 +903,7 @@ namespace DiscordBot.Commands
             };
 
             //makes an empty entry of null for each website.
-            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.WebsiteData)
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.serverConfigs.WebsiteData)
             {
                 newProfile.UserWebsiteIndex.Add(web.Key, null);
             }
@@ -863,7 +918,7 @@ namespace DiscordBot.Commands
         {
             List<Embed> newWebsiteEmbedList = new List<Embed>();
 
-            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.WebsiteData)
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.serverConfigs.WebsiteData)
             {
                 var WebsiteEmbed = new EmbedBuilder()
                    .WithColor(web.Value.WebsiteColor)
@@ -894,14 +949,14 @@ namespace DiscordBot.Commands
 
             //LinkedIn Default Embed
             var WebsiteEmbed = new EmbedBuilder()
-               .WithColor(Program.WebsiteData[web].WebsiteColor)
+               .WithColor(Program.serverConfigs.WebsiteData[web].WebsiteColor)
                .WithTimestamp(DateTimeOffset.Now)
                .WithFooter(footer =>
                {
                    footer
                     .WithText("Last Updated");
                })
-               .WithThumbnailUrl(Program.WebsiteData[web].WebsiteIconURL);
+               .WithThumbnailUrl(Program.serverConfigs.WebsiteData[web].WebsiteIconURL);
 
 
             foreach (UserProfile user in Program.UserData)

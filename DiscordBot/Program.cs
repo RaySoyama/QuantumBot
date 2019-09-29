@@ -30,32 +30,23 @@ namespace DiscordBot
             Twitter,
             Instagram,
         }
-    
-        //List of Chat References
-        public static Dictionary<string, ulong> PointersAnonChatID = new Dictionary<string, ulong>();
-        //List of Role References
-        public static Dictionary<string, ulong> PointersAnonRoleID = new Dictionary<string, ulong>();
-        //List of User References
-        public static Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
-
-        public static Dictionary<WEBSITES, WebsiteProfile> WebsiteData = new Dictionary<WEBSITES, WebsiteProfile>();
 
 
+        public static ServerConfigs serverConfigs = new ServerConfigs();
 
         public static List<UserProfile> UserData = new List<UserProfile>();
 
-        private const string TOKEN = "NTQwNjc3MDgwMjk2MTk0MDc5.DzUbVQ.EBSdDBSLjVN_L3Ho_aES9MNG-Fo";
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
 
 
-        public static char prefix = '>';
         public static int  latecy = 69;
 
+       
 
         public static string logFileSavePath = "DiscordChatData.txt";
-        public static string configFileSavePath = "DiscordChatConfig.txt";
+        public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
 
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
@@ -69,12 +60,8 @@ namespace DiscordBot
             GetFilePath(userFileSavePath, ref userFileSavePath);
 
             //Initialize Dictionaries
-            InitializeChatID();
-            InitializeRoleID();
-            InitializeUserID();
-
-            InitializeWebsiteData();
-
+            LoadServerDataFromFile();
+            
             //User Data shit test
             LoadUserDataFromFile();
 
@@ -94,7 +81,7 @@ namespace DiscordBot
             _client.Ready += _client_Ready;
             _client.Log += _client_Log;
 
-            await _client.LoginAsync(TokenType.Bot, TOKEN);
+            await _client.LoginAsync(TokenType.Bot, serverConfigs.TOKEN);
             await _client.StartAsync();
 
             //If user joins
@@ -116,14 +103,10 @@ namespace DiscordBot
 
             latecy = _client.Latency;
 
-
-
-
-
                     
             if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
             {
-                var Ray = _client.GetUser(PointersAnonUserID["Ray Soyama"]);
+                var Ray = _client.GetUser(serverConfigs.PointersAnonUserID["Ray Soyama"]);
                 await Ray.SendMessageAsync($"DM to Quantum Bot\n" +
                                          $"Time: {arg.Timestamp}\n" +
                                          $"Channel: {arg.Channel}\n" +
@@ -154,7 +137,7 @@ namespace DiscordBot
 
             int argPos = 0;
 
-            if (!(message.HasCharPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
+            if (!(message.HasCharPrefix(serverConfigs.prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
             {
                 return;
             }
@@ -212,7 +195,7 @@ namespace DiscordBot
 
         private async Task _client_Ready()
         {
-            await _client.SetGameAsync($"{prefix}Help");
+            await _client.SetGameAsync($"{serverConfigs.prefix}Help");
         }
 
 
@@ -224,8 +207,8 @@ namespace DiscordBot
 
             await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonomous! The unoffical AIE discord server!\n" +
                                         $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
-                                        $"To gain access to all of the servers channels, read the rules at <#{PointersAnonChatID["The Law"]}>\n" +
-                                        $"and introduce yourself at <#{PointersAnonChatID["Introductions"]}>, and tell us your\n" +
+                                        $"To gain access to all of the servers channels, read the rules at <#{serverConfigs.PointersAnonChatID["The Law"]}>\n" +
+                                        $"and introduce yourself at <#{serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
                                         $"      Full Name:\n" +
                                         $"      Graduating Year:\n" +
                                         $"      Enrolled Course:\n\n" +
@@ -257,95 +240,20 @@ namespace DiscordBot
         }
 
 
-
-        //LOCAL ACTIONS
-        //Create References
-        private void InitializeChatID()
+        //Server Data Handling
+        public void LoadServerDataFromFile()
         {
-            PointersAnonChatID.Add("Introductions", 487667585295319040);
-            PointersAnonChatID.Add("The Law", 487666653690200064);
-            PointersAnonChatID.Add("Town Hall", 566017637721571342);
-            PointersAnonChatID.Add("Bot Commands", 489949750762668035);
-            PointersAnonChatID.Add("Personal Links", 487883949033652246);
-            PointersAnonChatID.Add("Quantum Bot", 626691961339904005);
+            string contents = File.ReadAllText(configFileSavePath);
+            serverConfigs = JsonConvert.DeserializeObject<ServerConfigs>(contents);
+            return;
         }
 
-        private void InitializeRoleID()
+        public static void SaveServerDataToFile()
         {
-            PointersAnonRoleID.Add("Admin", 487403594300129291);
-            PointersAnonRoleID.Add("Certified", 487403476373078028);
-            PointersAnonRoleID.Add("Guest", 553001579146379281);
-            PointersAnonRoleID.Add("Teacher", 507411381461712896);
-            PointersAnonRoleID.Add("Class Of 2020", 603018181262704640);
-            PointersAnonRoleID.Add("Class Of 2021", 603018331775303720);
-        }
-
-        private void InitializeUserID()
-        {
-            PointersAnonUserID.Add("Ray Soyama", 173226502710755328);
-            PointersAnonUserID.Add("Terry Nguyen", 99563003434782720);
-            PointersAnonUserID.Add("Ray Alt", 603024147513344031);
-        }
-
-
-        private void InitializeWebsiteData()
-        {
-            WebsiteData.Add(WEBSITES.Creddle, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.Creddle,
-                WebsiteChatID = 626664819210059805,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626204428260737057/sUvz1kky_400x400.png",
-                WebsiteColor = new Color(39, 130, 130)
-            });
+            string contents = JsonConvert.SerializeObject(serverConfigs, Formatting.Indented);
+            File.WriteAllText(configFileSavePath, contents);
             
-            WebsiteData.Add(WEBSITES.LinkedIn, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.LinkedIn,
-                WebsiteChatID = 626664824180310026,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311018498228235/LI-In-Bug.png",
-                WebsiteColor = new Color(0, 119, 181)
-            });
-            
-            WebsiteData.Add(WEBSITES.GitHub, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.GitHub,
-                WebsiteChatID = 626664829020667905,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626311584175620109/GitHub-Mark-120px-plus.png",
-                WebsiteColor = new Color(27, 29, 35)
-            });
-            
-            WebsiteData.Add(WEBSITES.ArtStation, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.ArtStation,
-                WebsiteChatID = 626664834360147969,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313302397419530/logo-artstation-plain.png",
-                WebsiteColor = new Color(19, 175, 240)
-            });
-
-            WebsiteData.Add(WEBSITES.Personal, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.Personal,
-                WebsiteChatID = 626664839338786816,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626313819408433170/map_023-globe-location-earth-website-512.png",
-                WebsiteColor = new Color(0, 0, 0)
-            });
-
-            WebsiteData.Add(WEBSITES.Twitter, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.Twitter,
-                WebsiteChatID = 626664845047103489,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314390513254400/Twitter_Social_Icon_Square_Color.png",
-                WebsiteColor = new Color(29, 161, 242)
-            });
-            
-            WebsiteData.Add(WEBSITES.Instagram, new WebsiteProfile
-            {
-                WebsiteEnum = WEBSITES.Instagram,
-                WebsiteChatID = 626664849744855080,
-                WebsiteIconURL = "https://cdn.discordapp.com/attachments/489949750762668035/626314091430150154/Instagram_AppIcon_Aug2017.png",
-                WebsiteColor = new Color(131, 58, 180)
-            });
-
+            return;
         }
 
 
@@ -370,101 +278,6 @@ namespace DiscordBot
             }
         }
 
-        #region depricated
-        //public static void GetUserDataFromFile(string path, ref List<Human> _ListOfHumans)
-        //{
-        //    _ListOfHumans = new List<Human>();
-        //    Human tempHuman = new Human();
-
-        //    if (System.IO.File.Exists(path) == false) //If File Doesn't Exsist
-        //    {
-        //        System.IO.File.CreateText(path).Close();
-        //        _ListOfHumans = new List<Human>();
-        //    }
-
-        //    string[] userSaveFileData = System.IO.File.ReadAllLines(path);
-
-
-        //    for (int i = 0; i < userSaveFileData.Length; i++)
-        //    {
-        //        if (userSaveFileData[i].Equals("<NAME>"))
-        //        {
-        //            tempHuman = new Human();
-        //            i++;
-        //            tempHuman.dicordUserName = userSaveFileData[i];
-        //            i++;
-        //            tempHuman.discordID = userSaveFileData[i];
-        //        }
-        //        else if (userSaveFileData[i].Equals("<LINK>"))
-        //        {
-        //            i++;
-        //            tempHuman.HumanSiteData.Add(userSaveFileData[i], userSaveFileData[i + 1]);
-        //        }
-        //        else if (userSaveFileData[i].Equals("<END>"))
-        //        {
-        //            _ListOfHumans.Add(tempHuman);
-        //        }
-        //    }
-        //}
-
-        //public static int UpdateUserDataList(string userID, string userName, string key, string URL)
-        //{
-        //    //Seperate Adding to Method, from writting to file
-
-        //    for (int i = 0; i < ListOfHumans.Count; i++)
-        //    {
-        //        if (ListOfHumans[i].discordID == userID)
-        //        {
-        //            ListOfHumans[i].dicordUserName = userName;
-
-        //            string throwAwayString;
-
-        //            if (ListOfHumans[i].HumanSiteData.TryGetValue(key, out throwAwayString) == true) // Chekcks if the link already exsist, not case sensitive
-        //            {
-        //                return 1;
-        //            }
-        //            else
-        //            {
-        //                ListOfHumans[i].HumanSiteData.Add(key, URL);
-        //                UpdateUserDataFile();
-        //                return 0;
-        //            }
-        //        }
-        //    }
-
-        //    //Adding new Human
-        //    Human newHuman = new Human
-        //    {
-        //        discordID = userID,
-        //        dicordUserName = userName
-        //    };
-        //    newHuman.HumanSiteData.Add(key, URL);
-
-        //    ListOfHumans.Add(newHuman);
-        //    UpdateUserDataFile();
-        //    return 0;
-        //}
-
-        //public static void UpdateUserDataFile()
-        //{
-        //    StreamWriter streamWriter = File.CreateText(userFileSavePath);
-
-        //    for (int i = 0; i < ListOfHumans.Count; i++)
-        //    {
-        //        streamWriter.WriteLine("<NAME>");
-        //        streamWriter.WriteLine(ListOfHumans[i].dicordUserName);
-        //        streamWriter.WriteLine(ListOfHumans[i].discordID);
-
-        //        foreach (KeyValuePair<string, string> entry in ListOfHumans[i].HumanSiteData)
-        //        {
-        //            streamWriter.WriteLine("<LINK>");
-        //            streamWriter.WriteLine(entry.Key);
-        //            streamWriter.WriteLine(entry.Value);
-        //        }
-        //        streamWriter.WriteLine("<END>");
-        //    }
-        //    streamWriter.Close();
-        //}
-        #endregion
+       
     }
 }
