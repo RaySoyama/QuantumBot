@@ -491,7 +491,7 @@ namespace DiscordBot.Commands
         public async Task InitializeWebsites()
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
 
             if (user.Roles.Contains(AdminCode) == false)
             {
@@ -508,14 +508,14 @@ namespace DiscordBot.Commands
 
             return;
         }
-
+        */
         
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
 
         public async Task UpdateWebsiteEmbed(string WebQuery)
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
 
             if (user.Roles.Contains(AdminCode) == false)
             {
@@ -526,7 +526,7 @@ namespace DiscordBot.Commands
             {
                 foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -543,12 +543,12 @@ namespace DiscordBot.Commands
                 string test = web.ToString();
                 if (WebQuery.ToLower() == test.ToLower())
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
                         await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
-                        await Context.User.SendMessageAsync($"Link Updated");
+                        await Context.User.SendMessageAsync($"Embed Updated");
                         await Context.Message.DeleteAsync();
                         return;
                     }
@@ -558,7 +558,7 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             return;
         }
-        */
+        
 
         [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
 
