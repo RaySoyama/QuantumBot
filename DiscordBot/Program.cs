@@ -61,7 +61,7 @@ namespace DiscordBot
 
             //Initialize Dictionaries
             LoadServerDataFromFile();
-            
+
             //User Data shit test
             LoadUserDataFromFile();
 
@@ -144,24 +144,19 @@ namespace DiscordBot
 
             var result = await _commands.ExecuteAsync(context, argPos, _services);
 
-            if (result.IsSuccess == false) //If the command failed, run this
+            //if bot command is good
+            if (result.IsSuccess == true)
+            {
+                //Forward Msg to bot history
+                await context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
+                                                                                                                                         $"Message - \"{context.Message.ToString()}\"\n" +
+                                                                                                                                         $"User - <@{context.Message.Author.Id}>\n" +
+                                                                                                                                         $"Channel - <#{context.Channel.Id}>\n" +
+                                                                                                                                         $"Time - {DateTime.Now}");
+            }
+            else if (result.IsSuccess == false) //If the command failed, run this
             {
                 return;
-                /*
-                var builder = new EmbedBuilder()
-                          .WithTitle("Command Not Found, or is broken")
-                          .WithDescription($"\nMessage: {message}\n")
-                          .WithColor(new Color(255, 0, 0))
-                          .WithTimestamp(DateTimeOffset.Now)
-                          .WithAuthor(author =>
-                          {
-                              author
-                              .WithName("Summoned by " + message.Author.ToString())
-                              .WithIconUrl(message.Author.GetAvatarUrl());
-                          });
-                var embed = builder.Build();
-                await message.Channel.SendMessageAsync("", embed: embed);
-                */
             }
         }
 
