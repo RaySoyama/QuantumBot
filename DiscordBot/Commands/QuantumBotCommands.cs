@@ -364,11 +364,11 @@ namespace DiscordBot.Commands
 
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/628301292346802204/Inktober.png")
-                .AddField("Todays Inktober Prompt", $"{inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}");
+                .AddField("Todays Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}\"");
 
             if (int.Parse(dateTime.ToString("dd")) < inkPrompts.Count())
             {
-                builder.AddField("Tomorrows Inktober Prompt", $"{inkPrompts[int.Parse(dateTime.ToString("dd"))]}");
+                builder.AddField("Tomorrows Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd"))]}\"");
             }
             else 
             {

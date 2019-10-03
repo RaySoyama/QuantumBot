@@ -203,7 +203,7 @@ namespace DiscordBot
             await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonomous! The unoffical AIE discord server!\n" +
                                         $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
                                         $"To gain access to all of the servers channels, read the rules at <#{serverConfigs.PointersAnonChatID["The Law"]}>\n" +
-                                        $"and introduce yourself at <#{serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
+                                        $"introduce yourself at <#{serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
                                         $"      Full Name:\n" +
                                         $"      Graduating Year:\n" +
                                         $"      Enrolled Course:\n\n" +
