@@ -384,6 +384,61 @@ namespace DiscordBot.Commands
 
 
 
+        [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
+
+        public async Task SendIntro(ulong targetUser)
+        {
+            var adminCheck = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+
+            if (adminCheck.Roles.Contains(AdminCode) == false)
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                    $"This Command can only be used by an Admin");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            if (Context.Guild.GetUser(targetUser) == null)
+            {
+                await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Bot History"]).SendMessageAsync("Invalid User ID");
+            }
+            else
+            {
+                await Context.Guild.GetUser(targetUser).SendMessageAsync($"Welcome {Context.Guild.GetUser(targetUser).Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+                                        $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
+                                        $"To gain access to all of the server's channels, read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}>\n" +
+                                        $"introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
+                                        $"      Full Name:\n" +
+                                        $"      Alias (Optional):\n" +
+                                        $"      Graduating Year:\n" +
+                                        $"      Enrolled Course:\n\n" +
+                                        $"If you have any questions, feel free to DM one of the Admins\n\n" +
+                                        $"If you are not an AIE student, please tell us who you're associated with, so we can get a role set up for you~\n" +
+                                        $"(If you're from a different campus, also include that info)"
+                                        );
+            }
+        }
+
+
+        //[Command("test"), Alias("test", "test", "test")]
+        //public async Task testTest()
+        //{
+        //    //<@&487403594300129291>
+        //    await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Admin"]).SendMessageAsync($"Welcome Sorry.I'll.Stop.Spam to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+        //                                 $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
+        //                                 $"To gain access to all of the server's channels, read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}>\n" +
+        //                                 $"introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
+        //                                 $"      Full Name:\n" +
+        //                                 $"      Alias (Optional):\n" +
+        //                                 $"      Graduating Year:\n" +
+        //                                 $"      Enrolled Course:\n\n" +
+        //                                 $"If you have any questions, feel free to DM one of the Admins\n\n" +
+        //                                 $"If you are not an AIE student, please tell us who you're associated with, so we can get a role set up for you~\n" +
+        //                                 $"(If you're from a different campus, also include that info)"
+        //                                 );
+
+        //}
 
 
 
@@ -438,6 +493,9 @@ namespace DiscordBot.Commands
                 await Context.Message.Channel.SendMessageAsync("Admin Rights Required");
             }
         }
+
+
+
 
         //Raid Area 51, send msg
         /*
@@ -611,8 +669,6 @@ namespace DiscordBot.Commands
             }
 
             return WebsiteEmbed.Build();
-        }
-
-        
+        }    
     }
 }

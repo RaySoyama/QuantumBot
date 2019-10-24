@@ -49,8 +49,10 @@ namespace DiscordBot
         public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
 
-        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
-
+        static void Main(string[] args)
+        {
+            new Program().MainAsync().GetAwaiter().GetResult();
+        }
 
         private async Task MainAsync()
         {
@@ -58,7 +60,7 @@ namespace DiscordBot
             GetFilePath(logFileSavePath, ref logFileSavePath);
             GetFilePath(configFileSavePath, ref configFileSavePath);
             GetFilePath(userFileSavePath, ref userFileSavePath);
-
+            
             //Initialize Dictionaries
             LoadServerDataFromFile();
 
@@ -86,6 +88,7 @@ namespace DiscordBot
 
             //If user joins
             _client.UserJoined += AnnounceJoinedUser;
+            _client.UserLeft += AnnouceLeftUser;
 
             _client.MessageReceived += _client_MessageReceived;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
@@ -199,17 +202,23 @@ namespace DiscordBot
         //Called when new member joins server
         public async Task AnnounceJoinedUser(SocketGuildUser user) //Welcomes the new user
         {
-
-            await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonomous! The unoffical AIE discord server!\n" +
+            await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                                         $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
-                                        $"To gain access to all of the servers channels, read the rules at <#{serverConfigs.PointersAnonChatID["The Law"]}>\n" +
+                                        $"To gain access to all of the server's channels, read the rules at <#{serverConfigs.PointersAnonChatID["The Law"]}>\n" +
                                         $"introduce yourself at <#{serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
                                         $"      Full Name:\n" +
+                                        $"      Alias (Optional):\n" +
                                         $"      Graduating Year:\n" +
                                         $"      Enrolled Course:\n\n" +
                                         $"If you have any questions, feel free to DM one of the Admins\n\n" +
-                                        $"If you are not a AIE student, please tell us who you're assosiated with, so we can get a role set up for you~"
+                                        $"If you are not an AIE student, please tell us who you're associated with, so we can get a role set up for you~\n" +
+                                        $"(If you're from a different campus, also include that info)"
                                         );
+        }
+        
+        public async Task AnnouceLeftUser(SocketGuildUser user) //Annouces the left user
+        {
+            await user.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
         }
 
 
@@ -271,8 +280,6 @@ namespace DiscordBot
                 var myfile =  File.Create(path);
                 myfile.Close();
             }
-        }
-
-       
+        }      
     }
 }
