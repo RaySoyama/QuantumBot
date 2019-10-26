@@ -20,7 +20,7 @@ namespace DiscordBot.Commands
             await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
             return;
         }
-        
+
         // Personal Link Chunk
 
 
@@ -49,7 +49,7 @@ namespace DiscordBot.Commands
             return;
         }
         */
-        
+
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
 
         public async Task UpdateWebsiteEmbed(string WebQuery)
@@ -98,11 +98,11 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             return;
         }
-        
+
 
         [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
 
-        public async Task UpdateWebsite([Remainder] string shitUserSaid )
+        public async Task UpdateWebsite([Remainder] string shitUserSaid)
         {
             if (Context.Channel.Id != Program.serverConfigs.PointersAnonChatID["Personal Links"])
             {
@@ -132,7 +132,7 @@ namespace DiscordBot.Commands
 
                     //Update User Data
                     user.UserWebsiteIndex[web] = webURL;
-                    if(webURL == "null")
+                    if (webURL == "null")
                     {
                         await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nLink Removed");
                         user.UserWebsiteIndex[web] = null;
@@ -202,7 +202,7 @@ namespace DiscordBot.Commands
                 await Context.Message.DeleteAsync();
                 return;
             }
-            
+
             string[] splitMsg = shitUserSaid.Split();
 
             if (splitMsg.Length != 3)
@@ -217,7 +217,7 @@ namespace DiscordBot.Commands
             {
 
                 if (WebQuery.ToLower() == web.ToString().ToLower())
-                { 
+                {
 
                     UserProfile user = GetUserProfile(UInt64.Parse(splitMsg[0]));
 
@@ -278,8 +278,8 @@ namespace DiscordBot.Commands
             return;
 
         }
-        
-        
+
+
 
 
 
@@ -297,7 +297,7 @@ namespace DiscordBot.Commands
             var builder = new EmbedBuilder()
             .WithTitle("Current Unity Versions AIE Supports")
             .WithDescription("[Click here to go to download page](https://unity3d.com/get-unity/download/archive)")
-            .WithColor(new Color(0,0,0))
+            .WithColor(new Color(0, 0, 0))
             .WithThumbnailUrl(Program.serverConfigs.UnityIconURL)
             .AddField("Versions", versions);
             var embed = builder.Build();
@@ -327,7 +327,7 @@ namespace DiscordBot.Commands
         {
             DateTime dateTime = DateTime.Now;
 
-            
+
 
             string[] inkPrompts = new string[] {"Ring",
                                                 "Mindless",
@@ -370,18 +370,42 @@ namespace DiscordBot.Commands
             {
                 builder.AddField("Tomorrows Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd"))]}\"");
             }
-            else 
+            else
             {
-                builder.AddField("Todays the last day of Inktober!~" , $"");
+                builder.AddField("Todays the last day of Inktober!~", $"");
             }
 
             var embed = builder.Build();
-            await Context.Channel.SendMessageAsync(null,embed: embed).ConfigureAwait(false);
+            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
 
             //await Context.Channel.SendMessageAsync($"Todays date is {inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}");
             return;
         }
 
+        [Command("Iceborne"), Alias("iceborne"), Summary("Returns Days till Iceborne")]
+
+        public async Task DaysToMHW()
+        {
+            if (Context.Channel.Id != Program.serverConfigs.PointersAnonChatID["Monster Hunter"])
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.serverConfigs.PointersAnonChatID["Monster Hunter"]}>");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            DateTime endTime = new DateTime(2020, 01, 09, 0, 0, 0);
+            TimeSpan ts = endTime.Subtract(DateTime.Now);
+            string daysTill = ts.ToString("d' Days 'h' Hours 'm' Minutes 's' Seconds'");
+
+            var builder = new EmbedBuilder()
+                .WithColor(new Color(37, 170, 225))
+                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
+                .AddField("Monster Hunter World Iceborne Countdown", daysTill);
+
+            var embed = builder.Build();
+            await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+        }
 
 
         [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
