@@ -430,17 +430,20 @@ namespace DiscordBot.Commands
             else
             {
                 await Context.Guild.GetUser(targetUser).SendMessageAsync($"Welcome {Context.Guild.GetUser(targetUser).Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
-                                        $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
-                                        $"To gain access to all of the server's channels, read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}>\n" +
-                                        $"introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
+                                        $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
+                                        $"Read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
+                                        $"Introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
+                                        $"      Prefered Name:\n" +
+                                        $"      Occupation:\n" +
+                                        $"      Favorite food:\n\n" +
+                                        $"If you are a AIE Student, please state your\n" +
                                         $"      Full Name:\n" +
                                         $"      Alias (Optional):\n" +
                                         $"      Graduating Year:\n" +
                                         $"      Enrolled Course:\n\n" +
-                                        $"If you have any questions, feel free to DM one of the Admins\n\n" +
-                                        $"If you are not an AIE student, please tell us who you're associated with, so we can get a role set up for you~\n" +
-                                        $"(If you're from a different campus, also include that info)"
+                                        $"If you have any questions, feel free to DM one of the Admins"
                                         );
+                                        
             }
         }
 
