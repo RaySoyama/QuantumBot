@@ -279,11 +279,6 @@ namespace DiscordBot.Commands
 
         }
 
-
-
-
-
-
         [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
 
         public async Task UnityVersion()
@@ -319,8 +314,49 @@ namespace DiscordBot.Commands
         }
 
 
+        [Command("AddLunchbox"), Alias("AddLB","addLB","addlb","addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
+        public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
+        {
+            var adminCheck = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+
+            if (adminCheck.Roles.Contains(AdminCode) == false)
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                    $"This Command can only be used by an Admin");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+
+            //ToString("dddd, dd MMMM yyyy")
+            DateTime newLunchboxDate = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay);
+
+            var builder = new EmbedBuilder()
+                .WithColor(new Color(37, 170, 225))
+                //.WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
+                .AddField($"{lunchboxTopic}",$"{lunchboxSpeaker}\n{newLunchboxDate.ToString("dddd, dd MMMM yyyy")}");
+
+            var embed = builder.Build();
+            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+
+            //Test return
+            //await Context.Message.Channel.SendMessageAsync($"Test Return 1 {newLunchboxDate.ToString("dddd, dd MMMM yyyy")}");
+            //await Context.Message.Channel.SendMessageAsync($"Test Return 2 {lunchboxTopic}");
+            //await Context.Message.Channel.SendMessageAsync($"Test Return 3 {lunchboxSpeaker}");
+        }
+
+        //[Command("Lunchbox"), Alias("lunchbox", "lunchBox", "LunchBox")]
+        //public async Task GetLunchboxList()
+        //{ 
+
+
+        //}
+
+
 
         //Events
+        /*
         [Command("Inktober"), Alias("inktober"), Summary("Returns todays inktober prompt")]
 
         public async Task TodaysInktoberPrompt()
@@ -381,6 +417,7 @@ namespace DiscordBot.Commands
             //await Context.Channel.SendMessageAsync($"Todays date is {inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}");
             return;
         }
+        */
 
         [Command("Iceborne"), Alias("iceborne"), Summary("Returns Days till Iceborne")]
 
