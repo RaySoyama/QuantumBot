@@ -31,10 +31,12 @@ namespace DiscordBot
             Instagram,
         }
 
-
-        public static ServerConfigs serverConfigs = new ServerConfigs();
+        public static ServerConfigs ServerConfigData = new ServerConfigs();
 
         public static List<UserProfile> UserData = new List<UserProfile>();
+
+        public static BulletinBoard BulletinBoardData = new BulletinBoard();
+
 
         private DiscordSocketClient _client;
         private CommandService _commands;
@@ -46,8 +48,13 @@ namespace DiscordBot
        
 
         public static string logFileSavePath = "DiscordChatData.txt";
+
+
         public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
+        public static string bulletinBoardSavePath = "BulletinBoardData.json";
+
+
 
         static void Main(string[] args)
         {
@@ -56,16 +63,21 @@ namespace DiscordBot
 
         private async Task MainAsync()
         {
-            //Initializes Chat Logs
+            //Initializes Logs
             GetFilePath(logFileSavePath, ref logFileSavePath);
+
             GetFilePath(configFileSavePath, ref configFileSavePath);
             GetFilePath(userFileSavePath, ref userFileSavePath);
+            GetFilePath(bulletinBoardSavePath, ref bulletinBoardSavePath);
+
             
             //Initialize Dictionaries
             LoadServerDataFromFile();
 
             //User Data shit test
             LoadUserDataFromFile();
+
+
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -83,7 +95,7 @@ namespace DiscordBot
             _client.Ready += _client_Ready;
             _client.Log += _client_Log;
 
-            await _client.LoginAsync(TokenType.Bot, serverConfigs.TOKEN);
+            await _client.LoginAsync(TokenType.Bot, ServerConfigData.TOKEN);
             await _client.StartAsync();
 
             //If user joins
@@ -109,7 +121,7 @@ namespace DiscordBot
                     
             if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
             {
-                var Ray = _client.GetUser(serverConfigs.PointersAnonUserID["Ray Soyama"]);
+                var Ray = _client.GetUser(ServerConfigData.PointersAnonUserID["Ray Soyama"]);
                 await Ray.SendMessageAsync($"DM to Quantum Bot\n" +
                                          $"Time: {arg.Timestamp}\n" +
                                          $"Channel: {arg.Channel}\n" +
@@ -138,9 +150,24 @@ namespace DiscordBot
             }
 
 
+            //custom inline msg replies
+            if (context.Message.ToString().ToLower().Contains("good bot"))
+            {
+                await context.Channel.SendMessageAsync("Thank you! You're a good human <a:partyparrot:647210646177447936>");
+            }
+            else if (context.Message.ToString().ToLower().Contains("happy birthday"))
+            {
+                var msg = await context.Channel.SendMessageAsync("<a:rave:647212416618332161>~Happy Birthday!~<a:rave:647212416618332161>");
+                //var emoji = new Emoji("\uD83D\uDC4C");
+                //await msg.AddReactionAsync(emoji);
+            }
+
+
+
+
             int argPos = 0;
 
-            if (!(message.HasCharPrefix(serverConfigs.prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
+            if (!(message.HasCharPrefix(ServerConfigData.prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
             {
                 return;
             }
@@ -151,7 +178,7 @@ namespace DiscordBot
             if (result.IsSuccess == true)
             {
                 //Forward Msg to bot history
-                await context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
+                await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
                                                                                                                                          $"Message - \"{context.Message.ToString()}\"\n" +
                                                                                                                                          $"User - <@{context.Message.Author.Id}>\n" +
                                                                                                                                          $"Channel - <#{context.Channel.Id}>\n" +
@@ -193,7 +220,7 @@ namespace DiscordBot
 
         private async Task _client_Ready()
         {
-            await _client.SetGameAsync($"{serverConfigs.prefix}Help");
+            await _client.SetGameAsync($"{ServerConfigData.prefix}Help");
         }
 
 
@@ -204,8 +231,8 @@ namespace DiscordBot
         {
             await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                                         $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
-                                        $"Read the rules at <#{serverConfigs.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
-                                        $"Introduce yourself at <#{serverConfigs.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
+                                        $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
+                                        $"Introduce yourself at <#{ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
                                         $"      Prefered Name:\n" +
                                         $"      Occupation:\n" +
                                         $"      Favorite food:\n\n" +
@@ -220,7 +247,7 @@ namespace DiscordBot
         
         public async Task AnnouceLeftUser(SocketGuildUser user) //Annouces the left user
         {
-            await user.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
+            await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
         }
 
 
@@ -250,15 +277,33 @@ namespace DiscordBot
         public void LoadServerDataFromFile()
         {
             string contents = File.ReadAllText(configFileSavePath);
-            serverConfigs = JsonConvert.DeserializeObject<ServerConfigs>(contents);
+            ServerConfigData = JsonConvert.DeserializeObject<ServerConfigs>(contents);
             return;
         }
 
         public static void SaveServerDataToFile()
         {
-            string contents = JsonConvert.SerializeObject(serverConfigs, Formatting.Indented);
+            string contents = JsonConvert.SerializeObject(ServerConfigData, Formatting.Indented);
             File.WriteAllText(configFileSavePath, contents);
             
+            return;
+        }
+
+
+        //Bulletin Board Data Handling
+
+        public void LoadBulletinBoardFromFile()
+        {
+            string contents = File.ReadAllText(bulletinBoardSavePath);
+            BulletinBoardData = JsonConvert.DeserializeObject<BulletinBoard>(contents);
+            return;
+        }
+
+        public static void SaveBulletinBoardDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(BulletinBoardData, Formatting.Indented);
+            File.WriteAllText(bulletinBoardSavePath, contents);
+
             return;
         }
 

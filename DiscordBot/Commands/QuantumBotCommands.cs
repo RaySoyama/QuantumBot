@@ -55,7 +55,7 @@ namespace DiscordBot.Commands
         public async Task UpdateWebsiteEmbed(string WebQuery)
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
 
             if (user.Roles.Contains(AdminCode) == false)
             {
@@ -66,7 +66,7 @@ namespace DiscordBot.Commands
             {
                 foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -83,7 +83,7 @@ namespace DiscordBot.Commands
                 string test = web.ToString();
                 if (WebQuery.ToLower() == test.ToLower())
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -104,10 +104,10 @@ namespace DiscordBot.Commands
 
         public async Task UpdateWebsite([Remainder] string shitUserSaid)
         {
-            if (Context.Channel.Id != Program.serverConfigs.PointersAnonChatID["Personal Links"])
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Personal Links"])
             {
                 await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                                    $"This Command can only be used in <#{Program.serverConfigs.PointersAnonChatID["Personal Links"]}>");
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>");
                 await Context.Message.DeleteAsync();
             }
 
@@ -143,23 +143,23 @@ namespace DiscordBot.Commands
 
                     var guildUser = Context.User as SocketGuildUser;
 
-                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Guest"])) == true)
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                     {
                         user.isGuest = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Teacher"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Certified"])) == true)
                     {
                         user.isStudent = true;
 
-                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2020"])) == true)
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
                         {
                             user.GradYear = 2020;
                         }
-                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2021"])) == true)
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
                         {
                             user.GradYear = 2021;
                         }
@@ -171,7 +171,7 @@ namespace DiscordBot.Commands
 
                     Program.SaveUserDataToFile();
 
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -193,7 +193,7 @@ namespace DiscordBot.Commands
         public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
         {
             var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
 
             if (adminCheck.Roles.Contains(AdminCode) == false)
             {
@@ -233,23 +233,23 @@ namespace DiscordBot.Commands
 
                     var guildUser = Context.Guild.GetUser(UInt64.Parse(splitMsg[0])) as SocketGuildUser;
 
-                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Guest"])) == true)
+                    if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                     {
                         user.isGuest = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Teacher"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Certified"])) == true)
                     {
                         user.isStudent = true;
 
-                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2020"])) == true)
+                        if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
                         {
                             user.GradYear = 2020;
                         }
-                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Class Of 2021"])) == true)
+                        else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
                         {
                             user.GradYear = 2021;
                         }
@@ -261,7 +261,7 @@ namespace DiscordBot.Commands
 
                     Program.SaveUserDataToFile();
 
-                    IMessage ChatReferences = await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Personal Links"]).GetMessageAsync(Program.serverConfigs.WebsiteData[web].WebsiteChatID, RequestOptions.Default);
+                    IMessage ChatReferences = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Personal Links"]).GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, RequestOptions.Default);
 
                     if (ChatReferences is IUserMessage msg)
                     {
@@ -284,7 +284,7 @@ namespace DiscordBot.Commands
         public async Task UnityVersion()
         {
             string versions = "";
-            foreach (string ver in Program.serverConfigs.UnityVersion)
+            foreach (string ver in Program.ServerConfigData.UnityVersion)
             {
                 versions += $"{ver}\n";
             }
@@ -293,7 +293,7 @@ namespace DiscordBot.Commands
             .WithTitle("Current Unity Versions AIE Supports")
             .WithDescription("[Click here to go to download page](https://unity3d.com/get-unity/download/archive)")
             .WithColor(new Color(0, 0, 0))
-            .WithThumbnailUrl(Program.serverConfigs.UnityIconURL)
+            .WithThumbnailUrl(Program.ServerConfigData.UnityIconURL)
             .AddField("Versions", versions);
             var embed = builder.Build();
 
@@ -309,7 +309,7 @@ namespace DiscordBot.Commands
         public async Task SendProposalTemplate()
         {
             await Context.Message.DeleteAsync();
-            await Context.User.SendMessageAsync($"Here you go~ \n{Program.serverConfigs.ProjectProposalDocURL}");
+            await Context.User.SendMessageAsync($"Here you go~ \n{Program.ServerConfigData.ProjectProposalDocURL}");
             return;
         }
 
@@ -318,7 +318,7 @@ namespace DiscordBot.Commands
         public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
         {
             var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
 
             if (adminCheck.Roles.Contains(AdminCode) == false)
             {
@@ -328,22 +328,25 @@ namespace DiscordBot.Commands
                 return;
             }
 
+            Lunchbox NewLunchbox = new Lunchbox()
+            {
+                date = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay),
+                topic = lunchboxTopic,
+                speaker = lunchboxSpeaker,
+                author = Context.User.Id,
+                created = DateTime.UtcNow,
+            };
 
-            //ToString("dddd, dd MMMM yyyy")
-            DateTime newLunchboxDate = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay);
+            Program.BulletinBoardData.Lunchboxes.Add(NewLunchbox);
+            Program.SaveBulletinBoardDataToFile();
 
             var builder = new EmbedBuilder()
                 .WithColor(new Color(37, 170, 225))
-                //.WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
-                .AddField($"{lunchboxTopic}",$"{lunchboxSpeaker}\n{newLunchboxDate.ToString("dddd, dd MMMM yyyy")}");
+                .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL)
+                .AddField($"{lunchboxTopic}",$"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, dd MMMM yyyy")}");
 
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
-
-            //Test return
-            //await Context.Message.Channel.SendMessageAsync($"Test Return 1 {newLunchboxDate.ToString("dddd, dd MMMM yyyy")}");
-            //await Context.Message.Channel.SendMessageAsync($"Test Return 2 {lunchboxTopic}");
-            //await Context.Message.Channel.SendMessageAsync($"Test Return 3 {lunchboxSpeaker}");
         }
 
         //[Command("Lunchbox"), Alias("lunchbox", "lunchBox", "LunchBox")]
@@ -423,10 +426,10 @@ namespace DiscordBot.Commands
 
         public async Task DaysToMHW()
         {
-            if (Context.Channel.Id != Program.serverConfigs.PointersAnonChatID["Monster Hunter"])
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Monster Hunter"])
             {
                 await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                                    $"This Command can only be used in <#{Program.serverConfigs.PointersAnonChatID["Monster Hunter"]}>");
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]}>");
                 await Context.Message.DeleteAsync();
                 return;
             }
@@ -441,7 +444,7 @@ namespace DiscordBot.Commands
                 .AddField("Monster Hunter World Iceborne Countdown", daysTill);
 
             var embed = builder.Build();
-            await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
         }
 
 
@@ -450,7 +453,7 @@ namespace DiscordBot.Commands
         public async Task SendIntro(ulong targetUser)
         {
             var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
 
             if (adminCheck.Roles.Contains(AdminCode) == false)
             {
@@ -462,14 +465,14 @@ namespace DiscordBot.Commands
 
             if (Context.Guild.GetUser(targetUser) == null)
             {
-                await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Bot History"]).SendMessageAsync("Invalid User ID");
+                await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync("Invalid User ID");
             }
             else
             {
                 await Context.Guild.GetUser(targetUser).SendMessageAsync($"Welcome {Context.Guild.GetUser(targetUser).Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                                         $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
-                                        $"Read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
-                                        $"Introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
+                                        $"Read the rules at <#{Program.ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
+                                        $"Introduce yourself at <#{Program.ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
                                         $"      Prefered Name:\n" +
                                         $"      Occupation:\n" +
                                         $"      Favorite food:\n\n" +
@@ -520,7 +523,7 @@ namespace DiscordBot.Commands
                                                            $"Example:\n" +
                                                            $"`Website LinkedIn https://www.linkedin.com/in/raysoyama/` \n" +
                                                            $"Website (Domain) null - Removes your link")
-                           .AddField("Bot Stuff",$"Prefix is {Program.serverConfigs.prefix}\n" +
+                           .AddField("Bot Stuff",$"Prefix is {Program.ServerConfigData.prefix}\n" +
                                                $"Help - See list of Commands\n" +
                                                $"Ping - See the Latency of bot")
                           .WithColor(new Color(60, 179, 113))
@@ -545,7 +548,7 @@ namespace DiscordBot.Commands
         public async Task Quit()
         {
             var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
             
             if (user.Roles.Contains(AdminCode) == true)
             {
@@ -632,7 +635,7 @@ namespace DiscordBot.Commands
             };
 
             //makes an empty entry of null for each website.
-            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.serverConfigs.WebsiteData)
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.ServerConfigData.WebsiteData)
             {
                 newProfile.UserWebsiteIndex.Add(web.Key, null);
             }
@@ -647,7 +650,7 @@ namespace DiscordBot.Commands
         {
             List<Embed> newWebsiteEmbedList = new List<Embed>();
 
-            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.serverConfigs.WebsiteData)
+            foreach (KeyValuePair<Program.WEBSITES, WebsiteProfile> web in Program.ServerConfigData.WebsiteData)
             {
                 var WebsiteEmbed = new EmbedBuilder()
                    .WithColor(web.Value.WebsiteColor)
@@ -678,14 +681,14 @@ namespace DiscordBot.Commands
 
             //LinkedIn Default Embed
             var WebsiteEmbed = new EmbedBuilder()
-               .WithColor(Program.serverConfigs.WebsiteData[web].WebsiteColor)
+               .WithColor(Program.ServerConfigData.WebsiteData[web].WebsiteColor)
                .WithTimestamp(DateTimeOffset.Now)
                .WithFooter(footer =>
                {
                    footer
                     .WithText("Last Updated");
                })
-               .WithThumbnailUrl(Program.serverConfigs.WebsiteData[web].WebsiteIconURL);
+               .WithThumbnailUrl(Program.ServerConfigData.WebsiteData[web].WebsiteIconURL);
 
 
             foreach (UserProfile user in Program.UserData)

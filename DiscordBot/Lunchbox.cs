@@ -9,5 +9,8 @@ namespace DiscordBot
         public string speaker;
         public DateTime date;
         public string topic;
+
+        public ulong author;
+        public DateTime created;
     }
 }
