@@ -236,25 +236,32 @@ namespace DiscordBot
         //Called when new member joins server
         public async Task AnnounceJoinedUser(SocketGuildUser user) //Welcomes the new user
         {
-            await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
-                                        $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
-                                        $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
-                                        $"Introduce yourself at <#{ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
-                                        $"      Prefered Name:\n" +
-                                        $"      Occupation:\n" +
-                                        $"      Favorite food:\n\n" +
-                                        $"If you are a AIE Student, please state your\n" +
-                                        $"      Full Name:\n" +
-                                        $"      Alias (Optional):\n" +
-                                        $"      Graduating Year:\n" +
-                                        $"      Enrolled Course:\n\n" +
-                                        $"If you have any questions, feel free to DM one of the Admins"
-                                        );
+            await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has joined the server. Intro msg has been sent");
+            await SendIntroductionMessage(user);
         }
         
         public async Task AnnouceLeftUser(SocketGuildUser user) //Annouces the left user
         {
             await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
+        }
+
+        //General Use Introduction
+        public static async Task SendIntroductionMessage(SocketGuildUser user)
+        {
+            await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+                                $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
+                                $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
+                                $"Introduce yourself at <#{ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
+                                $"      Prefered Name:\n" +
+                                $"      Occupation:\n" +
+                                $"      Favorite food:\n\n" +
+                                $"If you are a AIE Student, please state your\n" +
+                                $"      Full Name:\n" +
+                                $"      Alias (Optional):\n" +
+                                $"      Graduating Year:\n" +
+                                $"      Enrolled Course:\n\n" +
+                                $"If you have any questions, feel free to DM one of the Admins"
+                                );
         }
 
 

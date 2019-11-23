@@ -482,6 +482,7 @@ namespace DiscordBot.Commands
                 return;
             }
 
+
             Lunchbox NewLunchbox = new Lunchbox()
             {
                 date = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay, 14, 00, 00),
@@ -498,18 +499,17 @@ namespace DiscordBot.Commands
                 .WithTitle("New Lunchbox Added")
                 .WithColor(new Color(37, 170, 225))
                 .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL)
-                .AddField($"{lunchboxTopic}", $"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, dd MMMM yyyy")}");
+                .AddField($"{lunchboxTopic}", $"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, d MMMM yyyy")}");
 
             var embed = builder.Build();
-            var msg = await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
 
-            //await Context.Message.DeleteAsync();
+            await Context.Message.DeleteAsync();
             await UpdateLunchboxEvents();
 
             //await Task.Delay(3000);
             await msg.DeleteAsync();
         }
-
 
         [Command("UpdateLunchbox"), Alias("UpdateLB", "updateLB", "updatelb", "updatelunchbox", "updatelunchBox", "updateLunchBox", "Updatelunchbox", "UpdatelunchBox", "UpdateLunchBox")]
         public async Task UpdateLunchboxEvents()
@@ -548,7 +548,7 @@ namespace DiscordBot.Commands
                 }
                  
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - Program.BulletinBoardData.PastLunchboxesEmbedCount + i];
-                pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
+                pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
                 
             }
             
@@ -561,7 +561,7 @@ namespace DiscordBot.Commands
                 }
 
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx + i];
-                futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
+                futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
             }
 
             var embed = pastLuncboxBuilder.Build();
@@ -623,31 +623,230 @@ namespace DiscordBot.Commands
         }
 
 
-        //[Command("Lunchbox"), Alias("lunchbox", "lunchBox", "LunchBox")]
-        //public async Task GetLunchboxList()
-        //{ 
-
-
-        //}
 
 
 
-
-
-        
         /*      ____            _   _          _     _             ______                          _         
          *     |  _ \          | | | |        | |   (_)           |  ____|                        | |        
          *     | |_) |  _   _  | | | |   ___  | |_   _   _ __     | |__    __   __   ___   _ __   | |_   ___ 
          *     |  _ <  | | | | | | | |  / _ \ | __| | | | '_ \    |  __|   \ \ / /  / _ \ | '_ \  | __| / __|
          *     | |_) | | |_| | | | | | |  __/ | |_  | | | | | |   | |____   \ V /  |  __/ | | | | | |_  \__ \
          *     |____/   \__,_| |_| |_|  \___|  \__| |_| |_| |_|   |______|   \_/    \___| |_| |_|  \__| |___/
-         */                                                                                                   
-         
+         */
 
 
+        [Command("NewEvent"), Alias("newEvent", "Newevent", "newevent")]
+        public async Task NewBulletinEvent(int year, int month, int day, int hour, int min, string title)
+        {
+            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            {
+                return;
+            }
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
+            {
+                if (bulletinEvent.author == Context.User.Id)
+                {
+                    if (bulletinEvent.Description == null)
+                    {
+                        await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\nPlease finish filling in the details of the event \"{bulletinEvent.Title}\" before creating a new one\nUse Command InfoEvent");
+                        await Context.Message.DeleteAsync();
+                        return;
+                    }
+                }
+
+            }
+
+            BulletinEvent NewBulletinEvent = new BulletinEvent()
+            {
+                Title = title,
+                EventDate = new DateTime(year, month, day, hour, min, 00),
+                authorIconURL = Context.User.GetAvatarUrl(),
+                author = Context.User.Id
+            };
 
 
+            var builder = new EmbedBuilder()
+                .WithTitle(NewBulletinEvent.Title)
+                .WithUrl($"https://discordapp.com/invite/xQAcyyX")
+                .WithColor(new Color(0, 0, 255))
+                .WithDescription($"Missing")
+                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/647733785118375947/NoPhoto.png")
+                .AddField($"Time", NewBulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                .AddField($"Location", "Missing", true)
+                .AddField($"Cost", "Missing", true)
+                .AddField($"Capacity", "Missing", true)
+                .WithFooter($"By {Context.User.Username}", $"{NewBulletinEvent.authorIconURL}")
+                .WithCurrentTimestamp();
 
+            var embed = builder.Build();
+            var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(true);
+
+            //Saving data
+            NewBulletinEvent.MsgID = msg.Id;
+            Program.BulletinBoardData.BulletinEvents.Add(NewBulletinEvent);
+            Program.SaveBulletinBoardDataToFile();
+            await Context.Message.DeleteAsync();
+        }
+
+        [Command("InfoEvent"), Alias("infoEvent", "Infoevent", "infoevent")]
+        public async Task AddInfoBulletinEvent(string description, string location, string cost, int capacity, string eventURL,string iconURL)
+        {
+            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            {
+                return;
+            }
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
+            {
+                if (bulletinEvent.author == Context.User.Id)
+                {
+                    if(bulletinEvent.Description == null)
+                    {
+                        bulletinEvent.Description = description;
+                        bulletinEvent.Location = location;
+                        bulletinEvent.Cost = cost;
+                        bulletinEvent.Capacity = capacity;
+                        bulletinEvent.EventURL = eventURL;
+                        bulletinEvent.IconURL = iconURL;
+
+                        Program.SaveBulletinBoardDataToFile();
+
+
+                        var builder = new EmbedBuilder()
+                            .WithTitle(bulletinEvent.Title)
+                            .WithUrl($"{bulletinEvent.EventURL}")
+                            .WithColor(new Color(0, 0, 255))
+                            .WithDescription($"{bulletinEvent.Description}")
+                            .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                            .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                            .AddField($"Location", $"{bulletinEvent.Location}", true)
+                            .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                            .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                            .WithFooter($"By {Context.User.Username}", $"{bulletinEvent.authorIconURL}")
+                            .WithCurrentTimestamp();
+
+                        var embed = builder.Build();
+
+                        var embedEvent = await (Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]) as ISocketMessageChannel).GetMessageAsync(bulletinEvent.MsgID, CacheMode.AllowDownload);
+
+                        if (embedEvent is IUserMessage embedMsg)
+                        {
+                            await embedMsg.ModifyAsync(x => x.Embed = embed);
+                        }
+
+                        await Context.Message.DeleteAsync();
+
+                        return;
+                    }
+                }
+            }
+
+            //No Event found
+            await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\nNo Event Found\nUse Command InfoEvent");
+            await Context.Message.DeleteAsync();
+            return;
+        }
+
+        [Command("UpdateEvents"), Alias("updateEvents", "Updateevents", "updateevents")]
+        public async Task UpdateBulletinEvents()
+        {
+            Program.BulletinBoardData.BulletinEvents.Sort((a, b) => a.EventDate.CompareTo(b.EventDate));
+            Program.SaveBulletinBoardDataToFile();
+
+            int embedCount = 0;
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents) //Delete all embeds
+            {
+                if (bulletinEvent.MsgID != 1234567890)
+                {
+                    var eventEmbed = await (Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]) as ISocketMessageChannel).GetMessageAsync(bulletinEvent.MsgID, CacheMode.AllowDownload);
+
+                    if (eventEmbed is IUserMessage embedMsg)
+                    {
+                        await embedMsg.DeleteAsync();
+                        bulletinEvent.MsgID = 1234567890;
+                        Program.SaveBulletinBoardDataToFile();
+                        await Task.Delay(1000);
+                    }
+                }
+            }
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents) //Remake Embeds
+            {
+                if (bulletinEvent.EventDate.CompareTo(DateTime.Now) > 0 && embedCount < Program.BulletinBoardData.BulletinEventMax)
+                {
+                    var builder = new EmbedBuilder()
+                        .WithTitle(bulletinEvent.Title)
+                        .WithUrl($"{bulletinEvent.EventURL}")
+                        .WithColor(new Color(0, 0, 255))
+                        .WithDescription($"{bulletinEvent.Description}")
+                        .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                        .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                        .AddField($"Location", $"{bulletinEvent.Location}", true)
+                        .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                        .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                        .WithFooter($"By {Context.User.Username}", $"{bulletinEvent.authorIconURL}")
+                        .WithCurrentTimestamp();
+
+                    var embed = builder.Build();
+
+                    var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(true);
+
+                    //Saving data
+                    bulletinEvent.MsgID = msg.Id;
+                    Program.SaveBulletinBoardDataToFile();
+
+                    embedCount++;
+                    await Task.Delay(1000);
+                }
+            }
+
+            await Context.Message.DeleteAsync();
+
+        }
+
+
+        [Command("RemoveEvent"), Alias("removeEvent", "RemoveEvent", "removeevent")]
+        public async Task RemoveBulletinEvent(string topic)
+        {
+            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            {
+                return;
+            }
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
+            {
+                if (bulletinEvent.Title.ToLower() == topic.ToLower())
+                {
+                    if (bulletinEvent.MsgID != 1234567890)
+                    {
+                        var eventEmbed = await (Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]) as ISocketMessageChannel).GetMessageAsync(bulletinEvent.MsgID, CacheMode.AllowDownload);
+
+                        if (eventEmbed is IUserMessage embedMsg)
+                        {
+                            await embedMsg.DeleteAsync();
+                            Program.SaveBulletinBoardDataToFile();
+                            await Task.Delay(1000);
+                        }
+                    }
+
+                    Program.BulletinBoardData.BulletinEvents.Remove(bulletinEvent);
+
+                    var msgRemoved = await Context.Channel.SendMessageAsync("Lunchbox Event Removed");
+                    await UpdateBulletinEvents();
+                    await Task.Delay(2000);
+                    await msgRemoved.DeleteAsync();
+
+                    return;
+                }
+            }
+
+            var msgNope = await Context.Channel.SendMessageAsync($"Event title\n> {topic}\nNot found");
+            await Task.Delay(5000);
+            await Context.Message.DeleteAsync();
+            await msgNope.DeleteAsync();
+        }
 
 
         /*                     _               _         
@@ -679,7 +878,6 @@ namespace DiscordBot.Commands
         }
 
         [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
-
         public async Task SendIntro(ulong targetUser)
         {
             if (await IsUserAuthorized("Admin") == false)
@@ -693,27 +891,43 @@ namespace DiscordBot.Commands
             }
             else
             {
-                await Context.Guild.GetUser(targetUser).SendMessageAsync($"Welcome {Context.Guild.GetUser(targetUser).Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
-                                        $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
-                                        $"Read the rules at <#{Program.ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
-                                        $"Introduce yourself at <#{Program.ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
-                                        $"      Prefered Name:\n" +
-                                        $"      Occupation:\n" +
-                                        $"      Favorite food:\n\n" +
-                                        $"If you are a AIE Student, please state your\n" +
-                                        $"      Full Name:\n" +
-                                        $"      Alias (Optional):\n" +
-                                        $"      Graduating Year:\n" +
-                                        $"      Enrolled Course:\n\n" +
-                                        $"If you have any questions, feel free to DM one of the Admins"
-                                        );
-                                        
+                await Program.SendIntroductionMessage(Context.Guild.GetUser(targetUser));                                 
+            }
+        }
+
+        [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
+        public async Task SendIntro(params string[] test)
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            foreach (var targetUser in Context.Message.MentionedUsers)
+            {
+                await Program.SendIntroductionMessage(targetUser as SocketGuildUser);
             }
         }
 
 
+        [Command("SeedEmbed"), Alias("Seedembed", "seedEmbed", "seedembed")]
+        public async Task SeedEmbed()
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
 
-        
+            var builder = new EmbedBuilder()
+                        .WithTitle("Seed");
+
+            var embed = builder.Build();
+            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+
+            await Context.Message.DeleteAsync();
+        }
+
+
         /*      __  __          _     _                   _       
          *     |  \/  |        | |   | |                 | |      
          *     | \  / |   ___  | |_  | |__     ___     __| |  ___ 

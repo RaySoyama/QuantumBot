@@ -10,12 +10,21 @@ namespace DiscordBot
 
         public DateTime EventDate;
 
-        public string Discription;
+        public string Description;
 
         public string EventURL;
 
+        public string Cost;
+
+        public string Location;
+
+        public int Capacity;
+
         public string IconURL;
 
+
+        public string authorIconURL;
+        public ulong author;
         public ulong MsgID;
     }
 }
