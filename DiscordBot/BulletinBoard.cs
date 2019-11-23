@@ -13,5 +13,10 @@ namespace DiscordBot
         public ulong FutureLunchboxesMsgID = 66969696969;
 
         public List<Lunchbox> Lunchboxes = new List<Lunchbox>();
+
+        public int BulletinEventMax = 5;
+
+        public List<BulletinEvent> BulletinEvents = new List<BulletinEvent>();
+
     }
 }

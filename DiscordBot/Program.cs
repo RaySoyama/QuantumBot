@@ -140,6 +140,11 @@ namespace DiscordBot
                                  $"Username: {((IGuildUser)arg.Author).Nickname}\n" +
                                  $"Message: {arg}\n";
 
+                foreach (var FileLink in arg.Attachments)
+                { 
+                    chatLog += $"File: {FileLink.Url}\n";
+                }
+                                
                 Console.WriteLine(chatLog);
                 File.AppendAllText(logFileSavePath, chatLog);
             }
@@ -298,6 +303,11 @@ namespace DiscordBot
         {
             string contents = File.ReadAllText(bulletinBoardSavePath);
             BulletinBoardData = JsonConvert.DeserializeObject<BulletinBoard>(contents);
+
+            if(BulletinBoardData.Lunchboxes == null)
+            {
+                BulletinBoardData.Lunchboxes = new List<Lunchbox>();
+            }
             return;
         }
 

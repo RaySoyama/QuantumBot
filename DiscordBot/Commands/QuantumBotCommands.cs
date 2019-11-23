@@ -10,8 +10,48 @@ namespace DiscordBot.Commands
 {
     public class QuantumBotCommands : ModuleBase<SocketCommandContext>
     {
-        [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
+        /*       _____                                        _ 
+         *      / ____|                                      | |
+         *     | |  __    ___   _ __     ___   _ __    __ _  | |
+         *     | | |_ |  / _ \ | '_ \   / _ \ | '__|  / _` | | |
+         *     | |__| | |  __/ | | | | |  __/ | |    | (_| | | |
+         *      \_____|  \___| |_| |_|  \___| |_|     \__,_| |_|                                                   
+         */
 
+        [Command("Help"), Alias("help"), Summary("List of all commands")]
+        public async Task HelpList()
+        {
+            var builder = new EmbedBuilder()
+                          .WithTitle("Quantum Bot Commands")
+                          .AddField("General", $"[Command] - [Description]\n" +
+                                              $"UnityVersion - Gets the Unity Version we are using\n" +
+                                              $"ProposalTemplate - Gets the Project Proposal Template from the handbook\n" +
+                                              $"Inktober - Gets the Inktober prompt")
+                          .AddField("Personal Link Stuff", $"Website (Domain) (URL) - Posting your link\n" +
+                                                           $"Example:\n" +
+                                                           $"`Website LinkedIn https://www.linkedin.com/in/raysoyama/` \n" +
+                                                           $"Website (Domain) null - Removes your link")
+                           .AddField("Bot Stuff", $"Prefix is {Program.ServerConfigData.prefix}\n" +
+                                               $"Help - See list of Commands\n" +
+                                               $"Ping - See the Latency of bot")
+                          .WithColor(new Color(60, 179, 113))
+                          .WithTimestamp(DateTimeOffset.Now)
+                          .WithFooter(footer =>
+                          {
+                              footer
+                                .WithText("Quantum Bot");
+                              //.WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
+                          });
+
+            var embed = builder.Build();
+            await Context.User.SendMessageAsync("", embed: embed);
+            await Context.Message.DeleteAsync();
+
+
+            return;
+        }
+
+        [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
         public async Task Ping()
         {
             var msg = await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
@@ -21,36 +61,6 @@ namespace DiscordBot.Commands
             await msg.DeleteAsync();
             return;
         }
-
-        // Personal Link Chunk
-
-
-        //Initialization
-        /*
-        [Command("InitializeWebEmbeds"), Alias("InitializeWeb"), Summary("Seeds the website embeds")]
-
-        public async Task InitializeWebsites()
-        {
-            var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
-
-            if (user.Roles.Contains(AdminCode) == false)
-            {
-                return;
-            }   
-
-            List<Embed> newWebsiteEmbedList = CreateWebsiteEmbeds();
-
-            foreach (Embed embed in newWebsiteEmbedList)
-            {
-                await Context.Channel.SendMessageAsync(null,embed: embed).ConfigureAwait(false);
-                await Task.Delay(TimeSpan.FromSeconds(1));
-            }
-
-            return;
-        }
-        */
-
 
         [Command("VaultSeeker"), Alias("vaultSeeker", "vaultseeker", "Vaultseeker")]
         public async Task ToggleVault()
@@ -74,10 +84,141 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        //--------------------------------------------------------------------------------
 
+        [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
+        public async Task UnityVersion()
+        {
+            string versions = "";
+            foreach (string ver in Program.ServerConfigData.UnityVersion)
+            {
+                versions += $"{ver}\n";
+            }
+
+            var builder = new EmbedBuilder()
+            .WithTitle("Current Unity Versions AIE Supports")
+            .WithDescription("[Click here to go to download page](https://unity3d.com/get-unity/download/archive)")
+            .WithColor(new Color(0, 0, 0))
+            .WithThumbnailUrl(Program.ServerConfigData.UnityIconURL)
+            .AddField("Versions", versions);
+            var embed = builder.Build();
+
+            await Context.Channel.SendMessageAsync(
+                null,
+                embed: embed)
+                .ConfigureAwait(false);
+        }
+
+        [Command("ProposalTemplate"), Alias("PPTemplate", "pptemplate", "proposalTemplate", "proposaltemplate", "Proposaltemplate")]
+        public async Task SendProposalTemplate()
+        {
+            await Context.Message.DeleteAsync();
+            await Context.User.SendMessageAsync($"Here you go~ \n{Program.ServerConfigData.ProjectProposalDocURL}");
+            return;
+        }
+
+        [Command("Iceborne"), Alias("iceborne"), Summary("Returns Days till Iceborne")]
+        public async Task DaysToMHW()
+        {
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Monster Hunter"])
+            {
+                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]}>");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            DateTime endTime = new DateTime(2020, 01, 09, 0, 0, 0);
+            TimeSpan ts = endTime.Subtract(DateTime.Now);
+            string daysTill = ts.ToString("d' Days 'h' Hours 'm' Minutes 's' Seconds'");
+
+            var builder = new EmbedBuilder()
+                .WithColor(new Color(37, 170, 225))
+                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
+                .AddField("Monster Hunter World Iceborne Countdown", daysTill);
+
+            var embed = builder.Build();
+            await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+        }
+
+        //Inktober
+        /*
+        [Command("Inktober"), Alias("inktober"), Summary("Returns todays inktober prompt")]
+
+        public async Task TodaysInktoberPrompt()
+        {
+            DateTime dateTime = DateTime.Now;
+
+
+
+            string[] inkPrompts = new string[] {"Ring",
+                                                "Mindless",
+                                                "Bait",
+                                                "Freeze",
+                                                "Build",
+                                                "Husky",
+                                                "Enchanted",
+                                                "Frail",
+                                                "Swing",
+                                                "Pattern",
+                                                "Snow",
+                                                "Dragon",
+                                                "Ash",
+                                                "Overgrown",
+                                                "Legend",
+                                                "Wild",
+                                                "Ornament",
+                                                "Misfit",
+                                                "Sling",
+                                                "Tread",
+                                                "Treasure",
+                                                "Ghost",
+                                                "Ancient",
+                                                "Dizzy",
+                                                "Tasty",
+                                                "Dark",
+                                                "Coat",
+                                                "Ride",
+                                                "Injured",
+                                                "Catch",
+                                                "Ripe"};
+
+
+            var builder = new EmbedBuilder()
+                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/628301292346802204/Inktober.png")
+                .AddField("Todays Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}\"");
+
+            if (int.Parse(dateTime.ToString("dd")) < inkPrompts.Count())
+            {
+                builder.AddField("Tomorrows Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd"))]}\"");
+            }
+            else
+            {
+                builder.AddField("Todays the last day of Inktober!~", $"");
+            }
+
+            var embed = builder.Build();
+            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+
+            //await Context.Channel.SendMessageAsync($"Todays date is {inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}");
+            return;
+        }
+        */
+
+
+
+
+        /*
+         *      _____                    __   _   _        
+         *     |  __ \                  / _| (_) | |       
+         *     | |__) |  _ __    ___   | |_   _  | |   ___ 
+         *     |  ___/  | '__|  / _ \  |  _| | | | |  / _ \
+         *     | |      | |    | (_) | | |   | | | | |  __/
+         *     |_|      |_|     \___/  |_|   |_| |_|  \___|
+         *                                                                                                
+         */
 
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
-
         public async Task UpdateWebsiteEmbed(string WebQuery)
         {
             var user = Context.User as SocketGuildUser;
@@ -125,9 +266,7 @@ namespace DiscordBot.Commands
             return;
         }
 
-
         [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
-
         public async Task UpdateWebsite([Remainder] string shitUserSaid)
         {
             if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Personal Links"])
@@ -215,10 +354,6 @@ namespace DiscordBot.Commands
         }
 
         [Command("AdminWebsite"), Alias("adminwebsite"), Summary("Updates, or adds the users website")]
-
-
-
-
         public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
         {
             if (await IsUserAuthorized("Admin") == false)
@@ -302,42 +437,42 @@ namespace DiscordBot.Commands
 
         }
 
-        [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
+        //Initialization
+        /*
+        [Command("InitializeWebEmbeds"), Alias("InitializeWeb"), Summary("Seeds the website embeds")]
 
-        public async Task UnityVersion()
+        public async Task InitializeWebsites()
         {
-            string versions = "";
-            foreach (string ver in Program.ServerConfigData.UnityVersion)
+            var user = Context.User as SocketGuildUser;
+            var AdminCode = Context.Guild.GetRole(Program.serverConfigs.PointersAnonRoleID["Admin"]);
+
+            if (user.Roles.Contains(AdminCode) == false)
             {
-                versions += $"{ver}\n";
+                return;
+            }   
+
+            List<Embed> newWebsiteEmbedList = CreateWebsiteEmbeds();
+
+            foreach (Embed embed in newWebsiteEmbedList)
+            {
+                await Context.Channel.SendMessageAsync(null,embed: embed).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
 
-            var builder = new EmbedBuilder()
-            .WithTitle("Current Unity Versions AIE Supports")
-            .WithDescription("[Click here to go to download page](https://unity3d.com/get-unity/download/archive)")
-            .WithColor(new Color(0, 0, 0))
-            .WithThumbnailUrl(Program.ServerConfigData.UnityIconURL)
-            .AddField("Versions", versions);
-            var embed = builder.Build();
-
-            await Context.Channel.SendMessageAsync(
-                null,
-                embed: embed)
-                .ConfigureAwait(false);
-        }
-
-
-        [Command("ProposalTemplate"), Alias("PPTemplate", "pptemplate", "proposalTemplate", "proposaltemplate", "Proposaltemplate")]
-
-        public async Task SendProposalTemplate()
-        {
-            await Context.Message.DeleteAsync();
-            await Context.User.SendMessageAsync($"Here you go~ \n{Program.ServerConfigData.ProjectProposalDocURL}");
             return;
         }
+        */
 
 
 
+
+        /*      _                               _       _                    
+         *     | |                             | |     | |                   
+         *     | |       _   _   _ __     ___  | |__   | |__     ___   __  __
+         *     | |      | | | | | '_ \   / __| | '_ \  | '_ \   / _ \  \ \/ /
+         *     | |____  | |_| | | | | | | (__  | | | | | |_) | | (_) |  >  < 
+         *     |______|  \__,_| |_| |_|  \___| |_| |_| |_.__/   \___/  /_/\_\                                                                                                
+         */
 
         [Command("AddLunchbox"), Alias("AddLB", "addLB", "addlb", "addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
         public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
@@ -371,13 +506,12 @@ namespace DiscordBot.Commands
             //await Context.Message.DeleteAsync();
             await UpdateLunchboxEvents();
 
-            await Task.Delay(5000);
+            //await Task.Delay(3000);
             await msg.DeleteAsync();
         }
 
 
         [Command("UpdateLunchbox"), Alias("UpdateLB", "updateLB", "updatelb", "updatelunchbox", "updatelunchBox", "updateLunchBox", "Updatelunchbox", "UpdatelunchBox", "UpdateLunchBox")]
-
         public async Task UpdateLunchboxEvents()
         {
             Program.BulletinBoardData.Lunchboxes.Sort((a, b) => a.date.CompareTo(b.date));
@@ -385,44 +519,43 @@ namespace DiscordBot.Commands
 
 
             var pastLuncboxBuilder = new EmbedBuilder()
-            .WithTitle("Past Lunchbox Events")
+            .WithDescription("```fix\nPast Lunchbox Events\n```")
             .WithColor(new Color(37, 170, 225))
             .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
 
             var futureLuncboxBuilder = new EmbedBuilder()
-            .WithTitle("Future Lunchbox Events")
+            .WithDescription("```fix\nFuture Lunchbox Events\n```")
             .WithColor(new Color(37, 170, 225))
             .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
 
             int EventSplitIdx = 0;
 
+            //gets the index in which the event date is in the future
             for (int i = 0; i < Program.BulletinBoardData.Lunchboxes.Count(); i++)
             {
-                if (Program.BulletinBoardData.Lunchboxes[i].date.CompareTo(DateTime.Now) >= 0 )
+                if (Program.BulletinBoardData.Lunchboxes[i].date.CompareTo(DateTime.Now) < 0 )
                 {
-                    EventSplitIdx = i;
-                    break;
+                    EventSplitIdx++;
                 }
             }
 
-
-            ////THIS HELLA BORK
             //Past Embed
             for (int i = 0; i < Program.BulletinBoardData.PastLunchboxesEmbedCount; i++)
             {
-                if (EventSplitIdx - 1 - i < 0)
+                if (EventSplitIdx - Program.BulletinBoardData.PastLunchboxesEmbedCount + i < 0)
                 {
-                    break;
+                    continue;
                 }
-
-                Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - 1 - i];
+                 
+                Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - Program.BulletinBoardData.PastLunchboxesEmbedCount + i];
                 pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
+                
             }
             
             //Future Embed
             for (int i = 0; i < Program.BulletinBoardData.FutureLunchboxesEmbedCount; i++)
             {
-                if (EventSplitIdx + i <= Program.BulletinBoardData.Lunchboxes.Count())
+                if (EventSplitIdx + i >= Program.BulletinBoardData.Lunchboxes.Count())
                 {
                     break;
                 }
@@ -430,21 +563,6 @@ namespace DiscordBot.Commands
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx + i];
                 futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
             }
-
-
-            //foreach (Lunchbox lb in Program.BulletinBoardData.Lunchboxes)
-            //{
-            //    if (lb.date.CompareTo(DateTime.Now) <= 0 && pastLBEmbedCount < Program.BulletinBoardData.PastLunchboxesEmbedCount) //if lb.date is earlier than now (date has past)
-            //    {
-            //        pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dddd, dd MMMM yyyy")}");
-            //        pastLBEmbedCount++;
-            //    }
-            //    else if (lb.date.CompareTo(DateTime.Now) > 0 && futureLBEmbedCount < Program.BulletinBoardData.FutureLunchboxesEmbedCount)
-            //    {
-            //        futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dddd, dd MMMM yyyy")}");
-            //        futureLBEmbedCount++;
-            //    }
-            //}
 
             var embed = pastLuncboxBuilder.Build();
 
@@ -473,12 +591,36 @@ namespace DiscordBot.Commands
             await botMsg.DeleteAsync();
 
             await Context.Message.DeleteAsync();
-            Console.WriteLine("finished");
         }
 
+        [Command("RemoveLunchbox"), Alias("RemoveLB", "removeLB", "removelb", "removelunchbox", "removelunchBox", "removeLunchBox", "Removelunchbox", "RemovelunchBox", "RemoveLunchBox")]
+        public async Task RemoveLunchboxEvent(string topic)
+        {
+            if (await IsUserAuthorized("Admin", "Teacher") == false)
+            {
+                return;
+            }
 
+            foreach (Lunchbox lb in Program.BulletinBoardData.Lunchboxes)
+            {
+                if (lb.topic.ToLower() == topic.ToLower())
+                {
+                    Program.BulletinBoardData.Lunchboxes.Remove(lb);
 
+                    var msgRemoved = await Context.Channel.SendMessageAsync("Lunchbox Event Removed");
+                    await UpdateLunchboxEvents();
+                    await Task.Delay(2000);
+                    await msgRemoved.DeleteAsync();
 
+                    return;
+                }
+            }
+
+            var msgNope = await Context.Channel.SendMessageAsync($"Lunchbox topic\n> {topic}\nNot found");
+            await Task.Delay(5000);
+            await Context.Message.DeleteAsync();
+            await msgNope.DeleteAsync();
+        }
 
 
         //[Command("Lunchbox"), Alias("lunchbox", "lunchBox", "LunchBox")]
@@ -490,95 +632,51 @@ namespace DiscordBot.Commands
 
 
 
-        //Events
-        /*
-        [Command("Inktober"), Alias("inktober"), Summary("Returns todays inktober prompt")]
-
-        public async Task TodaysInktoberPrompt()
-        {
-            DateTime dateTime = DateTime.Now;
 
 
-
-            string[] inkPrompts = new string[] {"Ring",
-                                                "Mindless",
-                                                "Bait",
-                                                "Freeze",
-                                                "Build",
-                                                "Husky",
-                                                "Enchanted",
-                                                "Frail",
-                                                "Swing",
-                                                "Pattern",
-                                                "Snow",
-                                                "Dragon",
-                                                "Ash",
-                                                "Overgrown",
-                                                "Legend",
-                                                "Wild",
-                                                "Ornament",
-                                                "Misfit",
-                                                "Sling",
-                                                "Tread",
-                                                "Treasure",
-                                                "Ghost",
-                                                "Ancient",
-                                                "Dizzy",
-                                                "Tasty",
-                                                "Dark",
-                                                "Coat",
-                                                "Ride",
-                                                "Injured",
-                                                "Catch",
-                                                "Ripe"};
+        
+        /*      ____            _   _          _     _             ______                          _         
+         *     |  _ \          | | | |        | |   (_)           |  ____|                        | |        
+         *     | |_) |  _   _  | | | |   ___  | |_   _   _ __     | |__    __   __   ___   _ __   | |_   ___ 
+         *     |  _ <  | | | | | | | |  / _ \ | __| | | | '_ \    |  __|   \ \ / /  / _ \ | '_ \  | __| / __|
+         *     | |_) | | |_| | | | | | |  __/ | |_  | | | | | |   | |____   \ V /  |  __/ | | | | | |_  \__ \
+         *     |____/   \__,_| |_| |_|  \___|  \__| |_| |_| |_|   |______|   \_/    \___| |_| |_|  \__| |___/
+         */                                                                                                   
+         
 
 
-            var builder = new EmbedBuilder()
-                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/628301292346802204/Inktober.png")
-                .AddField("Todays Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}\"");
 
-            if (int.Parse(dateTime.ToString("dd")) < inkPrompts.Count())
+
+
+
+
+        /*                     _               _         
+         *         /\         | |             (_)        
+         *        /  \      __| |  _ __ ___    _   _ __  
+         *       / /\ \    / _` | | '_ ` _ \  | | | '_ \ 
+         *      / ____ \  | (_| | | | | | | | | | | | | |
+         *     /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|
+         *                                               
+         */
+
+        [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
+
+        public async Task Quit()
+        { 
+            if (await IsUserAuthorized("Admin", "Teacher"))
             {
-                builder.AddField("Tomorrows Inktober Prompt", $"\"{inkPrompts[int.Parse(dateTime.ToString("dd"))]}\"");
+                var msg = await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+                await Task.Delay(5000);
+                await Context.Message.DeleteAsync();
+                await msg.DeleteAsync();
+                System.Environment.Exit(1);
             }
             else
             {
-                builder.AddField("Todays the last day of Inktober!~", $"");
-            }
-
-            var embed = builder.Build();
-            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
-
-            //await Context.Channel.SendMessageAsync($"Todays date is {inkPrompts[int.Parse(dateTime.ToString("dd")) - 1]}");
-            return;
-        }
-        */
-
-        [Command("Iceborne"), Alias("iceborne"), Summary("Returns Days till Iceborne")]
-
-        public async Task DaysToMHW()
-        {
-            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Monster Hunter"])
-            {
-                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]}>");
                 await Context.Message.DeleteAsync();
-                return;
+                await Context.User.SendMessageAsync("Admin Rights Required");
             }
-
-            DateTime endTime = new DateTime(2020, 01, 09, 0, 0, 0);
-            TimeSpan ts = endTime.Subtract(DateTime.Now);
-            string daysTill = ts.ToString("d' Days 'h' Hours 'm' Minutes 's' Seconds'");
-
-            var builder = new EmbedBuilder()
-                .WithColor(new Color(37, 170, 225))
-                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
-                .AddField("Monster Hunter World Iceborne Countdown", daysTill);
-
-            var embed = builder.Build();
-            await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
         }
-
 
         [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
 
@@ -614,80 +712,15 @@ namespace DiscordBot.Commands
         }
 
 
-        //[Command("test"), Alias("test", "test", "test")]
-        //public async Task testTest()
-        //{
-        //    //<@&487403594300129291>
-        //    await Context.Guild.GetTextChannel(Program.serverConfigs.PointersAnonChatID["Admin"]).SendMessageAsync($"Welcome Sorry.I'll.Stop.Spam to Pointers Anonymous, the unofficial AIE Discord server!\n" +
-        //                                 $"I am the helper bot created by <@!173226502710755328> to maintain the server\n" +
-        //                                 $"To gain access to all of the server's channels, read the rules at <#{Program.serverConfigs.PointersAnonChatID["The Law"]}>\n" +
-        //                                 $"introduce yourself at <#{Program.serverConfigs.PointersAnonChatID["Introductions"]}>, and tell us your\n" +
-        //                                 $"      Full Name:\n" +
-        //                                 $"      Alias (Optional):\n" +
-        //                                 $"      Graduating Year:\n" +
-        //                                 $"      Enrolled Course:\n\n" +
-        //                                 $"If you have any questions, feel free to DM one of the Admins\n\n" +
-        //                                 $"If you are not an AIE student, please tell us who you're associated with, so we can get a role set up for you~\n" +
-        //                                 $"(If you're from a different campus, also include that info)"
-        //                                 );
 
-        //}
-
-
-
-        [Command("Help"), Alias("help"), Summary("List of all commands")]
-
-        public async Task HelpList()
-        {
-            var builder = new EmbedBuilder()
-                          .WithTitle("Quantum Bot Commands")
-                          .AddField("General",$"[Command] - [Description]\n" +
-                                              $"UnityVersion - Gets the Unity Version we are using\n" +
-                                              $"ProposalTemplate - Gets the Project Proposal Template from the handbook\n" +
-                                              $"Inktober - Gets the Inktober prompt")
-                          .AddField("Personal Link Stuff", $"Website (Domain) (URL) - Posting your link\n" +
-                                                           $"Example:\n" +
-                                                           $"`Website LinkedIn https://www.linkedin.com/in/raysoyama/` \n" +
-                                                           $"Website (Domain) null - Removes your link")
-                           .AddField("Bot Stuff",$"Prefix is {Program.ServerConfigData.prefix}\n" +
-                                               $"Help - See list of Commands\n" +
-                                               $"Ping - See the Latency of bot")
-                          .WithColor(new Color(60, 179, 113))
-                          .WithTimestamp(DateTimeOffset.Now)
-                          .WithFooter(footer =>
-                          {
-                              footer
-                                .WithText("Quantum Bot");
-                                //.WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
-                          });
-
-            var embed = builder.Build();
-            await Context.User.SendMessageAsync("", embed: embed);
-            await Context.Message.DeleteAsync();
-
-
-            return;
-        }
-
-        [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
-
-        public async Task Quit()
-        { 
-            if (await IsUserAuthorized("Admin", "Teacher"))
-            {
-                var msg = await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
-                await Task.Delay(5000);
-                await Context.Message.DeleteAsync();
-                await msg.DeleteAsync();
-                System.Environment.Exit(1);
-            }
-            else
-            {
-                await Context.Message.DeleteAsync();
-                await Context.User.SendMessageAsync("Admin Rights Required");
-            }
-        }
-
+        
+        /*      __  __          _     _                   _       
+         *     |  \/  |        | |   | |                 | |      
+         *     | \  / |   ___  | |_  | |__     ___     __| |  ___ 
+         *     | |\/| |  / _ \ | __| | '_ \   / _ \   / _` | / __|
+         *     | |  | | |  __/ | |_  | | | | | (_) | | (_| | \__ \
+         *     |_|  |_|  \___|  \__| |_| |_|  \___/   \__,_| |___/
+         */
 
         //Raid Area 51, send msg
         /*
