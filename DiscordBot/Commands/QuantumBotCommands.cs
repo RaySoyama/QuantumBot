@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DiscordBot.Commands
 {
@@ -17,7 +14,11 @@ namespace DiscordBot.Commands
 
         public async Task Ping()
         {
-            await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
+            var msg = await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
+
+            await Task.Delay(5000);
+            await Context.Message.DeleteAsync();
+            await msg.DeleteAsync();
             return;
         }
 
@@ -49,6 +50,31 @@ namespace DiscordBot.Commands
             return;
         }
         */
+
+
+        [Command("VaultSeeker"), Alias("vaultSeeker", "vaultseeker", "Vaultseeker")]
+        public async Task ToggleVault()
+        {
+            if (await IsUserAuthorized("Certified") == false)
+            {
+                return;
+            }
+
+            if ((Context.User as IGuildUser).RoleIds.Contains(Program.ServerConfigData.PointersAnonRoleID["Vault Seeker"]) == false)
+            {
+                await (Context.User as IGuildUser).AddRoleAsync(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Vault Seeker"]));
+                await Context.User.SendMessageAsync("Vault Seeker Enabled");
+            }
+            else
+            { 
+                await (Context.User as IGuildUser).RemoveRoleAsync(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Vault Seeker"]));                
+                await Context.User.SendMessageAsync("Vault Seeker Disabled");
+            }
+
+            await Context.Message.DeleteAsync();
+        }
+
+
 
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
 
@@ -190,16 +216,13 @@ namespace DiscordBot.Commands
 
         [Command("AdminWebsite"), Alias("adminwebsite"), Summary("Updates, or adds the users website")]
 
+
+
+
         public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
         {
-            var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-
-            if (adminCheck.Roles.Contains(AdminCode) == false)
+            if (await IsUserAuthorized("Admin") == false)
             {
-                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                    $"This Command can only be used by an Admin");
-                await Context.Message.DeleteAsync();
                 return;
             }
 
@@ -314,23 +337,19 @@ namespace DiscordBot.Commands
         }
 
 
-        [Command("AddLunchbox"), Alias("AddLB","addLB","addlb","addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
+
+
+        [Command("AddLunchbox"), Alias("AddLB", "addLB", "addlb", "addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
         public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
         {
-            var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-
-            if (adminCheck.Roles.Contains(AdminCode) == false)
+            if (await IsUserAuthorized("Admin", "Teacher") == false)
             {
-                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                    $"This Command can only be used by an Admin");
-                await Context.Message.DeleteAsync();
                 return;
             }
 
             Lunchbox NewLunchbox = new Lunchbox()
             {
-                date = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay),
+                date = new DateTime(lunchboxDateYear, lunchboxDateMonth, lunchboxDateDay, 14, 00, 00),
                 topic = lunchboxTopic,
                 speaker = lunchboxSpeaker,
                 author = Context.User.Id,
@@ -341,13 +360,126 @@ namespace DiscordBot.Commands
             Program.SaveBulletinBoardDataToFile();
 
             var builder = new EmbedBuilder()
+                .WithTitle("New Lunchbox Added")
                 .WithColor(new Color(37, 170, 225))
                 .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL)
-                .AddField($"{lunchboxTopic}",$"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, dd MMMM yyyy")}");
+                .AddField($"{lunchboxTopic}", $"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, dd MMMM yyyy")}");
 
             var embed = builder.Build();
-            await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            var msg = await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+
+            //await Context.Message.DeleteAsync();
+            await UpdateLunchboxEvents();
+
+            await Task.Delay(5000);
+            await msg.DeleteAsync();
         }
+
+
+        [Command("UpdateLunchbox"), Alias("UpdateLB", "updateLB", "updatelb", "updatelunchbox", "updatelunchBox", "updateLunchBox", "Updatelunchbox", "UpdatelunchBox", "UpdateLunchBox")]
+
+        public async Task UpdateLunchboxEvents()
+        {
+            Program.BulletinBoardData.Lunchboxes.Sort((a, b) => a.date.CompareTo(b.date));
+            Program.SaveBulletinBoardDataToFile();
+
+
+            var pastLuncboxBuilder = new EmbedBuilder()
+            .WithTitle("Past Lunchbox Events")
+            .WithColor(new Color(37, 170, 225))
+            .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
+
+            var futureLuncboxBuilder = new EmbedBuilder()
+            .WithTitle("Future Lunchbox Events")
+            .WithColor(new Color(37, 170, 225))
+            .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
+
+            int EventSplitIdx = 0;
+
+            for (int i = 0; i < Program.BulletinBoardData.Lunchboxes.Count(); i++)
+            {
+                if (Program.BulletinBoardData.Lunchboxes[i].date.CompareTo(DateTime.Now) >= 0 )
+                {
+                    EventSplitIdx = i;
+                    break;
+                }
+            }
+
+
+            ////THIS HELLA BORK
+            //Past Embed
+            for (int i = 0; i < Program.BulletinBoardData.PastLunchboxesEmbedCount; i++)
+            {
+                if (EventSplitIdx - 1 - i < 0)
+                {
+                    break;
+                }
+
+                Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - 1 - i];
+                pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
+            }
+            
+            //Future Embed
+            for (int i = 0; i < Program.BulletinBoardData.FutureLunchboxesEmbedCount; i++)
+            {
+                if (EventSplitIdx + i <= Program.BulletinBoardData.Lunchboxes.Count())
+                {
+                    break;
+                }
+
+                Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx + i];
+                futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dd MMMM yyyy")}");
+            }
+
+
+            //foreach (Lunchbox lb in Program.BulletinBoardData.Lunchboxes)
+            //{
+            //    if (lb.date.CompareTo(DateTime.Now) <= 0 && pastLBEmbedCount < Program.BulletinBoardData.PastLunchboxesEmbedCount) //if lb.date is earlier than now (date has past)
+            //    {
+            //        pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dddd, dd MMMM yyyy")}");
+            //        pastLBEmbedCount++;
+            //    }
+            //    else if (lb.date.CompareTo(DateTime.Now) > 0 && futureLBEmbedCount < Program.BulletinBoardData.FutureLunchboxesEmbedCount)
+            //    {
+            //        futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("dddd, dd MMMM yyyy")}");
+            //        futureLBEmbedCount++;
+            //    }
+            //}
+
+            var embed = pastLuncboxBuilder.Build();
+
+
+            //Updates Past Embed
+            IMessage pastChatReferences = await Context.Channel.GetMessageAsync(Program.BulletinBoardData.PastLunchboxesMsgID, CacheMode.AllowDownload);
+
+            if (pastChatReferences is IUserMessage pastMsg)
+            {
+                await pastMsg.ModifyAsync(x => x.Embed = embed);
+            }
+
+            embed = futureLuncboxBuilder.Build();
+            //Updates Future Embed
+            IMessage futureChatReferences = await Context.Channel.GetMessageAsync(Program.BulletinBoardData.FutureLunchboxesMsgID, CacheMode.AllowDownload);
+
+            if (futureChatReferences is IUserMessage futureMsg)
+            {
+                await futureMsg.ModifyAsync(x => x.Embed = embed);
+            }
+
+            var botMsg = await Context.Channel.SendMessageAsync("Updated");
+
+            await Task.Delay(5000);
+
+            await botMsg.DeleteAsync();
+
+            await Context.Message.DeleteAsync();
+            Console.WriteLine("finished");
+        }
+
+
+
+
+
 
         //[Command("Lunchbox"), Alias("lunchbox", "lunchBox", "LunchBox")]
         //public async Task GetLunchboxList()
@@ -452,14 +584,8 @@ namespace DiscordBot.Commands
 
         public async Task SendIntro(ulong targetUser)
         {
-            var adminCheck = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-
-            if (adminCheck.Roles.Contains(AdminCode) == false)
+            if (await IsUserAuthorized("Admin") == false)
             {
-                await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
-                                    $"This Command can only be used by an Admin");
-                await Context.Message.DeleteAsync();
                 return;
             }
 
@@ -546,22 +672,21 @@ namespace DiscordBot.Commands
         [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
 
         public async Task Quit()
-        {
-            var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-            
-            if (user.Roles.Contains(AdminCode) == true)
+        { 
+            if (await IsUserAuthorized("Admin", "Teacher"))
             {
-                await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+                var msg = await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+                await Task.Delay(5000);
+                await Context.Message.DeleteAsync();
+                await msg.DeleteAsync();
                 System.Environment.Exit(1);
             }
             else
             {
-                await Context.Message.Channel.SendMessageAsync("Admin Rights Required");
+                await Context.Message.DeleteAsync();
+                await Context.User.SendMessageAsync("Admin Rights Required");
             }
         }
-
-
 
 
         //Raid Area 51, send msg
@@ -617,6 +742,27 @@ namespace DiscordBot.Commands
             return;
         }
             */
+
+        private async Task<bool> IsUserAuthorized(params string[] roles)
+        {
+            var adminCheck = Context.User as SocketGuildUser;
+
+            foreach (string role in roles)
+            {
+                var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID[role]);
+               
+                if (adminCheck.Roles.Contains(AuthRole) == true)
+                {
+                    return true;
+                }
+            }
+
+            await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+               $"You do not have permission to use this command");
+            await Context.Message.DeleteAsync();
+            return false;
+
+        }
 
         private UserProfile GetUserProfile(ulong userID)
         {

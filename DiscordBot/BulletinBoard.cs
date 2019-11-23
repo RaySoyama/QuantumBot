@@ -6,7 +6,12 @@ namespace DiscordBot
 {
     public class BulletinBoard
     {
-        public List<Lunchbox> Lunchboxes = new List<Lunchbox>();
+        public int PastLunchboxesEmbedCount = 3;
+        public int FutureLunchboxesEmbedCount = 3;
 
+        public ulong PastLunchboxesMsgID = 66969696969;
+        public ulong FutureLunchboxesMsgID = 66969696969;
+
+        public List<Lunchbox> Lunchboxes = new List<Lunchbox>();
     }
 }

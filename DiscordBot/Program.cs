@@ -41,7 +41,7 @@ namespace DiscordBot
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-
+         
 
         public static int  latecy = 69;
 
@@ -77,6 +77,8 @@ namespace DiscordBot
             //User Data shit test
             LoadUserDataFromFile();
 
+            //BulletinBoard
+            LoadBulletinBoardFromFile();
 
 
             _client = new DiscordSocketClient(new DiscordSocketConfig

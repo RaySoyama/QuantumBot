@@ -7,8 +7,8 @@ namespace DiscordBot
     public class Lunchbox
     {
         public string speaker;
-        public DateTime date;
         public string topic;
+        public DateTime date;
 
         public ulong author;
         public DateTime created;
