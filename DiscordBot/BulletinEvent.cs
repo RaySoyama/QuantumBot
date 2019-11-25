@@ -25,6 +25,7 @@ namespace DiscordBot
 
         public string authorIconURL;
         public ulong author;
+        public DateTime embedCreated;
         public ulong MsgID;
     }
 }

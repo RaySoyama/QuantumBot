@@ -84,6 +84,23 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        [Command("Suggestion"), Alias("suggestion", "suggest", "Suggest")]
+        public async Task AddSuggestion([Remainder] string input)
+        {
+
+            var builder = new EmbedBuilder()
+                              .WithDescription(input);
+
+            var embed = builder.Build();
+            var botMsg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Suggestions"]).SendMessageAsync($"Suggestion by <@!{Context.User.Id}>", embed: embed).ConfigureAwait(false);
+ 
+            await botMsg.AddReactionAsync(new Emoji("\U0001f44D"));
+            await botMsg.AddReactionAsync(new Emoji("\U0001f44E"));
+
+            await Context.Message.DeleteAsync();
+        }
+
+
         //--------------------------------------------------------------------------------
 
         [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
@@ -354,22 +371,12 @@ namespace DiscordBot.Commands
         }
 
         [Command("AdminWebsite"), Alias("adminwebsite"), Summary("Updates, or adds the users website")]
-        public async Task AdminUpdateWebsite([Remainder] string shitUserSaid)
+        public async Task AdminUpdateWebsite(ulong TargetUser, string WebQuery, string webURL)
         {
             if (await IsUserAuthorized("Admin") == false)
             {
                 return;
             }
-
-            string[] splitMsg = shitUserSaid.Split();
-
-            if (splitMsg.Length != 3)
-            {
-                return;
-            }
-
-            string WebQuery = splitMsg[1];
-            string webURL = splitMsg[2];
 
             foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
             {
@@ -377,7 +384,7 @@ namespace DiscordBot.Commands
                 if (WebQuery.ToLower() == web.ToString().ToLower())
                 {
 
-                    UserProfile user = GetUserProfile(UInt64.Parse(splitMsg[0]));
+                    UserProfile user = GetUserProfile(TargetUser);
 
                     //Update User Data
                     user.UserWebsiteIndex[web] = webURL;
@@ -386,10 +393,9 @@ namespace DiscordBot.Commands
                         user.UserWebsiteIndex[web] = null;
                     }
 
+                    user.userNickname = ((IGuildUser)Context.Guild.GetUser(TargetUser)).Nickname;
 
-                    user.userNickname = ((IGuildUser)Context.Guild.GetUser(UInt64.Parse(splitMsg[0]))).Nickname;
-
-                    var guildUser = Context.Guild.GetUser(UInt64.Parse(splitMsg[0])) as SocketGuildUser;
+                    var guildUser = Context.Guild.GetUser(TargetUser) as SocketGuildUser;
 
                     if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                     {
@@ -635,7 +641,7 @@ namespace DiscordBot.Commands
          */
 
 
-        [Command("NewEvent"), Alias("newEvent", "Newevent", "newevent")]
+        [Command("NewEvent"), Alias("newEvent", "Newevent", "newevent", "addEvent", "addevent", "addEvent")]
         public async Task NewBulletinEvent(int year, int month, int day, int hour, int min, string title)
         {
             if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
@@ -662,7 +668,8 @@ namespace DiscordBot.Commands
                 Title = title,
                 EventDate = new DateTime(year, month, day, hour, min, 00),
                 authorIconURL = Context.User.GetAvatarUrl(),
-                author = Context.User.Id
+                author = Context.User.Id,
+                embedCreated = DateTime.Now
             };
 
 
@@ -786,8 +793,8 @@ namespace DiscordBot.Commands
                         .AddField($"Location", $"{bulletinEvent.Location}", true)
                         .AddField($"Cost", $"{bulletinEvent.Cost}", true)
                         .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
-                        .WithFooter($"By {Context.User.Username}", $"{bulletinEvent.authorIconURL}")
-                        .WithCurrentTimestamp();
+                        .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Username}", $"{bulletinEvent.authorIconURL}")
+                        .WithTimestamp(bulletinEvent.embedCreated);
 
                     var embed = builder.Build();
 
@@ -805,7 +812,6 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
 
         }
-
 
         [Command("RemoveEvent"), Alias("removeEvent", "RemoveEvent", "removeevent")]
         public async Task RemoveBulletinEvent(string topic)
@@ -908,7 +914,6 @@ namespace DiscordBot.Commands
                 await Program.SendIntroductionMessage(targetUser as SocketGuildUser);
             }
         }
-
 
         [Command("SeedEmbed"), Alias("Seedembed", "seedEmbed", "seedembed")]
         public async Task SeedEmbed()
