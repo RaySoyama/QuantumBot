@@ -65,7 +65,7 @@ namespace DiscordBot.Commands
         [Command("VaultSeeker"), Alias("vaultSeeker", "vaultseeker", "Vaultseeker")]
         public async Task ToggleVault()
         {
-            if (await IsUserAuthorized("Certified") == false)
+            if (await IsUserAuthorized("Student") == false)
             {
                 return;
             }
@@ -76,8 +76,8 @@ namespace DiscordBot.Commands
                 await Context.User.SendMessageAsync("Vault Seeker Enabled");
             }
             else
-            { 
-                await (Context.User as IGuildUser).RemoveRoleAsync(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Vault Seeker"]));                
+            {
+                await (Context.User as IGuildUser).RemoveRoleAsync(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Vault Seeker"]));
                 await Context.User.SendMessageAsync("Vault Seeker Disabled");
             }
 
@@ -93,7 +93,7 @@ namespace DiscordBot.Commands
 
             var embed = builder.Build();
             var botMsg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Suggestions"]).SendMessageAsync($"Suggestion by <@!{Context.User.Id}>", embed: embed).ConfigureAwait(false);
- 
+
             await botMsg.AddReactionAsync(new Emoji("\U0001f44D"));
             await botMsg.AddReactionAsync(new Emoji("\U0001f44E"));
 
@@ -333,7 +333,7 @@ namespace DiscordBot.Commands
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
                     {
                         user.isStudent = true;
 
@@ -405,7 +405,7 @@ namespace DiscordBot.Commands
                     {
                         user.isTeacher = true;
                     }
-                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Certified"])) == true)
+                    else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
                     {
                         user.isStudent = true;
 
@@ -539,7 +539,7 @@ namespace DiscordBot.Commands
             //gets the index in which the event date is in the future
             for (int i = 0; i < Program.BulletinBoardData.Lunchboxes.Count(); i++)
             {
-                if (Program.BulletinBoardData.Lunchboxes[i].date.CompareTo(DateTime.Now) < 0 )
+                if (Program.BulletinBoardData.Lunchboxes[i].date.CompareTo(DateTime.Now) < 0)
                 {
                     EventSplitIdx++;
                 }
@@ -552,12 +552,12 @@ namespace DiscordBot.Commands
                 {
                     continue;
                 }
-                 
+
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - Program.BulletinBoardData.PastLunchboxesEmbedCount + i];
                 pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
-                
+
             }
-            
+
             //Future Embed
             for (int i = 0; i < Program.BulletinBoardData.FutureLunchboxesEmbedCount; i++)
             {
@@ -644,7 +644,7 @@ namespace DiscordBot.Commands
         [Command("NewEvent"), Alias("newEvent", "Newevent", "newevent", "addEvent", "addevent", "addEvent")]
         public async Task NewBulletinEvent(int year, int month, int day, int hour, int min, string title)
         {
-            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            if (await IsUserAuthorized("Admin", "Teacher", "Student") == false)
             {
                 return;
             }
@@ -683,6 +683,7 @@ namespace DiscordBot.Commands
                 .AddField($"Location", "Missing", true)
                 .AddField($"Cost", "Missing", true)
                 .AddField($"Capacity", "Missing", true)
+                .AddField($"Attending", "0", true)
                 .WithFooter($"By {Context.User.Username}", $"{NewBulletinEvent.authorIconURL}")
                 .WithCurrentTimestamp();
 
@@ -697,9 +698,9 @@ namespace DiscordBot.Commands
         }
 
         [Command("InfoEvent"), Alias("infoEvent", "Infoevent", "infoevent")]
-        public async Task AddInfoBulletinEvent(string description, string location, string cost, int capacity, string eventURL,string iconURL)
+        public async Task AddInfoBulletinEvent(string description, string location, string cost, int capacity, string eventURL, string iconURL)
         {
-            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            if (await IsUserAuthorized("Admin", "Teacher", "Student") == false)
             {
                 return;
             }
@@ -708,7 +709,7 @@ namespace DiscordBot.Commands
             {
                 if (bulletinEvent.author == Context.User.Id)
                 {
-                    if(bulletinEvent.Description == null)
+                    if (bulletinEvent.Description == null)
                     {
                         bulletinEvent.Description = description;
                         bulletinEvent.Location = location;
@@ -730,7 +731,8 @@ namespace DiscordBot.Commands
                             .AddField($"Location", $"{bulletinEvent.Location}", true)
                             .AddField($"Cost", $"{bulletinEvent.Cost}", true)
                             .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
-                            .WithFooter($"By {Context.User.Username}", $"{bulletinEvent.authorIconURL}")
+                            .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                            .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
                             .WithCurrentTimestamp();
 
                         var embed = builder.Build();
@@ -740,6 +742,8 @@ namespace DiscordBot.Commands
                         if (embedEvent is IUserMessage embedMsg)
                         {
                             await embedMsg.ModifyAsync(x => x.Embed = embed);
+                            await embedMsg.AddReactionAsync(Program.BulletinBoardData.BulletinAttendingEmote);
+
                         }
 
                         await Context.Message.DeleteAsync();
@@ -771,6 +775,16 @@ namespace DiscordBot.Commands
 
                     if (eventEmbed is IUserMessage embedMsg)
                     {
+
+                        //Updating attending users
+                        foreach (IUser attendee in await (eventEmbed as IUserMessage).GetReactionUsersAsync(Program.BulletinBoardData.BulletinAttendingEmote, 100).FlattenAsync())
+                        {
+                            if (bulletinEvent.AttendingUsers.Contains(attendee.Id) == false && attendee.Id != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
+                            {
+                                bulletinEvent.AttendingUsers.Add(attendee.Id);
+                            }
+                        }
+
                         await embedMsg.DeleteAsync();
                         bulletinEvent.MsgID = 1234567890;
                         Program.SaveBulletinBoardDataToFile();
@@ -793,12 +807,16 @@ namespace DiscordBot.Commands
                         .AddField($"Location", $"{bulletinEvent.Location}", true)
                         .AddField($"Cost", $"{bulletinEvent.Cost}", true)
                         .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
-                        .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Username}", $"{bulletinEvent.authorIconURL}")
+                        .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                        .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
                         .WithTimestamp(bulletinEvent.embedCreated);
 
                     var embed = builder.Build();
 
                     var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(true);
+
+                    //add atending emote
+                    await msg.AddReactionAsync(Program.BulletinBoardData.BulletinAttendingEmote);
 
                     //Saving data
                     bulletinEvent.MsgID = msg.Id;
@@ -816,7 +834,7 @@ namespace DiscordBot.Commands
         [Command("RemoveEvent"), Alias("removeEvent", "RemoveEvent", "removeevent")]
         public async Task RemoveBulletinEvent(string topic)
         {
-            if (await IsUserAuthorized("Admin", "Teacher", "Certified") == false)
+            if (await IsUserAuthorized("Admin", "Teacher", "Student") == false)
             {
                 return;
             }
@@ -855,6 +873,7 @@ namespace DiscordBot.Commands
         }
 
 
+
         /*                     _               _         
          *         /\         | |             (_)        
          *        /  \      __| |  _ __ ___    _   _ __  
@@ -867,7 +886,7 @@ namespace DiscordBot.Commands
         [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
 
         public async Task Quit()
-        { 
+        {
             if (await IsUserAuthorized("Admin", "Teacher"))
             {
                 var msg = await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
@@ -897,7 +916,7 @@ namespace DiscordBot.Commands
             }
             else
             {
-                await Program.SendIntroductionMessage(Context.Guild.GetUser(targetUser));                                 
+                await Program.SendIntroductionMessage(Context.Guild.GetUser(targetUser));
             }
         }
 
@@ -932,6 +951,104 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        
+        [Command("ServerStats")]
+        public async Task GetServerStats()
+        { 
+        
+        
+        }
+
+
+        [Command("UpdateUserList")]
+        public async Task UpdateUserList()
+        {
+            if(await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            var AllUsers = Context.Guild.Users;
+
+            bool yeet = false;
+
+            foreach (SocketGuildUser users in AllUsers)
+            {
+                foreach (UserProfile person in Program.UserData)
+                {
+                    if (users.Id == person.userID)
+                    {
+                        //yeet = true;
+                        break;
+                    }
+                }
+                
+                if (yeet == false)
+                {
+                    UserProfile user = GetUserProfile(users.Id);
+
+                    user.userNickname = users.Nickname;
+
+
+                    if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
+                    {
+                        user.isGuest = true;                   
+                    }
+                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
+                    {
+                        user.isTeacher = true;
+                    }
+                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
+                    {
+                        user.isStudent = true;
+
+                        if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
+                        {
+                            user.GradYear = 2020;
+                        }
+                        else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
+                        {
+                            user.GradYear = 2021;
+                        }
+                        else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"])) == true)
+                        {
+                            user.GradYear = 2019;                            
+                        }
+                        else
+                        {
+                            user.GradYear = 6969;
+                        }
+                    }
+
+                    Program.SaveUserDataToFile();
+                }
+                yeet = false;
+            }
+        }
+
+        [Command("GetUserAnomalies")]
+        public async Task GetUserAnomalies()
+        {
+            
+            Program.UserData.Sort((b, a) => a.isStudent.CompareTo(b.isStudent));
+
+            string reportMsg = "";
+
+            foreach (UserProfile user in Program.UserData)
+            { 
+                if(user.userNickname == null)
+                {
+                    reportMsg += $"<@{user.userID}> : Missing Nickname :no_entry:\n";
+                }
+
+                if (user.isGuest == false && user.isTeacher == false && user.isStudent == false)
+                { 
+                    reportMsg += $"<@{user.userID}> : Not a Student,Teacher,or Guest :no_entry:\n";
+                }
+            }
+
+            await Context.Channel.SendMessageAsync(reportMsg);
+        }
 
         /*      __  __          _     _                   _       
          *     |  \/  |        | |   | |                 | |      
@@ -1040,8 +1157,6 @@ namespace DiscordBot.Commands
 
             Program.UserData.Add(newProfile);
             return newProfile;
-
-
         }
 
         private List<Embed> CreateWebsiteEmbeds()

@@ -80,7 +80,6 @@ namespace DiscordBot
             //BulletinBoard
             LoadBulletinBoardFromFile();
 
-
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info
@@ -103,8 +102,9 @@ namespace DiscordBot
             //If user joins
             _client.UserJoined += AnnounceJoinedUser;
             _client.UserLeft += AnnouceLeftUser;
-
             _client.MessageReceived += _client_MessageReceived;
+            _client.ReactionAdded += MessageReactionAdded;
+
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
             _services = new ServiceCollection().BuildServiceProvider();
@@ -264,6 +264,13 @@ namespace DiscordBot
                                 );
         }
 
+        public static async Task MessageReactionAdded(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
+        {
+            await SoftUpdate(OldMsg.Id,NewMsg,react);
+        }
+
+
+
 
         //User Data Handling
         public void LoadUserDataFromFile()
@@ -325,6 +332,46 @@ namespace DiscordBot
 
             return;
         }
+
+        private static async Task SoftUpdate(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
+        {
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
+            {
+                if (MessageID == bulletinEvent.MsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"] && react.Emote.Equals(BulletinBoardData.BulletinAttendingEmote))
+                {
+                    if (bulletinEvent.AttendingUsers.Contains(react.UserId) == false)
+                    {
+                        bulletinEvent.AttendingUsers.Add(react.UserId);
+                    }
+
+                    var builder = new EmbedBuilder()
+                        .WithTitle(bulletinEvent.Title)
+                        .WithUrl($"{bulletinEvent.EventURL}")
+                        .WithColor(new Color(0, 0, 255))
+                        .WithDescription($"{bulletinEvent.Description}")
+                        .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                        .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                        .AddField($"Location", $"{bulletinEvent.Location}", true)
+                        .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                        .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                        .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                        .WithFooter($"By {(await NewMsg.GetUserAsync(bulletinEvent.author) as SocketGuildUser).Nickname}", $"{bulletinEvent.authorIconURL}")
+                        .WithTimestamp(bulletinEvent.embedCreated);
+
+                    var embed = builder.Build();
+
+                    var msg = await NewMsg.GetMessageAsync(MessageID) as IUserMessage;
+
+                    await msg.ModifyAsync(x => x.Embed = embed);
+
+                    //add atending emote
+                    SaveBulletinBoardDataToFile();
+                    await msg.RemoveAllReactionsAsync();
+                    await msg.AddReactionAsync(BulletinBoardData.BulletinAttendingEmote);
+                }
+            }
+        }
+
 
 
         //Gets the save files

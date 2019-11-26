@@ -23,6 +23,9 @@ namespace DiscordBot
         public string IconURL;
 
 
+        //People going
+        public List<ulong> AttendingUsers = new List<ulong>();
+
         public string authorIconURL;
         public ulong author;
         public DateTime embedCreated;
