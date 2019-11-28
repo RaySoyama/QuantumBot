@@ -19,6 +19,5 @@ namespace DiscordBot
         public Discord.IEmote BulletinAttendingEmote = Discord.Emote.Parse("<a:partyparrot:647210646177447936>");
 
         public List<BulletinEvent> BulletinEvents = new List<BulletinEvent>();
-
     }
 }

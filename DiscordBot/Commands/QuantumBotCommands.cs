@@ -841,7 +841,7 @@ namespace DiscordBot.Commands
 
             foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
             {
-                if (bulletinEvent.Title.ToLower() == topic.ToLower())
+                if (bulletinEvent.Title.ToLower() == topic.ToLower() && ( Context.User.Id == bulletinEvent.author || await IsUserAuthorized("Admin", "Teacher")) )
                 {
                     if (bulletinEvent.MsgID != 1234567890)
                     {
@@ -866,10 +866,10 @@ namespace DiscordBot.Commands
                 }
             }
 
-            var msgNope = await Context.Channel.SendMessageAsync($"Event title\n> {topic}\nNot found");
+            var msgNope = await Context.Channel.SendMessageAsync($"Event title\n> {topic}\nNot found, or you are not the author");
             await Task.Delay(5000);
-            await Context.Message.DeleteAsync();
             await msgNope.DeleteAsync();
+            await Context.Message.DeleteAsync();
         }
 
 
