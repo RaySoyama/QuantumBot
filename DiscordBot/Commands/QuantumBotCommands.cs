@@ -103,7 +103,7 @@ namespace DiscordBot.Commands
 
         //--------------------------------------------------------------------------------
 
-        [Command("UnityVersion"), Alias("unityverion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
+        [Command("UnityVersion"), Alias("unityversion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
         public async Task UnityVersion()
         {
             string versions = "";
