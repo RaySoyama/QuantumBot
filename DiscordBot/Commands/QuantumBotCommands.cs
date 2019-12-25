@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -100,6 +101,21 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        //[Command("FormatThis"), Alias("format")]
+        //public async Task FormatThisPlz()
+        //{
+        //    string path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath("FormatThis.png")).ToString();
+
+        //    //path = System.IO.Directory.GetParent(path).ToString();
+        //    //path = System.IO.Directory.GetParent(path).ToString();
+        //    //path = System.IO.Directory.GetParent(path).ToString();
+
+        //    Directory.CreateDirectory(path + "\\Poiners Anonymous Bot Files\\");
+
+        //    path += "\\Poiners Anonymous Bot Files\\" + "FormatThis.png";
+
+        //    await Context.Channel.SendFileAsync(path, "https://gist.github.com/Almeeida/41a664d8d5f3a8855591c2f1e0e07b19", false,null,null,false);
+        //}
 
         //--------------------------------------------------------------------------------
 
@@ -132,6 +148,64 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             await Context.User.SendMessageAsync($"Here you go~ \n{Program.ServerConfigData.ProjectProposalDocURL}");
             return;
+        }
+
+        [Command("AIESchedule"), Alias("AIECalender", "Calender", "Schedule")]
+        public async Task SendAIECalender()
+        {
+            await Context.Message.DeleteAsync();
+            await Context.User.SendMessageAsync($"Here you go~ \n{Program.ServerConfigData.AIESchoolCalender}");
+            return;
+        }
+
+        [Command("Graduation"), Alias("Grad")]
+
+        public async Task DaysTillGraduation()
+        {
+            var user = Context.User as SocketGuildUser;
+            string output = "";
+            
+            if (user.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
+            {
+                output += GraduationDialoguePrinter(2020);
+            }
+            else if (user.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
+            {
+                output += GraduationDialoguePrinter(2021);
+            }
+            else
+            {
+                output += GraduationDialoguePrinter(42069);
+            }
+
+            await Context.Channel.SendMessageAsync(output);
+        }
+
+        [Command("Graduation"), Alias("Grad")]
+        public async Task DaysTillAllGraduation(string year)
+        {
+            string output = "";
+            int yearNum = 42069;
+            
+            if (year.ToLower().Equals("all"))
+            {
+                yearNum = 42069;
+            }
+            else
+            {
+                try
+                {
+                    yearNum = Int32.Parse(year);
+                }
+                catch (FormatException e)
+                {
+                    yearNum = 42069;
+                }
+            }
+
+            output += GraduationDialoguePrinter(yearNum);
+
+            await Context.Channel.SendMessageAsync(output);
         }
 
         [Command("Iceborne"), Alias("iceborne"), Summary("Returns Days till Iceborne")]
@@ -501,20 +575,20 @@ namespace DiscordBot.Commands
             Program.BulletinBoardData.Lunchboxes.Add(NewLunchbox);
             Program.SaveBulletinBoardDataToFile();
 
-            var builder = new EmbedBuilder()
-                .WithTitle("New Lunchbox Added")
-                .WithColor(new Color(37, 170, 225))
-                .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL)
-                .AddField($"{lunchboxTopic}", $"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, d MMMM yyyy")}");
+            //var builder = new EmbedBuilder()
+            //    .WithTitle("New Lunchbox Added")
+            //    .WithColor(new Color(37, 170, 225))
+            //    .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL)
+            //    .AddField($"{lunchboxTopic}", $"{lunchboxSpeaker}\n{NewLunchbox.date.ToString("dddd, d MMMM yyyy")}");
 
-            var embed = builder.Build();
-            var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            //var embed = builder.Build();
+            //var msg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
 
             await Context.Message.DeleteAsync();
             await UpdateLunchboxEvents();
 
             //await Task.Delay(3000);
-            await msg.DeleteAsync();
+            //await msg.DeleteAsync();
         }
 
         [Command("UpdateLunchbox"), Alias("UpdateLB", "updateLB", "updatelb", "updatelunchbox", "updatelunchBox", "updateLunchBox", "Updatelunchbox", "UpdatelunchBox", "UpdateLunchBox")]
@@ -873,7 +947,6 @@ namespace DiscordBot.Commands
         }
 
 
-
         /*                     _               _         
          *         /\         | |             (_)        
          *        /  \      __| |  _ __ ___    _   _ __  
@@ -951,14 +1024,124 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
-        
         [Command("ServerStats")]
         public async Task GetServerStats()
-        { 
-        
-        
-        }
+        {
+            int ProgrammerCount = 0;
+            int ArtistCount = 0;
+            int DesignerCount = 0;
+            int VFXCount = 0;
+            int StudentCount = 0;
+            int TeacherCount = 0;
+            int IndustryCount = 0;
+            int GuestCount = 0;
+            int BotCount = 0;
+            int CO2019 = 0;
+            int CO2020 = 0;
+            int CO2021 = 0;
 
+            var AllUsers = Context.Guild.Users;
+
+            var ProgramerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Programming"]);
+            var ArtistRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Art"]);
+            var DesignerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Design"]);
+            var VFXRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["VFX"]);
+            var StudentRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"]);
+            var TeacherRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"]);
+            var IndustryRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Industry"]);
+            var GuestRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"]);
+            var CO2019Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"]);
+            var CO2020Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"]);
+            var CO2021Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"]);
+
+
+            foreach (SocketGuildUser users in AllUsers)
+            {
+                if (users.Roles.Contains(ProgramerRole) == true)
+                {
+                    ProgrammerCount++;
+                }
+
+                if (users.Roles.Contains(ArtistRole) == true)
+                {
+                    ArtistCount++;
+                }
+
+                if (users.Roles.Contains(DesignerRole) == true)
+                {
+                    DesignerCount++;
+                }
+
+                if (users.Roles.Contains(VFXRole) == true)
+                {
+                    VFXCount++;
+                }
+
+                if (users.Roles.Contains(StudentRole) == true)
+                {
+                    StudentCount++;
+                }
+
+                if (users.Roles.Contains(TeacherRole) == true)
+                {
+                    TeacherCount++;
+                }
+
+                if (users.Roles.Contains(IndustryRole) == true)
+                {
+                    IndustryCount++;
+                }
+
+                if (users.Roles.Contains(GuestRole) == true)
+                {
+                    GuestCount++;
+                }
+
+                if (users.IsBot == true)
+                {
+                    BotCount++;
+                }
+
+                if (users.Roles.Contains(CO2019Role) == true)
+                {
+                    CO2019++;
+                }
+
+                if (users.Roles.Contains(CO2020Role) == true)
+                {
+                    CO2020++;
+                }
+
+                if (users.Roles.Contains(CO2021Role) == true)
+                {
+                    CO2021++;
+                }
+            }
+
+
+            string StatsMsg = "❤️ Pointers Anonymous Stats\n" +
+                              "```autohotkey\n" +
+                              $"Programmers     :{ServerStatBoxPrinter(ProgrammerCount)}\n" +
+                              $"Artists         :{ServerStatBoxPrinter(ArtistCount)}\n" +
+                              $"Designers       :{ServerStatBoxPrinter(DesignerCount)}\n" +
+                              $"VFX             :{ServerStatBoxPrinter(VFXCount)}\n" +
+                              $"\n" +
+                              $"Students        :{ServerStatBoxPrinter(StudentCount)}\n" +
+                              $"Teachers        :{ServerStatBoxPrinter(TeacherCount)}\n" +
+                              $"Industry        :{ServerStatBoxPrinter(IndustryCount)}\n" +
+                              $"Guests          :{ServerStatBoxPrinter(GuestCount)}\n" +
+                              $"Bots            :{ServerStatBoxPrinter(BotCount)}\n" +
+                              $"\n" +
+                              $"\n" +
+                              $"Member Count    : {AllUsers.Count}\n" +
+                              $"Class of 2019   :{ServerStatBoxPrinter(CO2019)}\n" +
+                              $"Class of 2020   :{ServerStatBoxPrinter(CO2020)}\n" +
+                              $"Class of 2021   :{ServerStatBoxPrinter(CO2021)}\n" +
+                              $"\n" +
+                              $"Stats from      : {DateTime.Now.ToString("MM/d/yyyy H:mm")}\n" +
+                              "```";
+            await Context.Channel.SendMessageAsync(StatsMsg);
+        }
 
         [Command("UpdateUserList")]
         public async Task UpdateUserList()
@@ -1024,12 +1207,19 @@ namespace DiscordBot.Commands
                 }
                 yeet = false;
             }
+
+            var msg = await Context.Channel.SendMessageAsync("User List Updated");
+            await Task.Delay(5000);
+            await msg.DeleteAsync();
+
         }
 
         [Command("GetUserAnomalies")]
         public async Task GetUserAnomalies()
         {
-            
+            await UpdateUserList();
+
+
             Program.UserData.Sort((b, a) => a.isStudent.CompareTo(b.isStudent));
 
             string reportMsg = "";
@@ -1249,6 +1439,118 @@ namespace DiscordBot.Commands
             }
 
             return WebsiteEmbed.Build();
-        }    
+        }
+
+        private string ServerStatBoxPrinter(int userCount)
+        {
+            int boxPerUser = 5;  
+            string box = " ";
+  
+
+            for (int i = 0; i < userCount / boxPerUser + 1; i++)
+            {
+                box += "▉";
+            }
+
+            box += $" {userCount}";
+            return box;
+        }
+
+        private string GraduationDialoguePrinter(int year)
+        {
+            string output = ":video_game:\n";
+            DateTime startDate;
+            DateTime gradDate;
+            int daysDiff;
+
+            if (year == 2020)
+            {
+                startDate = new DateTime(2018, 8, 16);
+                gradDate = new DateTime(2020, 7, 22);
+                daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
+
+                output += $"> :confetti_ball:Class of 2020 Graduation!:confetti_ball:\n" +
+                               $"Graduation is on July 22nd 2020\n\n" +
+                               $"~ {daysDiff} days to go! ~\n" +
+                               $"```\n" +
+                               $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
+                               $"```";
+            }
+            else if (year == 2021)
+            {
+                startDate = new DateTime(2019, 8, 12);
+                gradDate = new DateTime(2021, 7, 22);
+                daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
+
+                output += $"> :confetti_ball:Class of 2021 Graduation!:confetti_ball:\n" +
+                                $"Graduation is on July 22nd 2021 (I think, lol don't quote me on that)\n\n" +
+                                $"~ {daysDiff} days to go! ~\n" +
+                                $"```\n" +
+                                $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
+                                $"```";
+            }
+            else 
+            {
+                startDate = new DateTime(2018, 8, 16);
+                gradDate = new DateTime(2020, 7, 22);
+                daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
+
+                output += $"> :confetti_ball:Class of 2020 Graduation!:confetti_ball:\n" +
+                               $"Graduation is on July 22nd 2020\n\n" +
+                               $"~ {daysDiff} days to go! ~\n" +
+                               $"```\n" +
+                               $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
+                               $"```\n";
+
+                startDate = new DateTime(2019, 8, 12);
+                gradDate = new DateTime(2021, 7, 22);
+                daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
+
+                output += $"> :confetti_ball:Class of 2021 Graduation!:confetti_ball:\n" +
+                                $"Graduation is on July 22nd 2021 (I think, lol don't quote me on that)\n\n" +
+                                $"~ {daysDiff} days to go! ~\n" +
+                                $"```\n" +
+                                $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
+                                $"```";
+            }
+
+            return output;
+        }
+
+        private string GraduationStatBoxPrinter(DateTime startDate, DateTime endDate)
+        {
+            int gradDiff = (endDate - startDate).Days;
+            int nowDiff = (DateTime.Now - startDate).Days;
+
+
+            string output = $"~Progress Bar~ ({(float)((int)((float)nowDiff / (float)gradDiff * 10000.0f)/100.0f)}%)\n";
+
+            output += "";
+            for (int i = 0; i < 20; i++)
+            {
+                if (i == 10)
+                {
+                    output += " Year 1\n";
+                }
+
+                if ((float)nowDiff / (float)gradDiff > 1.0f / 20.0f * i)
+                {
+                    output += "▉";
+                }
+                else
+                {
+                    if (i == 10)
+                    {
+                        output += "□";
+                    }
+
+                    output += " □";
+                }
+            }
+            output += " Year 2";
+
+
+            return output;
+        }
     }
 }

@@ -21,11 +21,15 @@ namespace DiscordBot
 
         public Dictionary<Program.WEBSITES, WebsiteProfile> WebsiteData = new Dictionary<Program.WEBSITES, WebsiteProfile>();
 
+
+
         public List<string> UnityVersion;
 
         public string UnityIconURL;
 
         public string ProjectProposalDocURL;
+
+        public string AIESchoolCalender;
 
         public string LunchboxIconURL;
     }

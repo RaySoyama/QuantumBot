@@ -87,7 +87,7 @@ namespace DiscordBot
 
             _commands = new CommandService(new CommandServiceConfig
             {
-                CaseSensitiveCommands = true,
+                CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
                 LogLevel = LogSeverity.Info
             });
