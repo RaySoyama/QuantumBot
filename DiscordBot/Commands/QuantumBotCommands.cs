@@ -219,17 +219,29 @@ namespace DiscordBot.Commands
                 return;
             }
 
-            DateTime endTime = new DateTime(2020, 01, 09, 0, 0, 0);
+            DateTime endTime = new DateTime(2020, 01, 09, 09, 0, 0);
             TimeSpan ts = endTime.Subtract(DateTime.Now);
-            string daysTill = ts.ToString("d' Days 'h' Hours 'm' Minutes 's' Seconds'");
+            string daysTillDescription = ts.ToString("d' Days 'h' Hours 'm' Minutes 's' Seconds'");
+            daysTillDescription += ($"\n\n[Releases](https://store.steampowered.com/app/1118010/Monster_Hunter_World_Iceborne/) at 9:00 AM PST on January 9th 2020");
+
+            if (ts <= TimeSpan.Zero)
+            {
+                daysTillDescription = ":confetti_ball: :confetti_ball: ICEBORNE IS OUT YALL, HAVE AT IT HUNTERS:confetti_ball: :confetti_ball: \n\n[Released](https://store.steampowered.com/app/1118010/Monster_Hunter_World_Iceborne/) at 9:00 AM PST on January 9th 2020";
+            }
 
             var builder = new EmbedBuilder()
                 .WithColor(new Color(37, 170, 225))
+                .WithTitle("PC Monster Hunter World Iceborne Countdown")
+                .WithUrl("https://www.monsterhunter.com/update/mhw-steam/us/")
+                .WithDescription($"{daysTillDescription}")//\n\n[Releases](https://store.steampowered.com/app/1118010/Monster_Hunter_World_Iceborne/) at 9:00 AM PST on January 9th 2020")
                 .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/637797971752386560/DuEMx03WsAE1zhp.png")
-                .AddField("Monster Hunter World Iceborne Countdown", daysTill);
+                .AddField("Download Size", "48GB (+ 45GB for HighResTex)");
 
+
+            await Context.Message.DeleteAsync();
             var embed = builder.Build();
             await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            //await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
         }
 
         //Inktober
