@@ -157,7 +157,7 @@ namespace DiscordBot
             }
 
 
-            //custom inline msg replies
+            #region Custom Word Checks
             if (context.Message.ToString().ToLower().Contains("good bot"))
             {
                 await context.Channel.SendMessageAsync("Thank you! You're a good human <a:partyparrot:647210646177447936>");
@@ -168,7 +168,7 @@ namespace DiscordBot
                 //var emoji = new Emoji("\uD83D\uDC4C");
                 //await msg.AddReactionAsync(emoji);
             }
-
+            #endregion
 
 
 
@@ -184,16 +184,37 @@ namespace DiscordBot
             //if bot command is good
             if (result.IsSuccess == true)
             {
-                //Forward Msg to bot history
-                await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
-                                                                                                                                         $"Message - \"{context.Message.ToString()}\"\n" +
-                                                                                                                                         $"User - <@{context.Message.Author.Id}>\n" +
-                                                                                                                                         $"Channel - <#{context.Channel.Id}>\n" +
-                                                                                                                                         $"Time - {DateTime.Now}");
+
+                //If Admin, don't ping
+                var AuthRole = context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+
+                SocketGuildUser user = context.User as SocketGuildUser;
+                if (user.Roles.Contains(AuthRole))
+                {
+                    //Forward Msg to bot history
+                    await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
+                                                                                                                                             $"Message - \"{context.Message.ToString()}\"\n" +
+                                                                                                                                             $"User - Admin: {user.Nickname} \n" +
+                                                                                                                                             $"Channel - <#{context.Channel.Id}>\n" +
+                                                                                                                                             $"Time - {DateTime.Now}");
+                }
+                else
+                {
+                    //Forward Msg to bot history
+                    await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked:\n" +
+                                                                                                                                             $"Message - \"{context.Message.ToString()}\"\n" +
+                                                                                                                                             $"User - <@{context.Message.Author.Id}>\n" +
+                                                                                                                                             $"Channel - <#{context.Channel.Id}>\n" +
+                                                                                                                                             $"Time - {DateTime.Now}");
+                }
             }
             else if (result.IsSuccess == false) //If the command failed, run this
             {
-                return;
+                await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked and Failed <@{ServerConfigData.PointersAnonUserID["Ray Soyama"]}>:\n" +
+                                                                                                                                          $"Message - \"{context.Message.ToString()}\"\n" +
+                                                                                                                                          $"User - <@{context.Message.Author.Id}>\n" +
+                                                                                                                                          $"Channel - <#{context.Channel.Id}>\n" +
+                                                                                                                                          $"Time - {DateTime.Now}");
             }
         }
 

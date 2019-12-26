@@ -1316,13 +1316,13 @@ namespace DiscordBot.Commands
 
         private async Task<bool> IsUserAuthorized(params string[] roles)
         {
-            var adminCheck = Context.User as SocketGuildUser;
+            var roleCheckUser = Context.User as SocketGuildUser;
 
             foreach (string role in roles)
             {
                 var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID[role]);
                
-                if (adminCheck.Roles.Contains(AuthRole) == true)
+                if (roleCheckUser.Roles.Contains(AuthRole) == true)
                 {
                     return true;
                 }
