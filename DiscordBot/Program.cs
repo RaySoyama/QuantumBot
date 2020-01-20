@@ -210,11 +210,11 @@ namespace DiscordBot
             }
             else if (result.IsSuccess == false) //If the command failed, run this
             {
-                await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked and Failed <@{ServerConfigData.PointersAnonUserID["Ray Soyama"]}>:\n" +
-                                                                                                                                          $"Message - \"{context.Message.ToString()}\"\n" +
-                                                                                                                                          $"User - <@{context.Message.Author.Id}>\n" +
-                                                                                                                                          $"Channel - <#{context.Channel.Id}>\n" +
-                                                                                                                                          $"Time - {DateTime.Now}");
+                //await context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"Command Invoked and Failed <@{ServerConfigData.PointersAnonUserID["Ray Soyama"]}>:\n" +
+                //                                                                                                                          $"Message - \"{context.Message.ToString()}\"\n" +
+                //                                                                                                                          $"User - <@{context.Message.Author.Id}>\n" +
+                //                                                                                                                          $"Channel - <#{context.Channel.Id}>\n" +
+                //                                                                                                                          $"Time - {DateTime.Now}");
             }
         }
 
