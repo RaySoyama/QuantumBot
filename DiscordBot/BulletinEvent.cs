@@ -18,7 +18,7 @@ namespace DiscordBot
 
         public string Location;
 
-        public int Capacity;
+        public string Capacity;
 
         public string IconURL;
 

@@ -783,8 +783,8 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
-        [Command("InfoEvent"), Alias("infoEvent", "Infoevent", "infoevent")]
-        public async Task AddInfoBulletinEvent(string description, string location, string cost, int capacity, string eventURL, string iconURL)
+        [Command("InfoEvent"), Alias("eventinfo","eventsinfo","infoevents")]
+        public async Task AddInfoBulletinEvent(string description, string location, string cost, string capacity, string eventURL, string iconURL)
         {
             if (await IsUserAuthorized("Admin", "Teacher", "Student") == false)
             {
@@ -804,22 +804,32 @@ namespace DiscordBot.Commands
                         bulletinEvent.EventURL = eventURL;
                         bulletinEvent.IconURL = iconURL;
 
+                        EmbedBuilder builder;
+                        try
+                        {
+                            builder = new EmbedBuilder()
+                                .WithTitle(bulletinEvent.Title)
+                                .WithUrl($"{bulletinEvent.EventURL}")
+                                .WithColor(new Color(0, 0, 255))
+                                .WithDescription($"{bulletinEvent.Description}")
+                                .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                                .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                                .AddField($"Location", $"{bulletinEvent.Location}", true)
+                                .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                                .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                                .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                                .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
+                                .WithCurrentTimestamp();
+                        }
+                        catch (ArgumentException e) //incase a URL is dead
+                        {
+                            await Context.User.SendMessageAsync($"AHHHH You broke something. . . plz msg <@173226502710755328>\nMsg: {Context.Message}");
+                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}");
+                            await Context.Message.DeleteAsync();
+                            return;
+                        }
+
                         Program.SaveBulletinBoardDataToFile();
-
-
-                        var builder = new EmbedBuilder()
-                            .WithTitle(bulletinEvent.Title)
-                            .WithUrl($"{bulletinEvent.EventURL}")
-                            .WithColor(new Color(0, 0, 255))
-                            .WithDescription($"{bulletinEvent.Description}")
-                            .WithThumbnailUrl($"{bulletinEvent.IconURL}")
-                            .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
-                            .AddField($"Location", $"{bulletinEvent.Location}", true)
-                            .AddField($"Cost", $"{bulletinEvent.Cost}", true)
-                            .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
-                            .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
-                            .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
-                            .WithCurrentTimestamp();
 
                         var embed = builder.Build();
 
@@ -883,19 +893,51 @@ namespace DiscordBot.Commands
             {
                 if (bulletinEvent.EventDate.CompareTo(DateTime.Now) > 0 && embedCount < Program.BulletinBoardData.BulletinEventMax)
                 {
-                    var builder = new EmbedBuilder()
-                        .WithTitle(bulletinEvent.Title)
-                        .WithUrl($"{bulletinEvent.EventURL}")
-                        .WithColor(new Color(0, 0, 255))
-                        .WithDescription($"{bulletinEvent.Description}")
-                        .WithThumbnailUrl($"{bulletinEvent.IconURL}")
-                        .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
-                        .AddField($"Location", $"{bulletinEvent.Location}", true)
-                        .AddField($"Cost", $"{bulletinEvent.Cost}", true)
-                        .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
-                        .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
-                        .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
-                        .WithTimestamp(bulletinEvent.embedCreated);
+                    EmbedBuilder builder;
+
+                    //if incomplete event
+                    if (bulletinEvent.Description == null)
+                    {
+                        builder = new EmbedBuilder()
+                           .WithTitle(bulletinEvent.Title)
+                           .WithUrl($"https://discordapp.com/invite/xQAcyyX")
+                           .WithColor(new Color(0, 0, 255))
+                           .WithDescription($"Missing")
+                           .WithThumbnailUrl("https://cdn.discordapp.com/attachments/489949750762668035/647733785118375947/NoPhoto.png")
+                           .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                           .AddField($"Location", "Missing", true)
+                           .AddField($"Cost", "Missing", true)
+                           .AddField($"Capacity", "Missing", true)
+                           .AddField($"Attending", "0", true)
+                           .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
+                           .WithTimestamp(bulletinEvent.embedCreated);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            builder = new EmbedBuilder()
+                                .WithTitle(bulletinEvent.Title)
+                                .WithUrl($"{bulletinEvent.EventURL}")
+                                .WithColor(new Color(0, 0, 255))
+                                .WithDescription($"{bulletinEvent.Description}")
+                                .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                                .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                                .AddField($"Location", $"{bulletinEvent.Location}", true)
+                                .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                                .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                                .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                                .WithFooter($"By {Context.Guild.GetUser(bulletinEvent.author).Nickname}", $"{bulletinEvent.authorIconURL}")
+                                .WithTimestamp(bulletinEvent.embedCreated);
+                        }
+                        catch (ArgumentException e) //incase a URL is dead
+                        {
+                            await Context.User.SendMessageAsync($"AHHHH You broke something. . . plz msg <@173226502710755328>\nMsg: {Context.Message}");
+                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}");
+                            continue;
+                        }
+
+                    }
 
                     var embed = builder.Build();
 
