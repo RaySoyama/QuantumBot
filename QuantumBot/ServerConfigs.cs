@@ -18,9 +18,7 @@ namespace DiscordBot
         public Dictionary<string, ulong> PointersAnonRoleID = new Dictionary<string, ulong>();
         //List of User References
         public Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
-
         public Dictionary<Program.WEBSITES, WebsiteProfile> WebsiteData = new Dictionary<Program.WEBSITES, WebsiteProfile>();
-
 
 
         public List<string> UnityVersion;

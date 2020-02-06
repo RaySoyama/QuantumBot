@@ -55,7 +55,7 @@ namespace DiscordBot.Commands
         [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
         public async Task Ping()
         {
-            var msg = await Context.Message.Channel.SendMessageAsync($"MS {Program.latecy}");
+            var msg = await Context.Message.Channel.SendMessageAsync($"MS {Program.latency}");
 
             await Task.Delay(5000);
             await Context.Message.DeleteAsync();
@@ -824,7 +824,7 @@ namespace DiscordBot.Commands
                         catch (ArgumentException e) //incase a URL is dead
                         {
                             await Context.User.SendMessageAsync($"AHHHH You broke something. . . plz msg <@173226502710755328>\nMsg: {Context.Message}");
-                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}");
+                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}\nContext: {e.Message}");
                             await Context.Message.DeleteAsync();
                             return;
                         }
@@ -933,7 +933,7 @@ namespace DiscordBot.Commands
                         catch (ArgumentException e) //incase a URL is dead
                         {
                             await Context.User.SendMessageAsync($"AHHHH You broke something. . . plz msg <@173226502710755328>\nMsg: {Context.Message}");
-                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}");
+                            await Context.Guild.GetUser(173226502710755328).SendMessageAsync($"<@{Context.User.Id}> broke something.\n Msg: {Context.Message}\nContext: {e.Message}");
                             continue;
                         }
 

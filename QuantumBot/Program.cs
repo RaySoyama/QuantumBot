@@ -37,15 +37,14 @@ namespace DiscordBot
 
         public static BulletinBoard BulletinBoardData = new BulletinBoard();
 
+        public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
 
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
          
 
-        public static int  latecy = 69;
-
-       
+        public static int  latency = 69;
 
         public static string logFileSavePath = "DiscordChatData.txt";
 
@@ -53,6 +52,7 @@ namespace DiscordBot
         public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
+        public static string channelRolesSavePath = "ChannelRolesData.json";
 
 
 
@@ -71,6 +71,7 @@ namespace DiscordBot
             GetFilePath(configFileSavePath, ref configFileSavePath);
             GetFilePath(userFileSavePath, ref userFileSavePath);
             GetFilePath(bulletinBoardSavePath, ref bulletinBoardSavePath);
+            GetFilePath(channelRolesSavePath, ref channelRolesSavePath);
 
             
             //Initialize Dictionaries
@@ -81,6 +82,16 @@ namespace DiscordBot
 
             //BulletinBoard
             LoadBulletinBoardFromFile();
+
+            //Load Channel Roles System
+            //LoadChannelRolesFromFile();
+
+            ChannelRolesData.Add("Programming",new ChannelRoles(){RoleName = "Programming", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:ProgRole:674882980262576148>")});
+            ChannelRolesData.Add("Art",new ChannelRoles(){RoleName = "Art", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:ArtRole:674882980199792650>")});
+            ChannelRolesData.Add("Design",new ChannelRoles(){RoleName = "Design", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:DesignRole:674882980170432523>")});
+            ChannelRolesData.Add("TechArt",new ChannelRoles(){RoleName = "TechArt", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:TechArtRole:674882980296130591>")});
+            SaveChannelRolesFromFile();
+
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -103,7 +114,7 @@ namespace DiscordBot
 
             //If user joins
             _client.UserJoined += AnnounceJoinedUser;
-            _client.UserLeft += AnnouceLeftUser;
+            _client.UserLeft += AnnounceLeftUser;
             _client.MessageReceived += _client_MessageReceived;
             _client.ReactionAdded += MessageReactionAdded;
 
@@ -120,7 +131,7 @@ namespace DiscordBot
             var message = arg as SocketUserMessage;
             var context = new SocketCommandContext(_client, message);
 
-            latecy = _client.Latency;
+            latency = _client.Latency;
 
                     
             if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
@@ -263,7 +274,7 @@ namespace DiscordBot
             await SendIntroductionMessage(user);
         }
         
-        public async Task AnnouceLeftUser(SocketGuildUser user) //Annouces the left user
+        public async Task AnnounceLeftUser(SocketGuildUser user) //Announces the left user
         {
             await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
         }
@@ -296,7 +307,7 @@ namespace DiscordBot
 
 
         //User Data Handling
-        public void LoadUserDataFromFile()
+        private void LoadUserDataFromFile()
         {
             string contents = File.ReadAllText(userFileSavePath);
             UserData = JsonConvert.DeserializeObject<List<UserProfile>>(contents);
@@ -318,7 +329,7 @@ namespace DiscordBot
 
 
         //Server Data Handling
-        public void LoadServerDataFromFile()
+        private void LoadServerDataFromFile()
         {
             string contents = File.ReadAllText(configFileSavePath);
             ServerConfigData = JsonConvert.DeserializeObject<ServerConfigs>(contents);
@@ -336,7 +347,7 @@ namespace DiscordBot
 
         //Bulletin Board Data Handling
 
-        public void LoadBulletinBoardFromFile()
+        private void LoadBulletinBoardFromFile()
         {
             string contents = File.ReadAllText(bulletinBoardSavePath);
             BulletinBoardData = JsonConvert.DeserializeObject<BulletinBoard>(contents);
@@ -396,9 +407,24 @@ namespace DiscordBot
         }
 
 
+        //ChannelRoles Data Handleing
+        private void LoadChannelRolesFromFile()
+        {
+            string contents = File.ReadAllText(channelRolesSavePath);
+            ChannelRolesData = JsonConvert.DeserializeObject<Dictionary<string, ChannelRoles>>(contents);
+            return;
+        }
+
+        public static void SaveChannelRolesFromFile()
+        {
+            string contents = JsonConvert.SerializeObject(ChannelRolesData, Formatting.Indented);
+            File.WriteAllText(channelRolesSavePath, contents);
+
+            return;
+        }
 
         //Gets the save files
-        public static void GetFilePath(string textFileName, ref string path)
+        private static void GetFilePath(string textFileName, ref string path)
         {
             path = System.IO.Directory.GetParent(System.IO.Path.GetFullPath(textFileName)).ToString();
 
