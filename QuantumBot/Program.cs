@@ -109,6 +109,7 @@ namespace DiscordBot
             _client.UserLeft += AnnounceLeftUser;
             _client.MessageReceived += _client_MessageReceived;
             _client.ReactionAdded += MessageReactionAdded;
+            _client.ReactionRemoved += MessageReactionRemoved;
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
@@ -292,11 +293,13 @@ namespace DiscordBot
 
         public static async Task MessageReactionAdded(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
         {
-            await SoftUpdate(OldMsg.Id,NewMsg,react);
+            await OnReactionAdded(OldMsg.Id,NewMsg,react);
         }
-
-
-
+        
+        public static async Task MessageReactionRemoved(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
+        {
+            await OnReactionRemoved(OldMsg.Id,NewMsg,react);
+        }
 
         //User Data Handling
         private void LoadUserDataFromFile()
@@ -359,7 +362,7 @@ namespace DiscordBot
             return;
         }
 
-        private static async Task SoftUpdate(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
+        private static async Task OnReactionAdded(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
         {
             if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
             {
@@ -369,11 +372,11 @@ namespace DiscordBot
                     {
                         await (react.User.Value as SocketGuildUser).AddRoleAsync((NewMsg as SocketGuildChannel).Guild.GetRole(EmoteData.Value.RoleID));
                        
+                        //NO LOGIC CHECK FOR WHO GETS WHAT ROLES
                         await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");
                         return;
                     }
                 }
-
 
                 return;
             }
@@ -386,15 +389,7 @@ namespace DiscordBot
                     if (bulletinEvent.AttendingUsers.Contains(react.UserId) == false)
                     {
                         bulletinEvent.AttendingUsers.Add(react.UserId);
-
-                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is going to the Event {bulletinEvent.Title}");
-
-                    }
-                    else
-                    {
-                        bulletinEvent.AttendingUsers.Remove(react.UserId);
-                        
-                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is no longer going to the Event {bulletinEvent.Title}");
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is going to the Event \"{bulletinEvent.Title}\"");
                     }
 
                     var builder = new EmbedBuilder()
@@ -419,7 +414,64 @@ namespace DiscordBot
 
                     //add atending emote
                     SaveBulletinBoardDataToFile();
-                    await msg.RemoveAllReactionsAsync();
+                    await msg.AddReactionAsync(BulletinBoardData.BulletinAttendingEmote);
+
+                    return;
+                }
+            }
+        }
+        private static async Task OnReactionRemoved(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
+        {
+            if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
+            {
+                foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+                {
+                    if(react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
+                    {
+                        await (react.User.Value as SocketGuildUser).RemoveRoleAsync((NewMsg as SocketGuildChannel).Guild.GetRole(EmoteData.Value.RoleID));
+                       
+                        //NO LOGIC CHECK FOR WHO GETS WHAT ROLES
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> removed role {EmoteData.Key}");
+                        return;
+                    }
+                }
+
+                return;
+            }
+
+
+            foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
+            {
+                if (MessageID == bulletinEvent.MsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"] && react.Emote.Equals(BulletinBoardData.BulletinAttendingEmote))
+                {
+                    if (bulletinEvent.AttendingUsers.Contains(react.UserId) == true)
+                    {
+                        bulletinEvent.AttendingUsers.Remove(react.UserId);
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is no longer going to the Event \"{bulletinEvent.Title}\"");
+                    }
+
+                    var builder = new EmbedBuilder()
+                        .WithTitle(bulletinEvent.Title)
+                        .WithUrl($"{bulletinEvent.EventURL}")
+                        .WithColor(new Color(0, 0, 255))
+                        .WithDescription($"{bulletinEvent.Description}")
+                        .WithThumbnailUrl($"{bulletinEvent.IconURL}")
+                        .AddField($"Time", bulletinEvent.EventDate.ToString("MMMM d yyyy \ndddd h:mm tt"), true)
+                        .AddField($"Location", $"{bulletinEvent.Location}", true)
+                        .AddField($"Cost", $"{bulletinEvent.Cost}", true)
+                        .AddField($"Capacity", $"{bulletinEvent.Capacity}", true)
+                        .AddField($"Attending", $"{bulletinEvent.AttendingUsers.Count}", true)
+                        .WithFooter($"By {(await NewMsg.GetUserAsync(bulletinEvent.author) as SocketGuildUser).Nickname}", $"{bulletinEvent.authorIconURL}")
+                        .WithTimestamp(bulletinEvent.embedCreated);
+
+                    var embed = builder.Build();
+
+                    var msg = await NewMsg.GetMessageAsync(MessageID) as IUserMessage;
+
+                    await msg.ModifyAsync(x => x.Embed = embed);
+
+                    //add atending emote
+                    SaveBulletinBoardDataToFile();
                     await msg.AddReactionAsync(BulletinBoardData.BulletinAttendingEmote);
 
                     return;
