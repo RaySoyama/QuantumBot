@@ -8,6 +8,7 @@ namespace DiscordBot
     {
         public string RoleName;
         public ulong RoleID;
-        public Discord.IEmote ChannelReactEmote; 
+        public string ChannelReactEmoteID; 
+        public Discord.IEmote ChannelReactEmote = Discord.Emote.Parse("<a:partyparrot:647210646177447936>"); 
     }
 }

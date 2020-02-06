@@ -20,15 +20,12 @@ namespace DiscordBot
         public Dictionary<string, ulong> PointersAnonUserID = new Dictionary<string, ulong>();
         public Dictionary<Program.WEBSITES, WebsiteProfile> WebsiteData = new Dictionary<Program.WEBSITES, WebsiteProfile>();
 
-
+        //Msg ID for the Role set up
+        public ulong ServerRoleSetUpMsgID;
         public List<string> UnityVersion;
-
         public string UnityIconURL;
-
         public string ProjectProposalDocURL;
-
         public string AIESchoolCalender;
-
         public string LunchboxIconURL;
     }
 }

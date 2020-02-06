@@ -1271,8 +1271,12 @@ namespace DiscordBot.Commands
         [Command("GetUserAnomalies")]
         public async Task GetUserAnomalies()
         {
-            await UpdateUserList();
+            if(await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
 
+            await UpdateUserList();
 
             Program.UserData.Sort((b, a) => a.isStudent.CompareTo(b.isStudent));
 
@@ -1293,6 +1297,41 @@ namespace DiscordBot.Commands
 
             await Context.Channel.SendMessageAsync(reportMsg);
         }
+
+        [Command("SeedRoles")]
+        public async Task SeedRoles()
+        {
+            if(await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            List<IEmote> reactions = new List<IEmote>();
+
+            var builder = new EmbedBuilder()
+                        .WithDescription("React with these emotes to get access to the corresponding channels!~")
+                        .WithAuthor("Pointers Anonymous","https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128",null);
+
+            
+            foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+            {
+                builder.AddField($"{EmoteData.Key}",$"{EmoteData.Value.ChannelReactEmote}",true);
+                reactions.Add(EmoteData.Value.ChannelReactEmote);
+            }
+
+            var embed = builder.Build();
+            var msg = await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+            
+
+            await msg.AddReactionsAsync(reactions.ToArray(), null);
+            
+            Program.ServerConfigData.ServerRoleSetUpMsgID = msg.Id;
+            Program.SaveServerDataToFile();
+
+            await Context.Message.DeleteAsync();
+        }
+
+
 
         /*      __  __          _     _                   _       
          *     |  \/  |        | |   | |                 | |      

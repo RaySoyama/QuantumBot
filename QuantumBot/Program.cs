@@ -39,7 +39,7 @@ namespace DiscordBot
 
         public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
 
-        private DiscordSocketClient _client;
+        private static DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
          
@@ -53,8 +53,6 @@ namespace DiscordBot
         public static string userFileSavePath = "DiscordUserData.json";
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
         public static string channelRolesSavePath = "ChannelRolesData.json";
-
-
 
         static void Main(string[] args)
         {
@@ -84,13 +82,7 @@ namespace DiscordBot
             LoadBulletinBoardFromFile();
 
             //Load Channel Roles System
-            //LoadChannelRolesFromFile();
-
-            ChannelRolesData.Add("Programming",new ChannelRoles(){RoleName = "Programming", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:ProgRole:674882980262576148>")});
-            ChannelRolesData.Add("Art",new ChannelRoles(){RoleName = "Art", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:ArtRole:674882980199792650>")});
-            ChannelRolesData.Add("Design",new ChannelRoles(){RoleName = "Design", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:DesignRole:674882980170432523>")});
-            ChannelRolesData.Add("TechArt",new ChannelRoles(){RoleName = "TechArt", RoleID = 524494820467540021, ChannelReactEmote = Discord.Emote.Parse("<a:TechArtRole:674882980296130591>")});
-            SaveChannelRolesFromFile();
+            LoadChannelRolesFromFile();
 
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
@@ -369,6 +361,24 @@ namespace DiscordBot
 
         private static async Task SoftUpdate(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
         {
+            if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
+            {
+                foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+                {
+                    if(react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
+                    {
+                        await (react.User.Value as SocketGuildUser).AddRoleAsync((NewMsg as SocketGuildChannel).Guild.GetRole(EmoteData.Value.RoleID));
+                       
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");
+                        return;
+                    }
+                }
+
+
+                return;
+            }
+
+
             foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
             {
                 if (MessageID == bulletinEvent.MsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"] && react.Emote.Equals(BulletinBoardData.BulletinAttendingEmote))
@@ -376,6 +386,15 @@ namespace DiscordBot
                     if (bulletinEvent.AttendingUsers.Contains(react.UserId) == false)
                     {
                         bulletinEvent.AttendingUsers.Add(react.UserId);
+
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is going to the Event {bulletinEvent.Title}");
+
+                    }
+                    else
+                    {
+                        bulletinEvent.AttendingUsers.Remove(react.UserId);
+                        
+                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> is no longer going to the Event {bulletinEvent.Title}");
                     }
 
                     var builder = new EmbedBuilder()
@@ -402,6 +421,8 @@ namespace DiscordBot
                     SaveBulletinBoardDataToFile();
                     await msg.RemoveAllReactionsAsync();
                     await msg.AddReactionAsync(BulletinBoardData.BulletinAttendingEmote);
+
+                    return;
                 }
             }
         }
@@ -412,6 +433,12 @@ namespace DiscordBot
         {
             string contents = File.ReadAllText(channelRolesSavePath);
             ChannelRolesData = JsonConvert.DeserializeObject<Dictionary<string, ChannelRoles>>(contents);
+
+            foreach(KeyValuePair<string, ChannelRoles> data in Program.ChannelRolesData)
+            {
+                data.Value.ChannelReactEmote = Discord.Emote.Parse($"{data.Value.ChannelReactEmoteID}");
+            }
+
             return;
         }
 
@@ -432,9 +459,9 @@ namespace DiscordBot
             //path = System.IO.Directory.GetParent(path).ToString();
             //path = System.IO.Directory.GetParent(path).ToString();
 
-            Directory.CreateDirectory(path + "\\Poiners Anonymous Bot Files\\");
+            Directory.CreateDirectory(path + "\\PointersAnonymousBotFiles\\");
 
-            path += "\\Poiners Anonymous Bot Files\\" + textFileName;
+            path += "\\PointersAnonymousBotFiles\\" + textFileName;
 
             //if no file exsist, create
             if (File.Exists(path) == false)
