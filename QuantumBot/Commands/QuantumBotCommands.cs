@@ -1315,7 +1315,7 @@ namespace DiscordBot.Commands
             
             foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
             {
-                builder.AddField($"{EmoteData.Key}",$"{EmoteData.Value.ChannelReactEmote}",true);
+                builder.AddField($"{EmoteData.Key}",$"{EmoteData.Value.ChannelReactEmote}",false);
                 reactions.Add(EmoteData.Value.ChannelReactEmote);
             }
 

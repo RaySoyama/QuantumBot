@@ -84,7 +84,6 @@ namespace DiscordBot
             //Load Channel Roles System
             LoadChannelRolesFromFile();
 
-
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info
@@ -275,20 +274,24 @@ namespace DiscordBot
         //General Use Introduction
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
-            await user.SendMessageAsync($"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
-                                $"I am the helper bot created by <@!173226502710755328> to maintain the server\n\n" +
-                                $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}> and to gain access to some of the server's channels, \n" +
-                                $"Introduce yourself at <#{ServerConfigData.PointersAnonChatID["Introductions"]}>! (It's okay if you don't)\n" +
-                                $"      Prefered Name:\n" +
-                                $"      Occupation:\n" +
-                                $"      Favorite food:\n\n" +
-                                $"If you are a AIE Student, please state your\n" +
-                                $"      Full Name:\n" +
-                                $"      Alias (Optional):\n" +
-                                $"      Graduating Year:\n" +
-                                $"      Enrolled Course:\n\n" +
-                                $"If you have any questions, feel free to DM one of the Admins"
-                                );
+            string Msg =    $"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+                            $"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
+                            $"A few things before we get you started,\n"+
+                            $"";
+
+            var builder = new EmbedBuilder()
+                            .WithColor(Color.Blue)
+                            .WithTitle($"Welcome {user.Nickname} to Pointers Anonymous, the unofficial AIE Discord server!")
+                            .WithDescription($"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
+                                            $":sparkles: A few things before we get you started:sparkles: \n\n"+
+                                            $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}>")
+                            .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Could you give us your name in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>")
+                            .AddField("If you're a AIE Student", $"Type the following in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
+                            .AddField("If you're a just here to chill, and play games", $"Welcome!~ You should play some Monster Hunter with us :)");
+                        
+
+            var embed = builder.Build();
+            await user.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
         }
 
         public static async Task MessageReactionAdded(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
@@ -364,17 +367,29 @@ namespace DiscordBot
 
         private static async Task OnReactionAdded(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
         {
+            //Assign Roles based off of reaction to the emote
             if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
             {
                 foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
                 {
                     if(react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
                     {
-                        await (react.User.Value as SocketGuildUser).AddRoleAsync((NewMsg as SocketGuildChannel).Guild.GetRole(EmoteData.Value.RoleID));
-                       
-                        //NO LOGIC CHECK FOR WHO GETS WHAT ROLES
-                        await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");
-                        return;
+                        //Checks if certified student
+                        var AllRoles = (react.User.Value as SocketGuildUser).Roles;
+                        var Guilds = (NewMsg as SocketGuildChannel).Guild;
+                       if(  AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Student"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Guest"])) ||AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Teacher"])))
+                       {
+
+                            await (react.User.Value as SocketGuildUser).AddRoleAsync(Guilds.GetRole(EmoteData.Value.RoleID));
+
+                            await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");
+                            return;
+                       }
+                       else
+                       {
+                            await (await NewMsg.GetMessageAsync(MessageID) as IUserMessage).RemoveReactionAsync(react.Emote, react.User.Value);
+                            await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> tried to gained role {EmoteData.Key}, but does not have the proper perms");
+                       }
                     }
                 }
 
@@ -494,7 +509,7 @@ namespace DiscordBot
             return;
         }
 
-        public static void SaveChannelRolesFromFile()
+        public static void SaveChannelRolesToFile()
         {
             string contents = JsonConvert.SerializeObject(ChannelRolesData, Formatting.Indented);
             File.WriteAllText(channelRolesSavePath, contents);
@@ -515,11 +530,11 @@ namespace DiscordBot
 
             path += "\\PointersAnonymousBotFiles\\" + textFileName;
 
-            //if no file exsist, create
+            //if no file exist, create
             if (File.Exists(path) == false)
             {
-                var myfile =  File.Create(path);
-                myfile.Close();
+                var myFile =  File.Create(path);
+                myFile.Close();
             }
         }      
     }
