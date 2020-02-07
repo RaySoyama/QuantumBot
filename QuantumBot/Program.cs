@@ -274,7 +274,7 @@ namespace DiscordBot
         //General Use Introduction
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
-            string Msg =    $"Welcome {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+            string Msg =    $"Welcome, {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                             $"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
                             $"A few things before we get you started,\n"+
                             $"";
@@ -285,9 +285,9 @@ namespace DiscordBot
                             .WithDescription($"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
                                             $":sparkles: A few things before we get you started:sparkles: \n\n"+
                                             $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}>")
-                            .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Could you give us your name in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>")
-                            .AddField("If you're a AIE Student", $"Type the following in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
-                            .AddField("If you're a just here to chill, and play games", $"Welcome!~ You should play some Monster Hunter with us :)");
+                            .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Please give us your name in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>")
+                            .AddField("If you're an AIE Student", $"Type the following in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
+                            .AddField("If you're just here to chill and play games", $"Welcome!~ You should play some Monster Hunter with us :)");
                         
 
             var embed = builder.Build();
