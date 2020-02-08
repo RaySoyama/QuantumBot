@@ -42,9 +42,9 @@ namespace DiscordBot
         private static DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-         
 
-        public static int  latency = 69;
+
+        public static int latency = 69;
 
         public static string logFileSavePath = "DiscordChatData.txt";
 
@@ -71,7 +71,7 @@ namespace DiscordBot
             GetFilePath(bulletinBoardSavePath, ref bulletinBoardSavePath);
             GetFilePath(channelRolesSavePath, ref channelRolesSavePath);
 
-            
+
             //Initialize Dictionaries
             LoadServerDataFromFile();
 
@@ -117,7 +117,7 @@ namespace DiscordBot
             await Task.Delay(-1);
 
         }
-        
+
         private async Task _client_MessageReceived(SocketMessage arg)
         {
             var message = arg as SocketUserMessage;
@@ -125,7 +125,7 @@ namespace DiscordBot
 
             latency = _client.Latency;
 
-                    
+
             if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
             {
                 var Ray = _client.GetUser(ServerConfigData.PointersAnonUserID["Ray Soyama"]);
@@ -135,7 +135,7 @@ namespace DiscordBot
                                          $"Discord ID: {arg.Author.Id}\n" +
                                          $"Message: {arg.ToString()}\n");
             }
-            else if(context.User.IsBot == false)
+            else if (context.User.IsBot == false)
             {
 
                 string chatLog = $"\n\n" +
@@ -146,14 +146,14 @@ namespace DiscordBot
                                  $"Message: {arg}\n";
 
                 foreach (var FileLink in arg.Attachments)
-                { 
+                {
                     chatLog += $"File: {FileLink.Url}\n";
                 }
-                                
+
                 Console.WriteLine(chatLog);
                 File.AppendAllText(logFileSavePath, chatLog);
             }
-                     
+
 
 
             if (context.Message == null || context.Message.Content.ToString() == "" || context.User.IsBot == true) //Checks if the msg is from a user, or bot
@@ -258,14 +258,14 @@ namespace DiscordBot
 
 
         //SERVER SIDE ACTIONS
-        
+
         //Called when new member joins server
         public async Task AnnounceJoinedUser(SocketGuildUser user) //Welcomes the new user
         {
             await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has joined the server. Intro msg has been sent");
             await SendIntroductionMessage(user);
         }
-        
+
         public async Task AnnounceLeftUser(SocketGuildUser user) //Announces the left user
         {
             await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
@@ -274,21 +274,21 @@ namespace DiscordBot
         //General Use Introduction
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
-            string Msg =    $"Welcome, {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
+            string Msg = $"Welcome, {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                             $"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
-                            $"A few things before we get you started,\n"+
+                            $"A few things before we get you started,\n" +
                             $"";
 
             var builder = new EmbedBuilder()
                             .WithColor(Color.Blue)
                             .WithTitle($"Welcome {user.Nickname} to Pointers Anonymous, the unofficial AIE Discord server!")
                             .WithDescription($"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
-                                            $":sparkles: A few things before we get you started:sparkles: \n\n"+
+                                            $":sparkles: A few things before we get you started:sparkles: \n\n" +
                                             $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}>")
                             .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Please give us your name in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>")
                             .AddField("If you're an AIE Student", $"Type the following in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
                             .AddField("If you're just here to chill and play games", $"Welcome!~ You should play some Monster Hunter with us :)");
-                        
+
 
             var embed = builder.Build();
             await user.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
@@ -296,12 +296,12 @@ namespace DiscordBot
 
         public static async Task MessageReactionAdded(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
         {
-            await OnReactionAdded(OldMsg.Id,NewMsg,react);
+            await OnReactionAdded(OldMsg.Id, NewMsg, react);
         }
-        
+
         public static async Task MessageReactionRemoved(Cacheable<IUserMessage, ulong> OldMsg, ISocketMessageChannel NewMsg, SocketReaction react)
         {
-            await OnReactionRemoved(OldMsg.Id,NewMsg,react);
+            await OnReactionRemoved(OldMsg.Id, NewMsg, react);
         }
 
         //User Data Handling
@@ -315,7 +315,7 @@ namespace DiscordBot
                 UserData = new List<UserProfile>();
             }
 
-            return;          
+            return;
         }
 
         public static void SaveUserDataToFile()
@@ -338,7 +338,7 @@ namespace DiscordBot
         {
             string contents = JsonConvert.SerializeObject(ServerConfigData, Formatting.Indented);
             File.WriteAllText(configFileSavePath, contents);
-            
+
             return;
         }
 
@@ -350,7 +350,7 @@ namespace DiscordBot
             string contents = File.ReadAllText(bulletinBoardSavePath);
             BulletinBoardData = JsonConvert.DeserializeObject<BulletinBoard>(contents);
 
-            if(BulletinBoardData.Lunchboxes == null)
+            if (BulletinBoardData.Lunchboxes == null)
             {
                 BulletinBoardData.Lunchboxes = new List<Lunchbox>();
             }
@@ -368,28 +368,28 @@ namespace DiscordBot
         private static async Task OnReactionAdded(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
         {
             //Assign Roles based off of reaction to the emote
-            if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
+            if (MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
             {
-                foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+                foreach (KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
                 {
-                    if(react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
+                    if (react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
                     {
                         //Checks if certified student
                         var AllRoles = (react.User.Value as SocketGuildUser).Roles;
                         var Guilds = (NewMsg as SocketGuildChannel).Guild;
-                       if(  AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Student"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Guest"])) ||AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Teacher"])))
-                       {
+                        if (AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Student"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Guest"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Teacher"])))
+                        {
 
                             await (react.User.Value as SocketGuildUser).AddRoleAsync(Guilds.GetRole(EmoteData.Value.RoleID));
 
                             await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");
                             return;
-                       }
-                       else
-                       {
+                        }
+                        else
+                        {
                             await (await NewMsg.GetMessageAsync(MessageID) as IUserMessage).RemoveReactionAsync(react.Emote, react.User.Value);
                             await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> tried to gained role {EmoteData.Key}, but does not have the proper perms");
-                       }
+                        }
                     }
                 }
 
@@ -437,14 +437,14 @@ namespace DiscordBot
         }
         private static async Task OnReactionRemoved(ulong MessageID, ISocketMessageChannel NewMsg, SocketReaction react)
         {
-            if(MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
+            if (MessageID == ServerConfigData.ServerRoleSetUpMsgID && react.UserId != Program.ServerConfigData.PointersAnonUserID["Quantum Bot"])
             {
-                foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+                foreach (KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
                 {
-                    if(react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
+                    if (react.Emote.Equals(EmoteData.Value.ChannelReactEmote))
                     {
                         await (react.User.Value as SocketGuildUser).RemoveRoleAsync((NewMsg as SocketGuildChannel).Guild.GetRole(EmoteData.Value.RoleID));
-                       
+
                         //NO LOGIC CHECK FOR WHO GETS WHAT ROLES
                         await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> removed role {EmoteData.Key}");
                         return;
@@ -501,7 +501,7 @@ namespace DiscordBot
             string contents = File.ReadAllText(channelRolesSavePath);
             ChannelRolesData = JsonConvert.DeserializeObject<Dictionary<string, ChannelRoles>>(contents);
 
-            foreach(KeyValuePair<string, ChannelRoles> data in Program.ChannelRolesData)
+            foreach (KeyValuePair<string, ChannelRoles> data in Program.ChannelRolesData)
             {
                 data.Value.ChannelReactEmote = Discord.Emote.Parse($"{data.Value.ChannelReactEmoteID}");
             }
@@ -533,9 +533,9 @@ namespace DiscordBot
             //if no file exist, create
             if (File.Exists(path) == false)
             {
-                var myFile =  File.Create(path);
+                var myFile = File.Create(path);
                 myFile.Close();
             }
-        }      
+        }
     }
 }
