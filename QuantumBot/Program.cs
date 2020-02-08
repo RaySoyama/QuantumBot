@@ -63,6 +63,8 @@ namespace DiscordBot
 
         private async Task MainAsync()
         {
+            Console.WriteLine(System.IO.Directory.GetParent(System.IO.Path.GetFullPath(configFileSavePath)).ToString());
+
             //Initializes Logs
             GetFilePath(logFileSavePath, ref logFileSavePath);
 
