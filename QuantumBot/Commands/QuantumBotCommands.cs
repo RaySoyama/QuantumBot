@@ -11,13 +11,8 @@ namespace DiscordBot.Commands
 {
     public class QuantumBotCommands : ModuleBase<SocketCommandContext>
     {
-        /*       _____                                        _ 
-         *      / ____|                                      | |
-         *     | |  __    ___   _ __     ___   _ __    __ _  | |
-         *     | | |_ |  / _ \ | '_ \   / _ \ | '__|  / _` | | |
-         *     | |__| | |  __/ | | | | |  __/ | |    | (_| | | |
-         *      \_____|  \___| |_| |_|  \___| |_|     \__,_| |_|                                                   
-         */
+
+        #region General 
 
         [Command("Help"), Alias("help"), Summary("List of all commands")]
         public async Task HelpList()
@@ -164,7 +159,7 @@ namespace DiscordBot.Commands
         {
             var user = Context.User as SocketGuildUser;
             string output = "";
-            
+
             if (user.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
             {
                 output += GraduationDialoguePrinter(2020);
@@ -186,7 +181,7 @@ namespace DiscordBot.Commands
         {
             string output = "";
             int yearNum = 42069;
-            
+
             if (year.ToLower().Equals("all"))
             {
                 yearNum = 42069;
@@ -307,19 +302,9 @@ namespace DiscordBot.Commands
             return;
         }
         */
+        #endregion
 
-
-
-
-        /*
-         *      _____                    __   _   _        
-         *     |  __ \                  / _| (_) | |       
-         *     | |__) |  _ __    ___   | |_   _  | |   ___ 
-         *     |  ___/  | '__|  / _ \  |  _| | | | |  / _ \
-         *     | |      | |    | (_) | | |   | | | | |  __/
-         *     |_|      |_|     \___/  |_|   |_| |_|  \___|
-         *                                                                                                
-         */
+        #region Personal Links
 
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
         public async Task UpdateWebsiteEmbed(string WebQuery)
@@ -554,17 +539,9 @@ namespace DiscordBot.Commands
             return;
         }
         */
+        #endregion
 
-
-
-
-        /*      _                               _       _                    
-         *     | |                             | |     | |                   
-         *     | |       _   _   _ __     ___  | |__   | |__     ___   __  __
-         *     | |      | | | | | '_ \   / __| | '_ \  | '_ \   / _ \  \ \/ /
-         *     | |____  | |_| | | | | | | (__  | | | | | |_) | | (_) |  >  < 
-         *     |______|  \__,_| |_| |_|  \___| |_| |_| |_.__/   \___/  /_/\_\                                                                                                
-         */
+        #region Lunchbox
 
         [Command("AddLunchbox"), Alias("AddLB", "addLB", "addlb", "addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
         public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
@@ -713,20 +690,9 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             await msgNope.DeleteAsync();
         }
+        #endregion
 
-
-
-
-
-        /*      ____            _   _          _     _             ______                          _         
-         *     |  _ \          | | | |        | |   (_)           |  ____|                        | |        
-         *     | |_) |  _   _  | | | |   ___  | |_   _   _ __     | |__    __   __   ___   _ __   | |_   ___ 
-         *     |  _ <  | | | | | | | |  / _ \ | __| | | | '_ \    |  __|   \ \ / /  / _ \ | '_ \  | __| / __|
-         *     | |_) | | |_| | | | | | |  __/ | |_  | | | | | |   | |____   \ V /  |  __/ | | | | | |_  \__ \
-         *     |____/   \__,_| |_| |_|  \___|  \__| |_| |_| |_|   |______|   \_/    \___| |_| |_|  \__| |___/
-         */
-
-
+        #region Bulletin Events
         [Command("NewEvent"), Alias("newEvent", "Newevent", "newevent", "addEvent", "addevent", "addEvent")]
         public async Task NewBulletinEvent(int year, int month, int day, int hour, int min, string title)
         {
@@ -783,7 +749,7 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
-        [Command("InfoEvent"), Alias("eventinfo","eventsinfo","infoevents")]
+        [Command("InfoEvent"), Alias("eventinfo", "eventsinfo", "infoevents")]
         public async Task AddInfoBulletinEvent(string description, string location, string cost, string capacity, string eventURL, string iconURL)
         {
             if (await IsUserAuthorized("Admin", "Teacher", "Student") == false)
@@ -969,7 +935,7 @@ namespace DiscordBot.Commands
 
             foreach (BulletinEvent bulletinEvent in Program.BulletinBoardData.BulletinEvents)
             {
-                if (bulletinEvent.Title.ToLower() == topic.ToLower() && ( Context.User.Id == bulletinEvent.author || await IsUserAuthorized("Admin", "Teacher")) )
+                if (bulletinEvent.Title.ToLower() == topic.ToLower() && (Context.User.Id == bulletinEvent.author || await IsUserAuthorized("Admin", "Teacher")))
                 {
                     if (bulletinEvent.MsgID != 1234567890)
                     {
@@ -1000,15 +966,9 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        #endregion
 
-        /*                     _               _         
-         *         /\         | |             (_)        
-         *        /  \      __| |  _ __ ___    _   _ __  
-         *       / /\ \    / _` | | '_ ` _ \  | | | '_ \ 
-         *      / ____ \  | (_| | | | | | | | | | | | | |
-         *     /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|
-         *                                               
-         */
+        #region Admin Commands
 
         [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
 
@@ -1200,7 +1160,7 @@ namespace DiscordBot.Commands
         [Command("UpdateUserList")]
         public async Task UpdateUserList()
         {
-            if(await IsUserAuthorized("Admin") == false)
+            if (await IsUserAuthorized("Admin") == false)
             {
                 return;
             }
@@ -1219,7 +1179,7 @@ namespace DiscordBot.Commands
                         break;
                     }
                 }
-                
+
                 if (yeet == false)
                 {
                     UserProfile user = GetUserProfile(users.Id);
@@ -1229,7 +1189,7 @@ namespace DiscordBot.Commands
 
                     if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                     {
-                        user.isGuest = true;                   
+                        user.isGuest = true;
                     }
                     else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
                     {
@@ -1249,7 +1209,7 @@ namespace DiscordBot.Commands
                         }
                         else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"])) == true)
                         {
-                            user.GradYear = 2019;                            
+                            user.GradYear = 2019;
                         }
                         else
                         {
@@ -1271,7 +1231,7 @@ namespace DiscordBot.Commands
         [Command("GetUserAnomalies")]
         public async Task GetUserAnomalies()
         {
-            if(await IsUserAuthorized("Admin") == false)
+            if (await IsUserAuthorized("Admin") == false)
             {
                 return;
             }
@@ -1283,14 +1243,14 @@ namespace DiscordBot.Commands
             string reportMsg = "";
 
             foreach (UserProfile user in Program.UserData)
-            { 
-                if(user.userNickname == null)
+            {
+                if (user.userNickname == null)
                 {
                     reportMsg += $"<@{user.userID}> : Missing Nickname :no_entry:\n";
                 }
 
                 if (user.isGuest == false && user.isTeacher == false && user.isStudent == false)
-                { 
+                {
                     reportMsg += $"<@{user.userID}> : Not a Student,Teacher,or Guest :no_entry:\n";
                 }
             }
@@ -1298,49 +1258,94 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync(reportMsg);
         }
 
+
         [Command("SeedRoles")]
         public async Task SeedRoles()
         {
-            if(await IsUserAuthorized("Admin") == false)
+            if (await IsUserAuthorized("Admin") == false)
             {
                 return;
             }
+
+            var newMsg = await Context.Channel.SendMessageAsync("THIS COMMAND IS CURRENTLY DEPRECATED");
+            await Task.Delay(5000);
+            await newMsg.DeleteAsync();
+            await Context.Message.DeleteAsync();
+            return;
 
             List<IEmote> reactions = new List<IEmote>();
 
             var builder = new EmbedBuilder()
                         .WithDescription("React with these emotes to get access to the corresponding channels!~")
-                        .WithAuthor("Pointers Anonymous","https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128",null);
+                        .WithAuthor("Pointers Anonymous", "https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128", null);
 
-            
-            foreach(KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+
+            foreach (KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
             {
-                builder.AddField($"{EmoteData.Key}",$"{EmoteData.Value.ChannelReactEmote}",false);
+                builder.AddField($"{EmoteData.Key}", $"{EmoteData.Value.ChannelReactEmote}", false);
                 reactions.Add(EmoteData.Value.ChannelReactEmote);
             }
 
             var embed = builder.Build();
             var msg = await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
-            
+
 
             await msg.AddReactionsAsync(reactions.ToArray(), null);
-            
+
             Program.ServerConfigData.ServerRoleSetUpMsgID = msg.Id;
             Program.SaveServerDataToFile();
 
             await Context.Message.DeleteAsync();
         }
 
+        [Command("UpdateSeedRoles")]
+        public async Task UpdateSeededRoles()
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            IMessage message;
+            message = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["The Law"]).GetMessageAsync(Program.ServerConfigData.ServerRoleSetUpMsgID);
+
+            if (message == null) //if MSG not found
+            {
+                var badMsg = await Context.Channel.SendMessageAsync($"The Role Message is not found in <#{Program.ServerConfigData.PointersAnonChatID["The Law"]}>");
+                await Task.Delay(5000);
+                await badMsg.DeleteAsync();
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            //remake and update embed
+            List<IEmote> reactions = new List<IEmote>();
+
+            var builder = new EmbedBuilder()
+                        .WithDescription("React with these emotes to get access to the corresponding channels!~")
+                        .WithAuthor("Pointers Anonymous", "https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128", null);
 
 
-        /*      __  __          _     _                   _       
-         *     |  \/  |        | |   | |                 | |      
-         *     | \  / |   ___  | |_  | |__     ___     __| |  ___ 
-         *     | |\/| |  / _ \ | __| | '_ \   / _ \   / _` | / __|
-         *     | |  | | |  __/ | |_  | | | | | (_) | | (_| | \__ \
-         *     |_|  |_|  \___|  \__| |_| |_|  \___/   \__,_| |___/
-         */
+            foreach (KeyValuePair<string, ChannelRoles> EmoteData in Program.ChannelRolesData)
+            {
+                builder.AddField($"{EmoteData.Key}", $"{EmoteData.Value.ChannelReactEmote}", false);
+                reactions.Add(EmoteData.Value.ChannelReactEmote);
+            }
 
+            var embed = builder.Build();
+            await (message as IUserMessage).ModifyAsync(x => x.Embed = embed);
+
+            await (message as IUserMessage).AddReactionsAsync(reactions.ToArray(), null);
+
+            var goodMsg = await Context.Channel.SendMessageAsync("Updated");
+            await Task.Delay(5000);
+            await goodMsg.DeleteAsync();
+            await Context.Message.DeleteAsync();
+
+        }
+        #endregion
+
+        #region Private Methods
         //Raid Area 51, send msg
         /*
         [Command("RaidArea51")]
@@ -1402,7 +1407,7 @@ namespace DiscordBot.Commands
             foreach (string role in roles)
             {
                 var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID[role]);
-               
+
                 if (roleCheckUser.Roles.Contains(AuthRole) == true)
                 {
                     return true;
@@ -1461,7 +1466,7 @@ namespace DiscordBot.Commands
                    .AddField("2020", "Placeholder")
                    .AddField("2021", "Placeholder");
 
-                 newWebsiteEmbedList.Add(WebsiteEmbed.Build());
+                newWebsiteEmbedList.Add(WebsiteEmbed.Build());
             }
 
 
@@ -1536,9 +1541,9 @@ namespace DiscordBot.Commands
 
         private string ServerStatBoxPrinter(int userCount)
         {
-            int boxPerUser = 5;  
+            int boxPerUser = 5;
             string box = " ";
-  
+
 
             for (int i = 0; i < userCount / boxPerUser + 1; i++)
             {
@@ -1582,7 +1587,7 @@ namespace DiscordBot.Commands
                                 $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
                                 $"```";
             }
-            else 
+            else
             {
                 startDate = new DateTime(2018, 8, 16);
                 gradDate = new DateTime(2020, 7, 22);
@@ -1616,7 +1621,7 @@ namespace DiscordBot.Commands
             int nowDiff = (DateTime.Now - startDate).Days;
 
 
-            string output = $"~Progress Bar~ ({(float)((int)((float)nowDiff / (float)gradDiff * 10000.0f)/100.0f)}%)\n";
+            string output = $"~Progress Bar~ ({(float)((int)((float)nowDiff / (float)gradDiff * 10000.0f) / 100.0f)}%)\n";
 
             output += "";
             for (int i = 0; i < 20; i++)
@@ -1645,5 +1650,6 @@ namespace DiscordBot.Commands
 
             return output;
         }
+        #endregion
     }
 }

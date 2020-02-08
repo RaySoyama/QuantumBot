@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
+//dotnet publish -c Build{value} -r win10-x64
+
 namespace DiscordBot
 {
     public class Program
@@ -304,8 +306,26 @@ namespace DiscordBot
             await OnReactionRemoved(OldMsg.Id, NewMsg, react);
         }
 
+
+        public static void UpdateAllDataFromFiles()
+        {
+
+            //Initialize Dictionaries
+            LoadServerDataFromFile();
+
+            //User Data shit test
+            LoadUserDataFromFile();
+
+            //BulletinBoard
+            LoadBulletinBoardFromFile();
+
+            //Load Channel Roles System
+            LoadChannelRolesFromFile();
+        }
+
+
         //User Data Handling
-        private void LoadUserDataFromFile()
+        private static void LoadUserDataFromFile()
         {
             string contents = File.ReadAllText(userFileSavePath);
             UserData = JsonConvert.DeserializeObject<List<UserProfile>>(contents);
@@ -327,7 +347,7 @@ namespace DiscordBot
 
 
         //Server Data Handling
-        private void LoadServerDataFromFile()
+        private static void LoadServerDataFromFile()
         {
             string contents = File.ReadAllText(configFileSavePath);
             ServerConfigData = JsonConvert.DeserializeObject<ServerConfigs>(contents);
@@ -345,7 +365,7 @@ namespace DiscordBot
 
         //Bulletin Board Data Handling
 
-        private void LoadBulletinBoardFromFile()
+        private static void LoadBulletinBoardFromFile()
         {
             string contents = File.ReadAllText(bulletinBoardSavePath);
             BulletinBoardData = JsonConvert.DeserializeObject<BulletinBoard>(contents);
@@ -496,7 +516,7 @@ namespace DiscordBot
 
 
         //ChannelRoles Data Handleing
-        private void LoadChannelRolesFromFile()
+        private static void LoadChannelRolesFromFile()
         {
             string contents = File.ReadAllText(channelRolesSavePath);
             ChannelRolesData = JsonConvert.DeserializeObject<Dictionary<string, ChannelRoles>>(contents);
