@@ -289,7 +289,7 @@ namespace DiscordBot
                                             $"Read the rules at <#{ServerConfigData.PointersAnonChatID["The Law"]}>")
                             .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Please give us your name in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>")
                             .AddField("If you're an AIE Student", $"Type the following in <#{ServerConfigData.PointersAnonChatID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
-                            .AddField("If you're just here to chill and play games", $"Welcome!~ You should play some Monster Hunter with us :)");
+                            .AddField($"If you're just here to chill and play games", $"Welcome!~ You should play some <#{Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]}> with us :)");
 
 
             var embed = builder.Build();
@@ -399,7 +399,7 @@ namespace DiscordBot
                         var Guilds = (NewMsg as SocketGuildChannel).Guild;
                         if (AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Student"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Guest"])) || AllRoles.Contains(Guilds.GetRole(ServerConfigData.PointersAnonRoleID["Teacher"])))
                         {
-
+                            //If you get a null ref exception. It's because the role ID is bad
                             await (react.User.Value as SocketGuildUser).AddRoleAsync(Guilds.GetRole(EmoteData.Value.RoleID));
 
                             await (NewMsg as SocketGuildChannel).Guild.GetTextChannel(ServerConfigData.PointersAnonChatID["Bot History"]).SendMessageAsync($"User <@{react.UserId}> gained role {EmoteData.Key}");

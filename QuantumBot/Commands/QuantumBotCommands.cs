@@ -587,12 +587,12 @@ namespace DiscordBot.Commands
             Program.SaveBulletinBoardDataToFile();
 
 
-            var pastLuncboxBuilder = new EmbedBuilder()
+            var pastLunchboxBuilder = new EmbedBuilder()
             .WithDescription("```fix\nPast Lunchbox Events\n```")
             .WithColor(new Color(37, 170, 225))
             .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
 
-            var futureLuncboxBuilder = new EmbedBuilder()
+            var futureLunchboxBuilder = new EmbedBuilder()
             .WithDescription("```fix\nFuture Lunchbox Events\n```")
             .WithColor(new Color(37, 170, 225))
             .WithThumbnailUrl(Program.ServerConfigData.LunchboxIconURL);
@@ -617,7 +617,7 @@ namespace DiscordBot.Commands
                 }
 
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx - Program.BulletinBoardData.PastLunchboxesEmbedCount + i];
-                pastLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
+                pastLunchboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
 
             }
 
@@ -630,23 +630,24 @@ namespace DiscordBot.Commands
                 }
 
                 Lunchbox lb = Program.BulletinBoardData.Lunchboxes[EventSplitIdx + i];
-                futureLuncboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
+                futureLunchboxBuilder.AddField($"{lb.topic}", $"{lb.speaker}\n{lb.date.ToString("d MMMM yyyy")}");
             }
 
-            var embed = pastLuncboxBuilder.Build();
+            var embed = pastLunchboxBuilder.Build();
 
 
             //Updates Past Embed
-            IMessage pastChatReferences = await Context.Channel.GetMessageAsync(Program.BulletinBoardData.PastLunchboxesMsgID, CacheMode.AllowDownload);
+            IMessage pastChatReferences = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).GetMessageAsync(Program.BulletinBoardData.PastLunchboxesMsgID);
 
             if (pastChatReferences is IUserMessage pastMsg)
             {
                 await pastMsg.ModifyAsync(x => x.Embed = embed);
             }
 
-            embed = futureLuncboxBuilder.Build();
+            embed = futureLunchboxBuilder.Build();
+
             //Updates Future Embed
-            IMessage futureChatReferences = await Context.Channel.GetMessageAsync(Program.BulletinBoardData.FutureLunchboxesMsgID, CacheMode.AllowDownload);
+            IMessage futureChatReferences = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Bulletin Board"]).GetMessageAsync(Program.BulletinBoardData.FutureLunchboxesMsgID);
 
             if (futureChatReferences is IUserMessage futureMsg)
             {
