@@ -293,7 +293,7 @@ namespace DiscordBot
 
         private async Task WaitThenDeleteMessage(IUserMessage msg)
         {
-            await Task.Delay(10000);
+            await Task.Delay(ServerConfigData.MusicBoxPurgeTimer);
             await msg.DeleteAsync();
         }
   

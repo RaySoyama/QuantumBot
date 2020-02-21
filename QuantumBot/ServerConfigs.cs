@@ -22,6 +22,9 @@ namespace DiscordBot
 
         //Msg ID for the Role set up
         public ulong ServerRoleSetUpMsgID;
+
+        //Duration in Miliseconds, how long to wait for the Music bot deletetion
+        public int MusicBoxPurgeTimer = 1500;
         public List<string> UnityVersion;
         public string UnityIconURL;
         public string ProjectProposalDocURL;
