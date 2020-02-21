@@ -45,17 +45,16 @@ namespace DiscordBot
         private CommandService _commands;
         private IServiceProvider _services;
 
-
         public static int latency = 69;
 
         public static string logFileSavePath = "DiscordChatData.txt";
-
 
         public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
         public static string channelRolesSavePath = "ChannelRolesData.json";
 
+        #region Bot Core
         static void Main(string[] args)
         {
             new Program().MainAsync().GetAwaiter().GetResult();
@@ -139,11 +138,11 @@ namespace DiscordBot
             }
             else if (context.User.IsBot == false)
             {
-
                 string chatLog = $"\n\n" +
                                  $"Time: {arg.Timestamp}\n" +
                                  $"Channel: {arg.Channel}\n" +
-                                 $"Discord ID: {arg.Author.Id}\n" +
+                                 $"Msg ID: {arg.Id}\n" +
+                                 $"User ID: {arg.Author.Id}\n" +
                                  $"Username: {((IGuildUser)arg.Author).Nickname}\n" +
                                  $"Message: {arg}\n";
 
@@ -154,6 +153,24 @@ namespace DiscordBot
 
                 Console.WriteLine(chatLog);
                 File.AppendAllText(logFileSavePath, chatLog);
+            }
+
+
+            //Music bot cleansing
+            int argPos = 0;
+            if(context.Channel.Id.Equals(ServerConfigData.PointersAnonChatID["Music"]))
+            {   
+                if(context.Message.HasCharPrefix('!', ref argPos))
+                {
+                    //this can cause issues, so care
+                    Task.Run(() => WaitThenDeleteMessage(context.Message));
+                    return;
+                }
+                else if(context.User.Id == ServerConfigData.PointersAnonUserID["Rythm Bot"]) 
+                {
+                    Task.Run(() => WaitThenDeleteMessage(context.Message));
+                    return;
+                }
             }
 
 
@@ -175,11 +192,10 @@ namespace DiscordBot
                 //var emoji = new Emoji("\uD83D\uDC4C");
                 //await msg.AddReactionAsync(emoji);
             }
+
             #endregion
 
 
-
-            int argPos = 0;
 
             if (!(message.HasCharPrefix(ServerConfigData.prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) //Checks for Prefix or @Quantum Bot
             {
@@ -258,8 +274,9 @@ namespace DiscordBot
             await _client.SetGameAsync($"{ServerConfigData.prefix}Help");
         }
 
+        #endregion
 
-        //SERVER SIDE ACTIONS
+        #region Server events
 
         //Called when new member joins server
         public async Task AnnounceJoinedUser(SocketGuildUser user) //Welcomes the new user
@@ -273,9 +290,21 @@ namespace DiscordBot
             await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
         }
 
+        private async Task WaitThenDeleteMessage(IUserMessage msg)
+        {
+            await Task.Delay(10000);
+            await msg.DeleteAsync();
+        }
+  
         //General Use Introduction
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
+            //check if bot
+            if(user.IsBot == true)
+            {
+                return;
+            }
+
             string Msg = $"Welcome, {user.Mention} to Pointers Anonymous, the unofficial AIE Discord server!\n" +
                             $"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
                             $"A few things before we get you started,\n" +
@@ -305,8 +334,10 @@ namespace DiscordBot
         {
             await OnReactionRemoved(OldMsg.Id, NewMsg, react);
         }
+        
+        #endregion
 
-
+        #region Bot File Parcing
         public static void UpdateAllDataFromFiles()
         {
 
@@ -322,7 +353,6 @@ namespace DiscordBot
             //Load Channel Roles System
             LoadChannelRolesFromFile();
         }
-
 
         //User Data Handling
         private static void LoadUserDataFromFile()
@@ -557,5 +587,6 @@ namespace DiscordBot
                 myFile.Close();
             }
         }
+        #endregion
     }
 }
