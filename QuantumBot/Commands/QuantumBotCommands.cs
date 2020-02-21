@@ -972,7 +972,6 @@ namespace DiscordBot.Commands
         #region Admin Commands
 
         [Command("Quit"), Alias("quit"), Summary("Quits the bot exe, only Admins an run")]
-
         public async Task Quit()
         {
             if (await IsUserAuthorized("Admin", "Teacher"))
@@ -989,7 +988,6 @@ namespace DiscordBot.Commands
                 await Context.User.SendMessageAsync("Admin Rights Required");
             }
         }
-
         [Command("SendIntro"), Alias("sendintro", "sendIntro", "Sendintro")]
         public async Task SendIntro(ulong targetUser)
         {
@@ -1259,6 +1257,29 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync(reportMsg);
         }
 
+        [Command("Purge",RunMode = RunMode.Async)]
+        public async Task PurgeMessages(int msgCount)
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }  
+
+            if(msgCount > 100)
+            {
+                msgCount = 100;
+            }
+            else if(msgCount < 0)
+            {
+                msgCount = 0;
+            }
+
+            var messages = await Context.Channel.GetMessagesAsync(msgCount).FlattenAsync();
+            
+            await (Context.Channel as ITextChannel).DeleteMessagesAsync(messages);
+            
+            var botMsg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Admin"]).SendMessageAsync($"User: <@{Context.User.Id}> purged {msgCount} messages in the <#{Context.Channel.Id}>");
+        }
 
         [Command("SeedRoles")]
         public async Task SeedRoles()

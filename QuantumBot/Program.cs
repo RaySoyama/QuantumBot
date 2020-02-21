@@ -87,7 +87,8 @@ namespace DiscordBot
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Info
+                LogLevel = LogSeverity.Info,
+                ExclusiveBulkDelete = true
             });
 
             _commands = new CommandService(new CommandServiceConfig
