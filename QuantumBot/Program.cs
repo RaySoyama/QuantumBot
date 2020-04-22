@@ -159,15 +159,15 @@ namespace DiscordBot
 
             //Music bot cleansing
             int argPos = 0;
-            if(context.Channel.Id.Equals(ServerConfigData.PointersAnonChatID["Music"]))
-            {   
-                if(context.Message.HasCharPrefix('!', ref argPos))
+            if (context.Channel.Id.Equals(ServerConfigData.PointersAnonChatID["Music"]))
+            {
+                if (context.Message.HasCharPrefix('!', ref argPos))
                 {
                     //this can cause issues, so care
                     Task.Run(() => WaitThenDeleteMessage(context.Message));
                     return;
                 }
-                else if(context.User.Id == ServerConfigData.PointersAnonUserID["Rythm Bot"]) 
+                else if (context.User.Id == ServerConfigData.PointersAnonUserID["Rythm Bot"])
                 {
                     Task.Run(() => WaitThenDeleteMessage(context.Message));
                     return;
@@ -296,12 +296,12 @@ namespace DiscordBot
             await Task.Delay(ServerConfigData.MusicBoxPurgeTimer);
             await msg.DeleteAsync();
         }
-  
+
         //General Use Introduction
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
             //check if bot
-            if(user.IsBot == true)
+            if (user.IsBot == true)
             {
                 return;
             }
@@ -335,7 +335,7 @@ namespace DiscordBot
         {
             await OnReactionRemoved(OldMsg.Id, NewMsg, react);
         }
-        
+
         #endregion
 
         #region Bot File Parcing

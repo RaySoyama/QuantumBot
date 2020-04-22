@@ -18,26 +18,41 @@ namespace DiscordBot.Commands
         public async Task HelpList()
         {
             var builder = new EmbedBuilder()
-                          .WithTitle("Quantum Bot Commands")
-                          .AddField("General", $"[Command] - [Description]\n" +
-                                              $"UnityVersion - Gets the Unity Version we are using\n" +
-                                              $"ProposalTemplate - Gets the Project Proposal Template from the handbook\n" +
-                                              $"Inktober - Gets the Inktober prompt")
-                          .AddField("Personal Link Stuff", $"Website (Domain) (URL) - Posting your link\n" +
-                                                           $"Example:\n" +
-                                                           $"`Website LinkedIn https://www.linkedin.com/in/raysoyama/` \n" +
-                                                           $"Website (Domain) null - Removes your link")
-                           .AddField("Bot Stuff", $"Prefix is {Program.ServerConfigData.prefix}\n" +
-                                               $"Help - See list of Commands\n" +
-                                               $"Ping - See the Latency of bot")
-                          .WithColor(new Color(60, 179, 113))
-                          .WithTimestamp(DateTimeOffset.Now)
-                          .WithFooter(footer =>
-                          {
-                              footer
-                                .WithText("Quantum Bot");
-                              //.WithIconUrl("https://avatars1.githubusercontent.com/u/42445829?s=400&v=4");
-                          });
+                          .WithTitle("Quantum Bot - Commands")
+                          .WithDescription($"Ping one of the moderators, or <@{Program.ServerConfigData.PointersAnonUserID["Ray Soyama"]}> if you have any questions!\n" +
+                                            $"Current Prefix is \"{Program.ServerConfigData.prefix}\"\n" +
+                                            $"Note: {{Parameters}} are wrapped with curly brackets\n" +
+                                            $"Sentences should be wrapped in \"Quotation Marks\"")
+                          .AddField("General",
+                                    $"Ping - returns current server latency\n" +
+                                    $"VaultSeeker - Gives you access to the vault\n" +
+                                    $"Suggestion {{your suggestion}} - Makes a suggestion post in  <#{Program.ServerConfigData.PointersAnonChatID["Suggestions"]}>\n" +
+                                    $"GetServerStats - Returns data on the server members\n" +
+                                    $"Crash - Adds to the \"Unity Crash Counter\"\n" +
+                                    $"CrashCounter - Returns the \"Unity Crash Counter\"")
+                          .AddField("School",
+                                    $"UnityVersion - Returns the version of Unity AIE is currently using\n" +
+                                    $"ProposalTemplate - Returns the download link to the doc\n" +
+                                    $"AIESchedule - Returns the download link to the doc\n" +
+                                    $"Graduation - Returns some graduation stats\n" +
+                                    $"Website {{Domain}} {{URL}} - Adds/Updates link in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>\n" +
+                                    $"AdminWebsite {{userID}} {{Domain}} {{URL}} - Admins Add/Update links in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>")
+                           .AddField("Bulletin Board",
+                                     $"Lunchbox - Returns the next lunchbox event\n" +
+                                     $"AddLunchbox {{Year}} {{Month}} {{Day}} {{Topic}} {{Speaker}} - Adds a lunchbox event\n" +
+                                     $"RemoveLunchbox {{Topic}} - Removes a lunchbox event with the same topic\n" +
+                                     $"UpdateLunchbox - Updates the Lunchbox embeds\n" +
+                                     $"NewEvent {{Year}} {{Month}} {{Day}} {{Hour}} {{Minute}} {{Title}} - Create a new bulletin event\n" +
+                                     $"InfoEvent {{Description}} {{Location}} {{Cost}} {{Capacity}} {{EventURL}} {{IconURL}} - Add information to the bulletin Event\n" +
+                                     $"RemoveEvent {{Topic}} - Removes a bulletin event with the same topic\n" +
+                                     $"UpdateEvents - Updates the bulletin embeds")
+                            .AddField("Admin",
+                                     $"SendIntro {{@User}} - Sends the user the introduction msg\n" +
+                                     $"UpdateUserList - Logs server members\n" +
+                                     $"GetUserAnomalies - Returns server members without roles/nicknames\n" +
+                                     $"Purge {{count}} - Mass deletes messages in a channel\n" +
+                                     $"Quit - Bot commits Seppuku")
+                          .WithColor(new Color(60, 179, 113));
 
             var embed = builder.Build();
             await Context.User.SendMessageAsync("", embed: embed);
@@ -96,6 +111,131 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
+        [Command("Suggestion"), Alias("suggestion", "suggest", "Suggest")]
+
+        public async Task HelpSuggestion()
+        {
+            await Context.Channel.SendMessageAsync($"Command Help\n{Program.ServerConfigData.prefix}Suggestion" + " {type your suggestion here}");
+        }
+        [Command("ServerStats")]
+        public async Task GetServerStats()
+        {
+            int ProgrammerCount = 0;
+            int ArtistCount = 0;
+            int DesignerCount = 0;
+            int VFXCount = 0;
+            int StudentCount = 0;
+            int TeacherCount = 0;
+            int IndustryCount = 0;
+            int GuestCount = 0;
+            int BotCount = 0;
+            int CO2019 = 0;
+            int CO2020 = 0;
+            int CO2021 = 0;
+
+            var AllUsers = Context.Guild.Users;
+
+            var ProgramerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Programming"]);
+            var ArtistRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Art"]);
+            var DesignerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Design"]);
+            var VFXRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["VFX"]);
+            var StudentRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"]);
+            var TeacherRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"]);
+            var IndustryRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Industry"]);
+            var GuestRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"]);
+            var CO2019Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"]);
+            var CO2020Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"]);
+            var CO2021Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"]);
+
+
+            foreach (SocketGuildUser users in AllUsers)
+            {
+                if (users.Roles.Contains(ProgramerRole) == true)
+                {
+                    ProgrammerCount++;
+                }
+
+                if (users.Roles.Contains(ArtistRole) == true)
+                {
+                    ArtistCount++;
+                }
+
+                if (users.Roles.Contains(DesignerRole) == true)
+                {
+                    DesignerCount++;
+                }
+
+                if (users.Roles.Contains(VFXRole) == true)
+                {
+                    VFXCount++;
+                }
+
+                if (users.Roles.Contains(StudentRole) == true)
+                {
+                    StudentCount++;
+                }
+
+                if (users.Roles.Contains(TeacherRole) == true)
+                {
+                    TeacherCount++;
+                }
+
+                if (users.Roles.Contains(IndustryRole) == true)
+                {
+                    IndustryCount++;
+                }
+
+                if (users.Roles.Contains(GuestRole) == true)
+                {
+                    GuestCount++;
+                }
+
+                if (users.IsBot == true)
+                {
+                    BotCount++;
+                }
+
+                if (users.Roles.Contains(CO2019Role) == true)
+                {
+                    CO2019++;
+                }
+
+                if (users.Roles.Contains(CO2020Role) == true)
+                {
+                    CO2020++;
+                }
+
+                if (users.Roles.Contains(CO2021Role) == true)
+                {
+                    CO2021++;
+                }
+            }
+
+
+            string StatsMsg = "❤️ Pointers Anonymous Stats\n" +
+                              "```autohotkey\n" +
+                              $"Programmers     :{ServerStatBoxPrinter(ProgrammerCount)}\n" +
+                              $"Artists         :{ServerStatBoxPrinter(ArtistCount)}\n" +
+                              $"Designers       :{ServerStatBoxPrinter(DesignerCount)}\n" +
+                              $"VFX             :{ServerStatBoxPrinter(VFXCount)}\n" +
+                              $"\n" +
+                              $"Students        :{ServerStatBoxPrinter(StudentCount)}\n" +
+                              $"Teachers        :{ServerStatBoxPrinter(TeacherCount)}\n" +
+                              $"Industry        :{ServerStatBoxPrinter(IndustryCount)}\n" +
+                              $"Guests          :{ServerStatBoxPrinter(GuestCount)}\n" +
+                              $"Bots            :{ServerStatBoxPrinter(BotCount)}\n" +
+                              $"\n" +
+                              $"\n" +
+                              $"Member Count    : {AllUsers.Count}\n" +
+                              $"Class of 2019   :{ServerStatBoxPrinter(CO2019)}\n" +
+                              $"Class of 2020   :{ServerStatBoxPrinter(CO2020)}\n" +
+                              $"Class of 2021   :{ServerStatBoxPrinter(CO2021)}\n" +
+                              $"\n" +
+                              $"Stats from      : {DateTime.Now.ToString("MM/d/yyyy H:mm")}\n" +
+                              "```";
+            await Context.Channel.SendMessageAsync(StatsMsg);
+        }
+
         //[Command("FormatThis"), Alias("format")]
         //public async Task FormatThisPlz()
         //{
@@ -113,6 +253,21 @@ namespace DiscordBot.Commands
         //}
 
         //--------------------------------------------------------------------------------
+
+        [Command("Crash"), Alias("UnityCrash", "CrashUnity")]
+        public async Task UnityCrashCounter()
+        {
+            Program.ServerConfigData.UnityCrashCount += 1;
+            Program.SaveServerDataToFile();
+
+            await Context.Channel.SendMessageAsync($"Current Unity Crash count: {Program.ServerConfigData.UnityCrashCount}");
+        }
+
+        [Command("CrashCount"), Alias("UnityCrashCount")]
+        public async Task UnityCrashCountDisplayer()
+        {
+            await Context.Channel.SendMessageAsync($"Current Unity Crash count: {Program.ServerConfigData.UnityCrashCount}");
+        }
 
         [Command("UnityVersion"), Alias("unityversion", "unityVersion", "UnityVer", "unityVer", "Unityver", "unityver"), Summary("What Version of Unity are we using?")]
         public async Task UnityVersion()
@@ -309,49 +464,46 @@ namespace DiscordBot.Commands
         [Command("UpdateWebEmbed"), Alias("UpdateEmbed"), Summary("Updates the Website Embed")]
         public async Task UpdateWebsiteEmbed(string WebQuery)
         {
-            var user = Context.User as SocketGuildUser;
-            var AdminCode = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-
-            if (user.Roles.Contains(AdminCode) == false)
+            if (await IsUserAuthorized("Admin", "Teacher"))
             {
-                return;
-            }
 
-            if (WebQuery == "All") //update all
-            {
+
+                if (WebQuery == "All") //update all
+                {
+                    foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
+                    {
+                        IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+
+                        if (ChatReferences is IUserMessage msg)
+                        {
+                            await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                            await Task.Delay(TimeSpan.FromSeconds(1));
+                        }
+                    }
+                    return;
+                }
+
+
                 foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
                 {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
-
-                    if (ChatReferences is IUserMessage msg)
+                    string test = web.ToString();
+                    if (WebQuery.ToLower() == test.ToLower())
                     {
-                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
-                        await Task.Delay(TimeSpan.FromSeconds(1));
+                        IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
+
+                        if (ChatReferences is IUserMessage msg)
+                        {
+                            await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
+                            await Context.User.SendMessageAsync($"Embed Updated");
+                            await Context.Message.DeleteAsync();
+                            return;
+                        }
                     }
                 }
+                await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nInvalid Website Query");
+                await Context.Message.DeleteAsync();
                 return;
             }
-
-
-            foreach (Program.WEBSITES web in Enum.GetValues(typeof(Program.WEBSITES)))
-            {
-                string test = web.ToString();
-                if (WebQuery.ToLower() == test.ToLower())
-                {
-                    IMessage ChatReferences = await Context.Channel.GetMessageAsync(Program.ServerConfigData.WebsiteData[web].WebsiteChatID, CacheMode.AllowDownload);
-
-                    if (ChatReferences is IUserMessage msg)
-                    {
-                        await msg.ModifyAsync(x => x.Embed = GetEmbedWebsite(web));
-                        await Context.User.SendMessageAsync($"Embed Updated");
-                        await Context.Message.DeleteAsync();
-                        return;
-                    }
-                }
-            }
-            await Context.User.SendMessageAsync($"{Context.Message.ToString()}\nInvalid Website Query");
-            await Context.Message.DeleteAsync();
-            return;
         }
 
         [Command("Website"), Alias("website"), Summary("Updates, or adds the users website")]
@@ -542,6 +694,21 @@ namespace DiscordBot.Commands
         #endregion
 
         #region Lunchbox
+
+        [Command("Lunchbox"), Alias("LB")]
+        public async Task DisplayNextLunchbox()
+        {
+            foreach (Lunchbox lb in Program.BulletinBoardData.Lunchboxes)
+            {
+                if (lb.date > DateTime.Now)
+                {
+                    await Context.Channel.SendMessageAsync($"Topic:{lb.topic}\nSpeaker:{lb.speaker}\nDate:{lb.date}");
+                    return;
+                }
+            }
+
+            await Context.Channel.SendMessageAsync("No future lunchboxes scheduled");
+        }
 
         [Command("AddLunchbox"), Alias("AddLB", "addLB", "addlb", "addlunchbox", "addlunchBox", "addLunchBox", "Addlunchbox", "AddlunchBox", "AddLunchBox")]
         public async Task AddLunchboxEvent(int lunchboxDateYear, int lunchboxDateMonth, int lunchboxDateDay, string lunchboxTopic, string lunchboxSpeaker)
@@ -1037,125 +1204,6 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
         }
 
-        [Command("ServerStats")]
-        public async Task GetServerStats()
-        {
-            int ProgrammerCount = 0;
-            int ArtistCount = 0;
-            int DesignerCount = 0;
-            int VFXCount = 0;
-            int StudentCount = 0;
-            int TeacherCount = 0;
-            int IndustryCount = 0;
-            int GuestCount = 0;
-            int BotCount = 0;
-            int CO2019 = 0;
-            int CO2020 = 0;
-            int CO2021 = 0;
-
-            var AllUsers = Context.Guild.Users;
-
-            var ProgramerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Programming"]);
-            var ArtistRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Art"]);
-            var DesignerRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Design"]);
-            var VFXRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["VFX"]);
-            var StudentRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"]);
-            var TeacherRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"]);
-            var IndustryRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Industry"]);
-            var GuestRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"]);
-            var CO2019Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"]);
-            var CO2020Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"]);
-            var CO2021Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"]);
-
-
-            foreach (SocketGuildUser users in AllUsers)
-            {
-                if (users.Roles.Contains(ProgramerRole) == true)
-                {
-                    ProgrammerCount++;
-                }
-
-                if (users.Roles.Contains(ArtistRole) == true)
-                {
-                    ArtistCount++;
-                }
-
-                if (users.Roles.Contains(DesignerRole) == true)
-                {
-                    DesignerCount++;
-                }
-
-                if (users.Roles.Contains(VFXRole) == true)
-                {
-                    VFXCount++;
-                }
-
-                if (users.Roles.Contains(StudentRole) == true)
-                {
-                    StudentCount++;
-                }
-
-                if (users.Roles.Contains(TeacherRole) == true)
-                {
-                    TeacherCount++;
-                }
-
-                if (users.Roles.Contains(IndustryRole) == true)
-                {
-                    IndustryCount++;
-                }
-
-                if (users.Roles.Contains(GuestRole) == true)
-                {
-                    GuestCount++;
-                }
-
-                if (users.IsBot == true)
-                {
-                    BotCount++;
-                }
-
-                if (users.Roles.Contains(CO2019Role) == true)
-                {
-                    CO2019++;
-                }
-
-                if (users.Roles.Contains(CO2020Role) == true)
-                {
-                    CO2020++;
-                }
-
-                if (users.Roles.Contains(CO2021Role) == true)
-                {
-                    CO2021++;
-                }
-            }
-
-
-            string StatsMsg = "❤️ Pointers Anonymous Stats\n" +
-                              "```autohotkey\n" +
-                              $"Programmers     :{ServerStatBoxPrinter(ProgrammerCount)}\n" +
-                              $"Artists         :{ServerStatBoxPrinter(ArtistCount)}\n" +
-                              $"Designers       :{ServerStatBoxPrinter(DesignerCount)}\n" +
-                              $"VFX             :{ServerStatBoxPrinter(VFXCount)}\n" +
-                              $"\n" +
-                              $"Students        :{ServerStatBoxPrinter(StudentCount)}\n" +
-                              $"Teachers        :{ServerStatBoxPrinter(TeacherCount)}\n" +
-                              $"Industry        :{ServerStatBoxPrinter(IndustryCount)}\n" +
-                              $"Guests          :{ServerStatBoxPrinter(GuestCount)}\n" +
-                              $"Bots            :{ServerStatBoxPrinter(BotCount)}\n" +
-                              $"\n" +
-                              $"\n" +
-                              $"Member Count    : {AllUsers.Count}\n" +
-                              $"Class of 2019   :{ServerStatBoxPrinter(CO2019)}\n" +
-                              $"Class of 2020   :{ServerStatBoxPrinter(CO2020)}\n" +
-                              $"Class of 2021   :{ServerStatBoxPrinter(CO2021)}\n" +
-                              $"\n" +
-                              $"Stats from      : {DateTime.Now.ToString("MM/d/yyyy H:mm")}\n" +
-                              "```";
-            await Context.Channel.SendMessageAsync(StatsMsg);
-        }
-
         [Command("UpdateUserList")]
         public async Task UpdateUserList()
         {
@@ -1257,27 +1305,27 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync(reportMsg);
         }
 
-        [Command("Purge",RunMode = RunMode.Async)]
+        [Command("Purge", RunMode = RunMode.Async)]
         public async Task PurgeMessages(int msgCount)
         {
             if (await IsUserAuthorized("Admin") == false)
             {
                 return;
-            }  
+            }
 
-            if(msgCount > 100)
+            if (msgCount > 100)
             {
                 msgCount = 100;
             }
-            else if(msgCount < 0)
+            else if (msgCount < 0)
             {
                 msgCount = 0;
             }
 
             var messages = await Context.Channel.GetMessagesAsync(msgCount).FlattenAsync();
-            
+
             await (Context.Channel as ITextChannel).DeleteMessagesAsync(messages);
-            
+
             var botMsg = await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Admin"]).SendMessageAsync($"User: <@{Context.User.Id}> purged {msgCount} messages in the <#{Context.Channel.Id}>");
         }
 

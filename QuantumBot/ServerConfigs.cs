@@ -26,6 +26,7 @@ namespace DiscordBot
         //Duration in Miliseconds, how long to wait for the Music bot deletetion
         public int MusicBoxPurgeTimer = 1500;
         public List<string> UnityVersion;
+        public int UnityCrashCount;
         public string UnityIconURL;
         public string ProjectProposalDocURL;
         public string AIESchoolCalender;
