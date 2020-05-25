@@ -502,6 +502,29 @@ namespace DiscordBot.Commands
             return;
         }
 
+        [Command("ViewNames"), Alias("ViewName")]
+        public async Task DisplayMonsterNicknames()
+        {
+            string msg = "Monster Hunter World Monsters\n**A**\n";
+            char startIdx = 'A';
+
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterName[0] == startIdx)
+                {
+                    msg += $"{monsterData.monsterName}, ";
+                }
+                else
+                {
+                    startIdx = monsterData.monsterName[0];
+                    msg += $"\n**{startIdx}**\n";
+                    msg += $"{monsterData.monsterName}, ";
+                }
+            }
+            await Context.Channel.SendMessageAsync(msg);
+        }
+
+        /*
         [Command("MonsterIcon")]
         public async Task AssignMonsterIcon(string monsterName, [Remainder] string monsterIconURL)
         {
@@ -532,6 +555,7 @@ namespace DiscordBot.Commands
             await botMsg.DeleteAsync();
             return;
         }
+        */
 
         [Command("MonsterStats")]
         public async Task MonsterStats()
