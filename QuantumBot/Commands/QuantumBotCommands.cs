@@ -524,6 +524,7 @@ namespace DiscordBot.Commands
                         await Context.Channel.SendMessageAsync($"{monsterIconURL} is a invalid URL");
                     }
                     await Context.Message.DeleteAsync();
+                    return;
                 }
             }
             var botMsg = await Context.Channel.SendMessageAsync($"Monster with name {monsterName} not found");
