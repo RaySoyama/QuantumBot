@@ -309,7 +309,6 @@ namespace DiscordBot.Commands
         }
 
         [Command("Graduation"), Alias("Grad")]
-
         public async Task DaysTillGraduation()
         {
             var user = Context.User as SocketGuildUser;
@@ -347,7 +346,7 @@ namespace DiscordBot.Commands
                 {
                     yearNum = Int32.Parse(year);
                 }
-                catch (FormatException e)
+                catch (FormatException)
                 {
                     yearNum = 42069;
                 }
@@ -392,6 +391,200 @@ namespace DiscordBot.Commands
             var embed = builder.Build();
             await Context.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["Monster Hunter"]).SendMessageAsync(null, embed: embed).ConfigureAwait(false);
             //await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+        }
+
+        [Command("Capture"), Alias("Adopt")]
+        public async Task GiveNewNicknameToMonster(string monsterName, [Remainder] string monsterNickname)
+        {
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterName.ToLower() == monsterName.ToLower()) //Get Monster Name
+                {
+                    foreach (MonsterHunterNicknames.NicknameData nicknameData in monsterData.nicknameData)
+                    {
+                        if (nicknameData.nickname.ToLower() == monsterNickname.ToLower())
+                        {
+                            var botMsg1 = await Context.Channel.SendMessageAsync($"Nickname {monsterNickname} already exists");
+                            await Task.Delay(5000);
+                            await botMsg1.DeleteAsync();
+                            return;
+                        }
+                    }
+
+                    monsterData.nicknameData.Add(new MonsterHunterNicknames.NicknameData() { creatorID = Context.User.Id, nickname = monsterNickname });
+                    Program.SaveMonsterHunterDataToFile();
+                    try
+                    {
+                        await Context.Channel.SendMessageAsync(null, embed: CreateMonsterNicknameEmbed(monsterData)).ConfigureAwait(false);
+                    }
+                    catch (Discord.Net.HttpException) // Catch Invalid URL
+                    {
+                        monsterData.monsterIconURL = "https://monsterhunterworld.wiki.fextralife.com/file/Monster-Hunter-World/black_bandage-mhw-wiki-guide.png";
+                        Program.SaveMonsterHunterDataToFile();
+
+                        await Context.Channel.SendMessageAsync(null, embed: CreateMonsterNicknameEmbed(monsterData)).ConfigureAwait(false);
+                    }
+
+                    await Context.Message.DeleteAsync();
+                    return;
+                }
+            }
+
+            var botMsg = await Context.Channel.SendMessageAsync($"Monster with name {monsterName} not found");
+            await Task.Delay(5000);
+            await botMsg.DeleteAsync();
+            return;
+        }
+
+        [Command("RemoveAdopt"), Alias("removeNickname", "removeName", "unAdopt")]
+        public async Task RemoveMonsterNickname(string monsterName, [Remainder] string monsterNickname)
+        {
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterName.ToLower() == monsterName.ToLower()) //Get Monster Name
+                {
+                    foreach (MonsterHunterNicknames.NicknameData nicknameData in monsterData.nicknameData)
+                    {
+                        if (nicknameData.nickname.ToLower() == monsterNickname.ToLower())
+                        {
+                            monsterData.nicknameData.Remove(nicknameData);
+                            Program.SaveMonsterHunterDataToFile();
+
+                            var botMsg2 = await Context.Channel.SendMessageAsync($"Nickname {nicknameData.nickname} removed from {monsterData.monsterName}");
+                            await Context.Message.DeleteAsync();
+                            await Task.Delay(5000);
+                            await botMsg2.DeleteAsync();
+                            return;
+                        }
+                    }
+
+                    var botMsg1 = await Context.Channel.SendMessageAsync($"Nickname {monsterNickname} doesn't exists");
+                    await Task.Delay(5000);
+                    await botMsg1.DeleteAsync();
+                    return;
+
+                }
+            }
+
+            var botMsg = await Context.Channel.SendMessageAsync($"Monster with name {monsterName} not found");
+            await Task.Delay(5000);
+            await botMsg.DeleteAsync();
+            return;
+        }
+
+        [Command("ViewNames"), Alias("ViewName")]
+        public async Task DisplayMonsterNicknames([Remainder] string monsterName)
+        {
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterName.ToLower() == monsterName.ToLower()) //Get Monster Name
+                {
+                    try
+                    {
+                        await Context.Channel.SendMessageAsync(null, embed: CreateMonsterNicknameEmbed(monsterData)).ConfigureAwait(false);
+                    }
+                    catch (Discord.Net.HttpException) // Catch Invalid URL
+                    {
+                        monsterData.monsterIconURL = "https://monsterhunterworld.wiki.fextralife.com/file/Monster-Hunter-World/black_bandage-mhw-wiki-guide.png";
+                        Program.SaveMonsterHunterDataToFile();
+
+                        await Context.Channel.SendMessageAsync(null, embed: CreateMonsterNicknameEmbed(monsterData)).ConfigureAwait(false);
+                    }
+
+                    await Context.Message.DeleteAsync();
+                    return;
+                }
+            }
+
+            var botMsg = await Context.Channel.SendMessageAsync($"Monster with name {monsterName} not found");
+            await Task.Delay(5000);
+            await botMsg.DeleteAsync();
+            return;
+        }
+
+        [Command("MonsterIcon")]
+        public async Task AssignMonsterIcon(string monsterName, [Remainder] string monsterIconURL)
+        {
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterName.ToLower() == monsterName.ToLower())
+                {
+                    monsterData.monsterIconURL = monsterIconURL;
+                    Program.SaveMonsterHunterDataToFile();
+
+                    try
+                    {
+                        await Context.Channel.SendMessageAsync(null, embed: CreateMonsterNicknameEmbed(monsterData)).ConfigureAwait(false);
+                    }
+                    catch (Discord.Net.HttpException) // Catch Invalid URL
+                    {
+                        monsterData.monsterIconURL = "https://monsterhunterworld.wiki.fextralife.com/file/Monster-Hunter-World/black_bandage-mhw-wiki-guide.png";
+                        Program.SaveMonsterHunterDataToFile();
+
+                        await Context.Channel.SendMessageAsync($"{monsterIconURL} is a invalid URL");
+                    }
+                    await Context.Message.DeleteAsync();
+                }
+            }
+            var botMsg = await Context.Channel.SendMessageAsync($"Monster with name {monsterName} not found");
+            await Task.Delay(5000);
+            await botMsg.DeleteAsync();
+            return;
+        }
+
+        [Command("MonsterStats")]
+        public async Task MonsterStats()
+        {
+            Dictionary<ulong, int> nicknameCount = new Dictionary<ulong, int>();
+
+            string msg = "";
+
+            foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
+            {
+                if (monsterData.monsterIconURL == "https://monsterhunterworld.wiki.fextralife.com/file/Monster-Hunter-World/black_bandage-mhw-wiki-guide.png")
+                {
+                    msg += $"{monsterData.monsterName} :no_entry:\n";
+                }
+
+                foreach (MonsterHunterNicknames.NicknameData nicknameData in monsterData.nicknameData)
+                {
+                    if (nicknameCount.ContainsKey(nicknameData.creatorID) == true)
+                    {
+                        nicknameCount[nicknameData.creatorID] += 1;
+                    }
+                    else
+                    {
+                        nicknameCount.Add(nicknameData.creatorID, 1);
+                    }
+                }
+            }
+
+            msg += "\n\n";
+
+            foreach (var nickCount in nicknameCount)
+            {
+                msg += $"{Context.Guild.GetUser(nickCount.Key).Nickname} made {nickCount.Value} nicknames!\n";
+            }
+
+            if (msg.Count() > 1000)
+            {
+                for (int i = 0; i < msg.Count(); i += 1000)
+                {
+                    if (i + 1000 > msg.Count())
+                    {
+                        await Context.Channel.SendMessageAsync(msg.Substring(i, msg.Count() - i));
+                    }
+                    else
+                    {
+                        await Context.Channel.SendMessageAsync(msg.Substring(i, 1000));
+                    }
+                }
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync(msg);
+            }
+            await Context.Message.DeleteAsync();
         }
 
         //Inktober
@@ -1343,6 +1536,7 @@ namespace DiscordBot.Commands
             await Context.Message.DeleteAsync();
             return;
 
+            /*
             List<IEmote> reactions = new List<IEmote>();
 
             var builder = new EmbedBuilder()
@@ -1366,6 +1560,7 @@ namespace DiscordBot.Commands
             Program.SaveServerDataToFile();
 
             await Context.Message.DeleteAsync();
+            */
         }
 
         [Command("UpdateSeedRoles")]
@@ -1684,7 +1879,6 @@ namespace DiscordBot.Commands
 
             return output;
         }
-
         private string GraduationStatBoxPrinter(DateTime startDate, DateTime endDate)
         {
             int gradDiff = (endDate - startDate).Days;
@@ -1719,6 +1913,50 @@ namespace DiscordBot.Commands
 
 
             return output;
+        }
+
+        private Discord.Embed CreateMonsterNicknameEmbed(MonsterHunterNicknames monsterData)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            try
+            {
+                builder = new EmbedBuilder()
+                                        .WithTitle("Monster Hunter Nicknames!~")
+                                        .WithDescription($"Nicknames for {monsterData.monsterName}")
+                                        .WithThumbnailUrl(monsterData.monsterIconURL);
+            }
+            catch (ArgumentException) //incase a URL is dead
+            {
+                builder = new EmbedBuilder()
+                                        .WithTitle("Monster Hunter Nicknames!~")
+                                        .WithDescription($"Nicknames for {monsterData.monsterName}");
+            }
+
+            Dictionary<ulong, string> fieldContents = new Dictionary<ulong, string>();
+
+            foreach (MonsterHunterNicknames.NicknameData printnicknames in monsterData.nicknameData)
+            {
+                if (fieldContents.ContainsKey(printnicknames.creatorID))
+                {
+                    fieldContents[printnicknames.creatorID] += $"\n{printnicknames.nickname}";
+                }
+                else
+                {
+                    fieldContents.Add(printnicknames.creatorID, printnicknames.nickname);
+                }
+            }
+
+            if (fieldContents.Count() == 0)
+            {
+                builder.AddField($"No Nicknames created", $"Use >Adopt \"{monsterData.monsterName}\" \"NICKNAME\"");
+            }
+
+            foreach (var item in fieldContents)
+            {
+                builder.AddField($"By {Context.Guild.GetUser(item.Key).Nickname}", item.Value);
+            }
+
+            return builder.Build();
         }
         #endregion
     }

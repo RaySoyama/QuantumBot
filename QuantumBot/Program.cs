@@ -41,6 +41,8 @@ namespace DiscordBot
 
         public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
 
+        public static List<MonsterHunterNicknames> MonsterHunterData = new List<MonsterHunterNicknames>();
+
         private static DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
@@ -53,6 +55,7 @@ namespace DiscordBot
         public static string userFileSavePath = "DiscordUserData.json";
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
         public static string channelRolesSavePath = "ChannelRolesData.json";
+        public static string monsterHunterSavePath = "MonsterHunterData.json";
 
         #region Bot Core
         static void Main(string[] args)
@@ -71,6 +74,7 @@ namespace DiscordBot
             GetFilePath(userFileSavePath, ref userFileSavePath);
             GetFilePath(bulletinBoardSavePath, ref bulletinBoardSavePath);
             GetFilePath(channelRolesSavePath, ref channelRolesSavePath);
+            GetFilePath(monsterHunterSavePath, ref monsterHunterSavePath);
 
 
             //Initialize Dictionaries
@@ -84,6 +88,9 @@ namespace DiscordBot
 
             //Load Channel Roles System
             LoadChannelRolesFromFile();
+
+            //Load Monster Hunter Data System
+            LoadMonsterHunterDataFromFile();
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -567,6 +574,32 @@ namespace DiscordBot
 
             return;
         }
+
+
+
+        //Monster Hunter Data Handleing
+        private static void LoadMonsterHunterDataFromFile()
+        {
+            string contents = File.ReadAllText(monsterHunterSavePath);
+            MonsterHunterData = JsonConvert.DeserializeObject<List<MonsterHunterNicknames>>(contents);
+
+            if (MonsterHunterData == null)
+            {
+                MonsterHunterData = new List<MonsterHunterNicknames>();
+            }
+
+            return;
+        }
+
+        public static void SaveMonsterHunterDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(MonsterHunterData, Formatting.Indented);
+            File.WriteAllText(monsterHunterSavePath, contents);
+            return;
+        }
+
+
+
 
         //Gets the save files
         private static void GetFilePath(string textFileName, ref string path)
