@@ -42,6 +42,10 @@ namespace DiscordBot
         public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
 
         public static List<MonsterHunterNicknames> MonsterHunterData = new List<MonsterHunterNicknames>();
+        public static List<ReactEmote> ReactEmoteData = new List<ReactEmote>();
+
+
+
 
         private static DiscordSocketClient _client;
         private CommandService _commands;
@@ -56,6 +60,7 @@ namespace DiscordBot
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
         public static string channelRolesSavePath = "ChannelRolesData.json";
         public static string monsterHunterSavePath = "MonsterHunterData.json";
+        public static string reactEmoteSavePath = "ReactEmote.json";
 
         #region Bot Core
         static void Main(string[] args)
@@ -75,6 +80,7 @@ namespace DiscordBot
             GetFilePath(bulletinBoardSavePath, ref bulletinBoardSavePath);
             GetFilePath(channelRolesSavePath, ref channelRolesSavePath);
             GetFilePath(monsterHunterSavePath, ref monsterHunterSavePath);
+            GetFilePath(reactEmoteSavePath, ref reactEmoteSavePath);
 
 
             //Initialize Dictionaries
@@ -91,6 +97,9 @@ namespace DiscordBot
 
             //Load Monster Hunter Data System
             LoadMonsterHunterDataFromFile();
+
+            //Load React Emote Data
+            LoadReactEmoteDataFromFile();
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -598,6 +607,31 @@ namespace DiscordBot
             return;
         }
 
+        //React Emote Data Handleing
+        private static void LoadReactEmoteDataFromFile()
+        {
+            string contents = File.ReadAllText(reactEmoteSavePath);
+            ReactEmoteData = JsonConvert.DeserializeObject<List<ReactEmote>>(contents);
+
+            if (ReactEmoteData == null)
+            {
+                ReactEmoteData = new List<ReactEmote>();
+            }
+
+            foreach (ReactEmote react in ReactEmoteData)
+            {
+                react.ChannelReactEmote = Discord.Emote.Parse($"{react.ChannelReactEmoteID}");
+            }
+
+            return;
+        }
+
+        public static void SaveReactEmoteDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(ReactEmoteData, Formatting.Indented);
+            File.WriteAllText(reactEmoteSavePath, contents);
+            return;
+        }
 
 
 

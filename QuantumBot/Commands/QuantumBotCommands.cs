@@ -11,7 +11,6 @@ namespace DiscordBot.Commands
 {
     public class QuantumBotCommands : ModuleBase<SocketCommandContext>
     {
-
         #region General 
 
         [Command("Help"), Alias("help"), Summary("List of all commands")]
@@ -29,7 +28,9 @@ namespace DiscordBot.Commands
                                     $"Suggestion {{your suggestion}} - Makes a suggestion post in  <#{Program.ServerConfigData.PointersAnonChatID["Suggestions"]}>\n" +
                                     $"GetServerStats - Returns data on the server members\n" +
                                     $"Crash - Adds to the \"Unity Crash Counter\"\n" +
-                                    $"CrashCounter - Returns the \"Unity Crash Counter\"")
+                                    $"CrashCounter - Returns the \"Unity Crash Counter\"\n" +
+                                    $"React {{Shorthand}} - Adds a animated emote to the previous msg\n" +
+                                    $"ReactList - Prints the list of animated gif shorthands")
                           .AddField("School",
                                     $"UnityVersion - Returns the version of Unity AIE is currently using\n" +
                                     $"ProposalTemplate - Returns the download link to the doc\n" +
@@ -245,7 +246,7 @@ namespace DiscordBot.Commands
         //    //path = System.IO.Directory.GetParent(path).ToString();
         //    //path = System.IO.Directory.GetParent(path).ToString();
 
-        //    Directory.CreateDirectory(path + "\\Poiners Anonymous Bot Files\\");
+        //    Directory.CreateDirectory(path + "\\Pointers Anonymous Bot Files\\");
 
         //    path += "\\Poiners Anonymous Bot Files\\" + "FormatThis.png";
 
@@ -675,6 +676,51 @@ namespace DiscordBot.Commands
             return;
         }
         */
+
+        [Command("React"), Alias("Reaction")]
+        public async Task ReactEmote(string shorthand)
+        {
+            foreach (ReactEmote reactEmote in Program.ReactEmoteData)
+            {
+                if (reactEmote.emoteShortHand == shorthand.ToLower())
+                {
+                    IEmote reaction = null;
+                    reaction = reactEmote.ChannelReactEmote;
+
+                    //get previous msg
+                    var messages = await Context.Channel.GetMessagesAsync(2).FlattenAsync();
+
+                    //Potential issues when not enough msg's
+                    await Context.Message.DeleteAsync();
+
+                    await (messages.ElementAt(1) as IUserMessage).AddReactionAsync(reaction, null);
+                    //await Context.Channel.SendMessageAsync($"Msg 1: {(messages.ElementAt(0).Content)}\nMsg 2: {(messages.ElementAt(1).Content)}");
+                    return;
+                }
+            }
+
+            //No Emote found
+            await Context.Message.DeleteAsync();
+            var msg = await Context.Channel.SendMessageAsync($"\"{shorthand}\" is not a valid shorthand");
+            await Task.Delay(5000);
+            await msg.DeleteAsync();
+        }
+
+        [Command("ReactList"), Alias("ReactionList")]
+        public async Task ReactList()
+        {
+            string content = "Emote  Shorthand\n\n";
+
+            foreach (ReactEmote reactEmote in Program.ReactEmoteData)
+            {
+                content += $"{reactEmote.ChannelReactEmoteID} {reactEmote.emoteShortHand}\n";
+            }
+
+            await Context.Message.DeleteAsync();
+            await Context.Channel.SendMessageAsync(content);
+        }
+
+
         #endregion
 
         #region Personal Links
