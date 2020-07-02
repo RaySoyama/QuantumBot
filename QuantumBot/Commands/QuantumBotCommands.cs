@@ -1913,11 +1913,11 @@ namespace DiscordBot.Commands
             else if (year == 2021)
             {
                 startDate = new DateTime(2019, 8, 12);
-                gradDate = new DateTime(2021, 7, 22);
+                gradDate = new DateTime(2021, 7, 14);
                 daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
 
                 output += $"> :confetti_ball:Class of 2021 Graduation!:confetti_ball:\n" +
-                                $"Graduation is on July 22nd 2021 (I think, lol don't quote me on that)\n\n" +
+                                $"Graduation is on July 14nd 2021\n\n" +
                                 $"~ {daysDiff} days to go! ~\n" +
                                 $"```\n" +
                                 $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
