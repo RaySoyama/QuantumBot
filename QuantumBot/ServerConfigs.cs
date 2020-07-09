@@ -27,6 +27,7 @@ namespace DiscordBot
         public int MusicBoxPurgeTimer = 1500;
         public List<string> UnityVersion;
         public int UnityCrashCount;
+        public int AlatreonFailCount;
         public string UnityIconURL;
         public string ProjectProposalDocURL;
         public string AIESchoolCalender;

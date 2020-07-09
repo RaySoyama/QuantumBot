@@ -557,8 +557,7 @@ namespace DiscordBot.Commands
             return;
         }
         */
-
-        [Command("MonsterStats")]
+        [Command("MonsterStats"), Alias("AlatreonFail")]
         public async Task MonsterStats()
         {
             Dictionary<ulong, int> nicknameCount = new Dictionary<ulong, int>();
@@ -611,6 +610,21 @@ namespace DiscordBot.Commands
                 await Context.Channel.SendMessageAsync(msg);
             }
             await Context.Message.DeleteAsync();
+        }
+
+        [Command("Alatreon")]
+        public async Task AlatreonFailCounter()
+        {
+            Program.ServerConfigData.AlatreonFailCount += 1;
+            Program.SaveServerDataToFile();
+
+            await Context.Channel.SendMessageAsync($"Current Alatreon Fail Count: {Program.ServerConfigData.AlatreonFailCount}");
+        }
+
+        [Command("AlatreonCount"), Alias("AlatreonFailCount")]
+        public async Task AlatreonDeathCountDisplayer()
+        {
+            await Context.Channel.SendMessageAsync($"Current UAlatreon Fail Count: {Program.ServerConfigData.AlatreonFailCount}");
         }
 
         //Inktober
@@ -1917,7 +1931,7 @@ namespace DiscordBot.Commands
                 daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
 
                 output += $"> :confetti_ball:Class of 2021 Graduation!:confetti_ball:\n" +
-                                $"Graduation is on July 14nd 2021\n\n" +
+                                $"Graduation is on July 14th 2021\n\n" +
                                 $"~ {daysDiff} days to go! ~\n" +
                                 $"```\n" +
                                 $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
@@ -1985,7 +1999,6 @@ namespace DiscordBot.Commands
 
             return output;
         }
-
         private Discord.Embed CreateMonsterNicknameEmbed(MonsterHunterNicknames monsterData)
         {
             EmbedBuilder builder = new EmbedBuilder();
