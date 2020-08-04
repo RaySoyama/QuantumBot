@@ -264,6 +264,15 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync($"Current Unity Crash count: {Program.ServerConfigData.UnityCrashCount}");
         }
 
+        [Command("Crash"), Alias("UnityCrash", "CrashUnity")]
+        public async Task UnityCrashCounter(int unit)
+        {
+            Program.ServerConfigData.UnityCrashCount += unit;
+            Program.SaveServerDataToFile();
+
+            await Context.Channel.SendMessageAsync($"Current Unity Crash count: {Program.ServerConfigData.UnityCrashCount}");
+        }
+
         [Command("CrashCount"), Alias("UnityCrashCount")]
         public async Task UnityCrashCountDisplayer()
         {

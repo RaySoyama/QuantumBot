@@ -357,7 +357,6 @@ namespace DiscordBot
         #region Bot File Parcing
         public static void UpdateAllDataFromFiles()
         {
-
             //Initialize Dictionaries
             LoadServerDataFromFile();
 
@@ -369,6 +368,13 @@ namespace DiscordBot
 
             //Load Channel Roles System
             LoadChannelRolesFromFile();
+
+            //Load Monster Hunter Data System
+            LoadMonsterHunterDataFromFile();
+
+            //Load React Emote Data
+            LoadReactEmoteDataFromFile();
+
         }
 
         //User Data Handling
