@@ -82,24 +82,7 @@ namespace DiscordBot
             GetFilePath(monsterHunterSavePath, ref monsterHunterSavePath);
             GetFilePath(reactEmoteSavePath, ref reactEmoteSavePath);
 
-
-            //Initialize Dictionaries
-            LoadServerDataFromFile();
-
-            //User Data shit test
-            LoadUserDataFromFile();
-
-            //BulletinBoard
-            LoadBulletinBoardFromFile();
-
-            //Load Channel Roles System
-            LoadChannelRolesFromFile();
-
-            //Load Monster Hunter Data System
-            LoadMonsterHunterDataFromFile();
-
-            //Load React Emote Data
-            LoadReactEmoteDataFromFile();
+            UpdateAllDataFromFiles();
 
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {

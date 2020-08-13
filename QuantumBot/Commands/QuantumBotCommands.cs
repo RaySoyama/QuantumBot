@@ -47,6 +47,16 @@ namespace DiscordBot.Commands
                                      $"InfoEvent {{Description}} {{Location}} {{Cost}} {{Capacity}} {{EventURL}} {{IconURL}} - Add information to the bulletin Event\n" +
                                      $"RemoveEvent {{Topic}} - Removes a bulletin event with the same topic\n" +
                                      $"UpdateEvents - Updates the bulletin embeds")
+                            .AddField("Monster Hunter World",
+                                    $"Adopt {{\"Monster Name\"}} {{\"Nickname\"}} - Give a Monster a nick name\n" +
+                                    $"ViewNames - Returns the list of all MHW names\n" +
+                                    $"ViewNames {{Monster Name}} - Returns the nicknames given to the Monster\n" +
+                                    $"RemoveAdopt {{Monster Name}}  {{Nickname}} - Removes a nickname from the Monster\n" +
+                                    $"MonsterStats - Returns stats about the adopt system\n" +
+                                    $"Alatreon - Adds one to the Alatreon cart counter\n" +
+                                    $"AlatreonCount - Returns the current Alatreon cart counter\n" +
+                                    $"\n" +
+                                    $"\n")
                             .AddField("Admin",
                                      $"SendIntro {{@User}} - Sends the user the introduction msg\n" +
                                      $"UpdateUserList - Logs server members\n" +
@@ -133,6 +143,7 @@ namespace DiscordBot.Commands
             int CO2019 = 0;
             int CO2020 = 0;
             int CO2021 = 0;
+            int CO2022 = 0;
 
             var AllUsers = Context.Guild.Users;
 
@@ -147,6 +158,7 @@ namespace DiscordBot.Commands
             var CO2019Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"]);
             var CO2020Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"]);
             var CO2021Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"]);
+            var CO2022Role = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2022"]);
 
 
             foreach (SocketGuildUser users in AllUsers)
@@ -210,6 +222,11 @@ namespace DiscordBot.Commands
                 {
                     CO2021++;
                 }
+
+                if (users.Roles.Contains(CO2022Role) == true)
+                {
+                    CO2022++;
+                }
             }
 
 
@@ -231,6 +248,7 @@ namespace DiscordBot.Commands
                               $"Class of 2019   :{ServerStatBoxPrinter(CO2019)}\n" +
                               $"Class of 2020   :{ServerStatBoxPrinter(CO2020)}\n" +
                               $"Class of 2021   :{ServerStatBoxPrinter(CO2021)}\n" +
+                              $"Class of 2022   :{ServerStatBoxPrinter(CO2022)}\n" +
                               $"\n" +
                               $"Stats from      : {DateTime.Now.ToString("MM/d/yyyy H:mm")}\n" +
                               "```";
@@ -248,7 +266,7 @@ namespace DiscordBot.Commands
 
         //    Directory.CreateDirectory(path + "\\Pointers Anonymous Bot Files\\");
 
-        //    path += "\\Poiners Anonymous Bot Files\\" + "FormatThis.png";
+        //    path += "\\Pointers Anonymous Bot Files\\" + "FormatThis.png";
 
         //    await Context.Channel.SendFileAsync(path, "https://gist.github.com/Almeeida/41a664d8d5f3a8855591c2f1e0e07b19", false,null,null,false);
         //}
@@ -331,6 +349,10 @@ namespace DiscordBot.Commands
             else if (user.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
             {
                 output += GraduationDialoguePrinter(2021);
+            }
+            else if (user.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2022"])) == true)
+            {
+                output += GraduationDialoguePrinter(2022);
             }
             else
             {
@@ -566,7 +588,7 @@ namespace DiscordBot.Commands
             return;
         }
         */
-        [Command("MonsterStats"), Alias("AlatreonFail")]
+        [Command("MonsterStats")]
         public async Task MonsterStats()
         {
             Dictionary<ulong, int> nicknameCount = new Dictionary<ulong, int>();
@@ -1501,65 +1523,53 @@ namespace DiscordBot.Commands
 
             var AllUsers = Context.Guild.Users;
 
-            bool yeet = false;
 
             foreach (SocketGuildUser users in AllUsers)
             {
-                foreach (UserProfile person in Program.UserData)
+                UserProfile user = GetUserProfile(users.Id);
+
+                user.userNickname = users.Nickname;
+
+                if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                 {
-                    if (users.Id == person.userID)
+                    user.isGuest = true;
+                }
+                else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
+                {
+                    user.isTeacher = true;
+                }
+                else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
+                {
+                    user.isStudent = true;
+
+                    if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
                     {
-                        //yeet = true;
-                        break;
+                        user.GradYear = 2020;
+                    }
+                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
+                    {
+                        user.GradYear = 2021;
+                    }
+                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2022"])) == true)
+                    {
+                        user.GradYear = 2022;
+                    }
+                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"])) == true)
+                    {
+                        user.GradYear = 2019;
+                    }
+                    else
+                    {
+                        user.GradYear = 6969;
                     }
                 }
 
-                if (yeet == false)
-                {
-                    UserProfile user = GetUserProfile(users.Id);
-
-                    user.userNickname = users.Nickname;
-
-
-                    if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
-                    {
-                        user.isGuest = true;
-                    }
-                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
-                    {
-                        user.isTeacher = true;
-                    }
-                    else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
-                    {
-                        user.isStudent = true;
-
-                        if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
-                        {
-                            user.GradYear = 2020;
-                        }
-                        else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
-                        {
-                            user.GradYear = 2021;
-                        }
-                        else if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2019"])) == true)
-                        {
-                            user.GradYear = 2019;
-                        }
-                        else
-                        {
-                            user.GradYear = 6969;
-                        }
-                    }
-
-                    Program.SaveUserDataToFile();
-                }
-                yeet = false;
+                Program.SaveUserDataToFile();
             }
 
             var msg = await Context.Channel.SendMessageAsync("User List Updated");
             await Task.Delay(5000);
             await msg.DeleteAsync();
-
         }
 
         [Command("GetUserAnomalies")]
@@ -1572,21 +1582,31 @@ namespace DiscordBot.Commands
 
             await UpdateUserList();
 
-            Program.UserData.Sort((b, a) => a.isStudent.CompareTo(b.isStudent));
+            //Program.UserData.Sort((b, a) => a.isStudent.CompareTo(b.isStudent));
 
-            string reportMsg = "";
+            string reportMsg = ":no_entry: = Missing Username, :poop: = Missing Roles\n";
 
             foreach (UserProfile user in Program.UserData)
             {
-                if (user.userNickname == null)
+                if ((user.isGuest == false && user.isTeacher == false && user.isStudent == false))
                 {
-                    reportMsg += $"<@{user.userID}> : Missing Nickname :no_entry:\n";
+                    if (user.isGuest == false && user.isTeacher == false && user.isStudent == false)
+                    {
+                        reportMsg += $"<@{user.userID}>: :poop:\n";
+                    }
                 }
+                else
+                {
+                    if (user.userNickname == null)
+                    {
+                        reportMsg += $"<@{user.userID}>: :no_entry:\n";
+                    }
+                }
+            }
 
-                if (user.isGuest == false && user.isTeacher == false && user.isStudent == false)
-                {
-                    reportMsg += $"<@{user.userID}> : Not a Student,Teacher,or Guest :no_entry:\n";
-                }
+            if (reportMsg.Length > 2000)
+            {
+                //too lazy to implement this shi
             }
 
             await Context.Channel.SendMessageAsync(reportMsg);
@@ -1701,6 +1721,17 @@ namespace DiscordBot.Commands
             await goodMsg.DeleteAsync();
             await Context.Message.DeleteAsync();
 
+        }
+
+        [Command("UpdateData")]
+        public async Task UpdateData()
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            Program.UpdateAllDataFromFiles();
         }
         #endregion
 
@@ -1927,11 +1958,8 @@ namespace DiscordBot.Commands
                 daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
 
                 output += $"> :confetti_ball:Class of 2020 Graduation!:confetti_ball:\n" +
-                               $"Graduation is on July 22nd 2020\n\n" +
-                               $"~ {daysDiff} days to go! ~\n" +
-                               $"```\n" +
-                               $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
-                               $"```";
+                               $"Graduation was on July 22nd 2020\n\n" +
+                               $"Congrats on graduating gamers";
             }
             else if (year == 2021)
             {
@@ -1946,29 +1974,25 @@ namespace DiscordBot.Commands
                                 $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
                                 $"```";
             }
-            else
+            else if (year == 2022)
             {
-                startDate = new DateTime(2018, 8, 16);
-                gradDate = new DateTime(2020, 7, 22);
-                daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
-
-                output += $"> :confetti_ball:Class of 2020 Graduation!:confetti_ball:\n" +
-                               $"Graduation is on July 22nd 2020\n\n" +
-                               $"~ {daysDiff} days to go! ~\n" +
-                               $"```\n" +
-                               $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
-                               $"```\n";
-
-                startDate = new DateTime(2019, 8, 12);
-                gradDate = new DateTime(2021, 7, 22);
+                startDate = new DateTime(2020, 8, 12);
+                gradDate = new DateTime(2022, 7, 14);
                 daysDiff = ((TimeSpan)(gradDate - DateTime.Today)).Days;
 
                 output += $"> :confetti_ball:Class of 2021 Graduation!:confetti_ball:\n" +
-                                $"Graduation is on July 22nd 2021 (I think, lol don't quote me on that)\n\n" +
-                                $"~ {daysDiff} days to go! ~\n" +
+                                $"Graduation is on UNKOWN 2022\n\n" +
+                                $"~ {daysDiff} days to go?! ~\n" +
                                 $"```\n" +
                                 $"{GraduationStatBoxPrinter(startDate, gradDate)}\n" +
                                 $"```";
+            }
+            else
+            {
+                //this could lead to a infinite loop if the years arn't supported
+                output = GraduationDialoguePrinter(2020);
+                output += GraduationDialoguePrinter(2021);
+                output += GraduationDialoguePrinter(2022);
             }
 
             return output;
