@@ -727,7 +727,7 @@ namespace DiscordBot.Commands
         {
             foreach (ReactEmote reactEmote in Program.ReactEmoteData)
             {
-                if (reactEmote.emoteShortHand == shorthand.ToLower())
+                if (reactEmote.emoteShortHand.ToLower() == shorthand.ToLower())
                 {
                     IEmote reaction = null;
                     reaction = reactEmote.ChannelReactEmote;
@@ -1732,6 +1732,10 @@ namespace DiscordBot.Commands
             }
 
             Program.UpdateAllDataFromFiles();
+            await Context.Message.DeleteAsync();
+            var botMsg = await Context.Channel.SendMessageAsync("Data Updated");
+            await Task.Delay(5000);
+            await botMsg.DeleteAsync();
         }
         #endregion
 

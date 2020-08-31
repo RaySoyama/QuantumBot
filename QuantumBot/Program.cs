@@ -612,6 +612,7 @@ namespace DiscordBot
                 react.ChannelReactEmote = Discord.Emote.Parse($"{react.ChannelReactEmoteID}");
             }
 
+            SaveReactEmoteDataToFile();
             return;
         }
 
