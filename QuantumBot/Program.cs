@@ -34,13 +34,9 @@ namespace DiscordBot
         }
 
         public static ServerConfigs ServerConfigData = new ServerConfigs();
-
         public static List<UserProfile> UserData = new List<UserProfile>();
-
         public static BulletinBoard BulletinBoardData = new BulletinBoard();
-
         public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
-
         public static List<MonsterHunterNicknames> MonsterHunterData = new List<MonsterHunterNicknames>();
         public static List<ReactEmote> ReactEmoteData = new List<ReactEmote>();
 
@@ -54,7 +50,6 @@ namespace DiscordBot
         public static int latency = 69;
 
         public static string logFileSavePath = "DiscordChatData.txt";
-
         public static string configFileSavePath = "DiscordServerConfig.json";
         public static string userFileSavePath = "DiscordUserData.json";
         public static string bulletinBoardSavePath = "BulletinBoardData.json";
@@ -622,8 +617,6 @@ namespace DiscordBot
             File.WriteAllText(reactEmoteSavePath, contents);
             return;
         }
-
-
 
         //Gets the save files
         private static void GetFilePath(string textFileName, ref string path)

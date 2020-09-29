@@ -658,6 +658,168 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync($"Current UAlatreon Fail Count: {Program.ServerConfigData.AlatreonFailCount}");
         }
 
+        [Command("AddGameCode"), Alias("SetGameCode"), Summary("Add a Game code")]
+        public async Task AddGameCode(string Platform, [Remainder] string platformCode)
+        {
+            foreach (UserProfile profile in Program.UserData)
+            {
+                if (profile.userID == Context.User.Id)
+                {
+                    if (profile.UserGameCodeIndex == null)
+                    {
+                        profile.UserGameCodeIndex = new Dictionary<string, string>();
+                    }
+
+                    if (profile.UserGameCodeIndex.ContainsKey(Platform))
+                    {
+                        profile.UserGameCodeIndex[Platform] = platformCode;
+                        await Context.Message.DeleteAsync();
+                        var botMsg = await Context.Channel.SendMessageAsync($"Updated game code for {Platform}");
+                        await Task.Delay(5000);
+                        await botMsg.DeleteAsync();
+                    }
+                    else
+                    {
+                        profile.UserGameCodeIndex.TryAdd(Platform, platformCode);
+                        await Context.Message.DeleteAsync();
+                        var botMsg = await Context.Channel.SendMessageAsync($"Added game code for {Platform}");
+                        await Task.Delay(5000);
+                        await botMsg.DeleteAsync();
+                    }
+                    Program.SaveUserDataToFile();
+                    return;
+                }
+            }
+
+            UserProfile user = new UserProfile();
+
+            user.userID = Context.User.Id;
+            user.userNickname = ((IGuildUser)Context.User).Nickname;
+
+            var guildUser = Context.User as SocketGuildUser;
+
+            if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
+            {
+                user.isGuest = true;
+            }
+            else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Teacher"])) == true)
+            {
+                user.isTeacher = true;
+            }
+            else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Student"])) == true)
+            {
+                user.isStudent = true;
+
+                if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2020"])) == true)
+                {
+                    user.GradYear = 2020;
+                }
+                else if (guildUser.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Class Of 2021"])) == true)
+                {
+                    user.GradYear = 2021;
+                }
+                else
+                {
+                    user.GradYear = 6969;
+                }
+            }
+            Program.UserData.Add(user);
+
+            user.UserGameCodeIndex = new Dictionary<string, string>();
+            user.UserGameCodeIndex.Add(Platform, platformCode);
+
+            await Context.Message.DeleteAsync();
+            var botMsg1 = await Context.Channel.SendMessageAsync($"Added game code for {Platform}");
+            await Task.Delay(5000);
+            await botMsg1.DeleteAsync();
+
+            Program.SaveUserDataToFile();
+            return;
+        }
+
+        [Command("RemoveGameCode"), Alias("DeleteGameCode"), Summary("Delete a Game code")]
+        public async Task RemoveGameCode(string Platform)
+        {
+            foreach (UserProfile profile in Program.UserData)
+            {
+                if (profile.userID == Context.User.Id)
+                {
+                    if (profile.UserGameCodeIndex == null)
+                    {
+                        profile.UserGameCodeIndex = new Dictionary<string, string>();
+                    }
+
+                    if (profile.UserGameCodeIndex.ContainsKey(Platform))
+                    {
+                        profile.UserGameCodeIndex.Remove(Platform);
+                        await Context.Message.DeleteAsync();
+                        var botMsg = await Context.Channel.SendMessageAsync($"Removed game code for {Platform}");
+                        await Task.Delay(5000);
+                        await botMsg.DeleteAsync();
+
+                        Program.SaveUserDataToFile();
+                        return;
+                    }
+                    break;
+                }
+            }
+
+            await Context.Message.DeleteAsync();
+            var botMsg1 = await Context.Channel.SendMessageAsync($"No game code found for {Platform}");
+            await Task.Delay(5000);
+            await botMsg1.DeleteAsync();
+            return;
+        }
+
+
+        [Command("GameCode"), Alias("GetGameCode", "ShowGameCode", "ViewGameCode", "GameCodes"), Summary("Show a users Game code")]
+        public async Task ViewGameCode()
+        {
+            foreach (UserProfile profile in Program.UserData)
+            {
+                if (profile.userID == Context.User.Id)
+                {
+                    if (profile.UserGameCodeIndex == null)
+                    {
+                        profile.UserGameCodeIndex = new Dictionary<string, string>();
+                    }
+
+                    var builder = new EmbedBuilder()
+                                        .WithTitle($"Game Codes")
+                                        .WithColor(new Color(0x259FEE))
+                                        .WithThumbnailUrl("https://cdn.discordapp.com/embed/avatars/0.png")
+                                        .WithAuthor(author =>
+                                                    {
+                                                        author
+                                                       .WithName($"{((IGuildUser)Context.User).Nickname}")
+                                                       .WithUrl($"{Context.User.GetAvatarUrl()}");
+                                                    });
+
+                    if (profile.UserGameCodeIndex == null || profile.UserGameCodeIndex.Count == 0)
+                    {
+                        builder.AddField($"No Game Codes Entries", $":(");
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, string> gameCode in profile.UserGameCodeIndex)
+                        {
+                            builder.AddField($"{gameCode.Key}", $"{gameCode.Key}", false);
+                        }
+
+                    }
+
+                    var embed = builder.Build();
+
+                    await Context.Channel.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+                    return;
+                }
+            }
+
+            var botMsg1 = await Context.Channel.SendMessageAsync("No User Data found");
+            await botMsg1.DeleteAsync();
+            return;
+        }
+
         //Inktober
         /*
         [Command("Inktober"), Alias("inktober"), Summary("Returns todays inktober prompt")]

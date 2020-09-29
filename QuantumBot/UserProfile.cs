@@ -14,6 +14,7 @@ namespace DiscordBot
         public bool isTeacher;
         public bool isGuest;
 
-        public Dictionary<Program.WEBSITES, string> UserWebsiteIndex;        
+        public Dictionary<Program.WEBSITES, string> UserWebsiteIndex;
+        public Dictionary<string, string> UserGameCodeIndex;
     }
 }
