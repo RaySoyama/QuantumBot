@@ -775,7 +775,6 @@ namespace DiscordBot.Commands
             return;
         }
 
-
         [Command("GameCode"), Alias("GetGameCode", "ShowGameCode", "ViewGameCode", "GameCodes"), Summary("Show a users Game code")]
         public async Task ViewGameCode()
         {
@@ -793,12 +792,11 @@ namespace DiscordBot.Commands
                     var builder = new EmbedBuilder()
                                         .WithTitle($"Game Codes")
                                         .WithColor(new Color(0x259FEE))
-                                        .WithThumbnailUrl("https://cdn.discordapp.com/embed/avatars/0.png")
+                                        .WithThumbnailUrl($"{Context.User.GetAvatarUrl()}")
                                         .WithAuthor(author =>
                                                     {
                                                         author
-                                                       .WithName($"{((IGuildUser)Context.User).Nickname}")
-                                                       .WithUrl($"{Context.User.GetAvatarUrl()}");
+                                                       .WithName($"{((IGuildUser)Context.User).Nickname}");
                                                     });
 
                     if (profile.UserGameCodeIndex == null || profile.UserGameCodeIndex.Count == 0)
