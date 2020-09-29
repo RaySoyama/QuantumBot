@@ -47,6 +47,10 @@ namespace DiscordBot.Commands
                                      $"InfoEvent {{Description}} {{Location}} {{Cost}} {{Capacity}} {{EventURL}} {{IconURL}} - Add information to the bulletin Event\n" +
                                      $"RemoveEvent {{Topic}} - Removes a bulletin event with the same topic\n" +
                                      $"UpdateEvents - Updates the bulletin embeds")
+                            .AddField("Game Codes",
+                                     $"GameCode - Returns User Game Codes\n" +
+                                     $"AddGameCode {{\"Platform\"}} {{\"Code\"}} - Adds a Game Code to the users profile\n" +
+                                     $"RemoveGameCode {{\"Platform\"}} - Remove a Game Code\n")
                             .AddField("Monster Hunter World",
                                     $"Adopt {{\"Monster Name\"}} {{\"Nickname\"}} - Give a Monster a nick name\n" +
                                     $"ViewNames - Returns the list of all MHW names\n" +
@@ -775,6 +779,8 @@ namespace DiscordBot.Commands
         [Command("GameCode"), Alias("GetGameCode", "ShowGameCode", "ViewGameCode", "GameCodes"), Summary("Show a users Game code")]
         public async Task ViewGameCode()
         {
+            await Context.Message.DeleteAsync();
+
             foreach (UserProfile profile in Program.UserData)
             {
                 if (profile.userID == Context.User.Id)
@@ -803,7 +809,7 @@ namespace DiscordBot.Commands
                     {
                         foreach (KeyValuePair<string, string> gameCode in profile.UserGameCodeIndex)
                         {
-                            builder.AddField($"{gameCode.Key}", $"{gameCode.Key}", false);
+                            builder.AddField($"{gameCode.Key}", $"{gameCode.Value}", false);
                         }
 
                     }
