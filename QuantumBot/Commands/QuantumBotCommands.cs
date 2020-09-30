@@ -659,10 +659,25 @@ namespace DiscordBot.Commands
         [Command("AlatreonCount"), Alias("AlatreonFailCount")]
         public async Task AlatreonDeathCountDisplayer()
         {
-            await Context.Channel.SendMessageAsync($"Current UAlatreon Fail Count: {Program.ServerConfigData.AlatreonFailCount}");
+            await Context.Channel.SendMessageAsync($"Current Alatreon Fail Count: {Program.ServerConfigData.AlatreonFailCount}");
         }
 
-        [Command("AddGameCode"), Alias("SetGameCode"), Summary("Add a Game code")]
+        [Command("Fatalis")]
+        public async Task FatalisFailCounter()
+        {
+            Program.ServerConfigData.FatalisFailCount += 1;
+            Program.SaveServerDataToFile();
+
+            await Context.Channel.SendMessageAsync($"Current Fatalis Fail Count: {Program.ServerConfigData.FatalisFailCount}");
+        }
+
+        [Command("FatalisCount"), Alias("FatalisFailCount")]
+        public async Task FatalisDeathCountDisplayer()
+        {
+            await Context.Channel.SendMessageAsync($"Current Fatalis Fail Count: {Program.ServerConfigData.FatalisFailCount}");
+        }
+
+        [Command("AddGameCode"), Alias("SetGameCode", "AddGameCodes"), Summary("Add a Game code")]
         public async Task AddGameCode(string Platform, [Remainder] string platformCode)
         {
             foreach (UserProfile profile in Program.UserData)
@@ -1689,12 +1704,22 @@ namespace DiscordBot.Commands
 
             var AllUsers = Context.Guild.Users;
 
+            List<ulong> allActiveIDs = new List<ulong>();
 
             foreach (SocketGuildUser users in AllUsers)
             {
+                allActiveIDs.Add(users.Id);
+
                 UserProfile user = GetUserProfile(users.Id);
 
-                user.userNickname = users.Nickname;
+                if (users.Nickname == null || users.Nickname == "" || users.Nickname == "null")
+                {
+                    user.userNickname = "NaN_NO_NICKNAME";
+                }
+                else
+                {
+                    user.userNickname = users.Nickname;
+                }
 
                 if (users.Roles.Contains(Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Guest"])) == true)
                 {
@@ -1729,10 +1754,19 @@ namespace DiscordBot.Commands
                         user.GradYear = 6969;
                     }
                 }
-
-                Program.SaveUserDataToFile();
             }
 
+            foreach (UserProfile user in Program.UserData)
+            {
+                if (allActiveIDs.Contains(user.userID) == false)
+                {
+                    user.userNickname = "NaN_NO_LONGER_IN_SERVER";
+                }
+            }
+
+            Program.UserData = Program.UserData.OrderBy(x => x.userNickname).ToList();
+
+            Program.SaveUserDataToFile();
             var msg = await Context.Channel.SendMessageAsync("User List Updated");
             await Task.Delay(5000);
             await msg.DeleteAsync();
@@ -1959,7 +1993,6 @@ namespace DiscordBot.Commands
             return;
         }
             */
-
         private async Task<bool> IsUserAuthorized(params string[] roles)
         {
             var roleCheckUser = Context.User as SocketGuildUser;

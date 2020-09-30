@@ -28,6 +28,7 @@ namespace DiscordBot
         public List<string> UnityVersion;
         public int UnityCrashCount;
         public int AlatreonFailCount;
+        public int FatalisFailCount;
         public string UnityIconURL;
         public string ProjectProposalDocURL;
         public string AIESchoolCalender;
