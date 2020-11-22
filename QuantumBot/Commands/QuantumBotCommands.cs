@@ -1937,6 +1937,18 @@ namespace DiscordBot.Commands
             await Task.Delay(5000);
             await botMsg.DeleteAsync();
         }
+
+        [Command("DM")]
+        public async Task DM(ulong targetUser, [Remainder] string msg)
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            await Context.Guild.GetUser(targetUser).SendMessageAsync(msg);
+        }
+
         #endregion
 
         #region Private Methods
