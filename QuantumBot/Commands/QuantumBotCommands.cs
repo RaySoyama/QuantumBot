@@ -1949,6 +1949,35 @@ namespace DiscordBot.Commands
             await Context.Guild.GetUser(targetUser).SendMessageAsync(msg);
         }
 
+        [Command("SecretSanta")]
+        public async Task SecretSantaDM(ulong sender, string receiver, string discordID, string interest1, string interest2, string interest3, string address)
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+            var builder = new EmbedBuilder()
+                .WithTitle("Pointers Anonymous Secret Santa 2020")
+                .WithDescription($"Hello! You are officially a Pointers Anonymous Secret Santa~ \nThey are: {receiver} ({discordID})\nI have listed their interests below~\n\nPlease keep the gifts under $20, and message Ray once the gift has been sent.")
+                .WithColor(new Color(0xF7833))
+                .WithFooter(footer =>
+                {
+                    footer
+                        .WithText("Sent by Ray (AKA Quantum Blue)");
+                })
+                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/545297341368762368/785383889463148614/unknown.png")
+                .AddField("Interest 1", $"{interest1}")
+                .AddField("Interest 2", $"{interest2}")
+                .AddField("Interest 3", $"{interest3}")
+                .AddField("Address", $"{address}");
+            var embed = builder.Build();
+
+            await Context.Guild.GetUser(sender).SendMessageAsync(
+                null,
+                embed: embed)
+                .ConfigureAwait(false);
+        }
+
         #endregion
 
         #region Private Methods
