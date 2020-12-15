@@ -55,7 +55,7 @@ namespace DiscordBot
         public static string channelRolesSavePath = "ChannelRolesData.json";
         public static string monsterHunterSavePath = "MonsterHunterData.json";
         public static string reactEmoteSavePath = "ReactEmote.json";
-        public static string blackoutSavePath = "BlackOutSavePath.json";
+        public static string blackoutSavePath = "BlackoutData.json";
 
 
 

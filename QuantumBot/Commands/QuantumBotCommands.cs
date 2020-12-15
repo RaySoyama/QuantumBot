@@ -981,7 +981,8 @@ namespace DiscordBot.Commands
                 }
                 else
                 {
-                    await Context.Channel.SendMessageAsync($"Still on cooldown: {(int)duration.TotalMinutes} Min. {(int)(duration.TotalSeconds - (int)duration.TotalMinutes * 60)} Secs. Left");
+                    double shit = Program.BlackoutQueueData.secondsBetweenShots - duration.TotalSeconds;
+                    await Context.Channel.SendMessageAsync($"Still on cooldown: {(int)(shit / 60)} Min. {(int)(shit % 60)} Secs. Left");
                     return;
                 }
             }
