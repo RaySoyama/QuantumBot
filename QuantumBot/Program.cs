@@ -39,8 +39,7 @@ namespace DiscordBot
         public static Dictionary<string, ChannelRoles> ChannelRolesData = new Dictionary<string, ChannelRoles>();
         public static List<MonsterHunterNicknames> MonsterHunterData = new List<MonsterHunterNicknames>();
         public static List<ReactEmote> ReactEmoteData = new List<ReactEmote>();
-
-
+        public static BlackoutQueue BlackoutQueueData = new BlackoutQueue();
 
 
         private static DiscordSocketClient _client;
@@ -56,6 +55,9 @@ namespace DiscordBot
         public static string channelRolesSavePath = "ChannelRolesData.json";
         public static string monsterHunterSavePath = "MonsterHunterData.json";
         public static string reactEmoteSavePath = "ReactEmote.json";
+        public static string blackoutSavePath = "BlackOutSavePath.json";
+
+
 
         #region Bot Core
         static void Main(string[] args)
@@ -76,6 +78,7 @@ namespace DiscordBot
             GetFilePath(channelRolesSavePath, ref channelRolesSavePath);
             GetFilePath(monsterHunterSavePath, ref monsterHunterSavePath);
             GetFilePath(reactEmoteSavePath, ref reactEmoteSavePath);
+            GetFilePath(blackoutSavePath, ref blackoutSavePath);
 
             UpdateAllDataFromFiles();
 
@@ -353,6 +356,8 @@ namespace DiscordBot
             //Load React Emote Data
             LoadReactEmoteDataFromFile();
 
+            //Load Blackout Data
+            LoadBlackoutDataFromFile();
         }
 
         //User Data Handling
@@ -617,6 +622,27 @@ namespace DiscordBot
             File.WriteAllText(reactEmoteSavePath, contents);
             return;
         }
+
+
+        //Blackout Data Handleing
+        private static void LoadBlackoutDataFromFile()
+        {
+            string contents = File.ReadAllText(blackoutSavePath);
+            BlackoutQueueData = JsonConvert.DeserializeObject<BlackoutQueue>(contents);
+
+            if (BlackoutQueueData == null)
+            {
+                BlackoutQueueData = new BlackoutQueue();
+            };
+        }
+
+        public static void SaveBlackoutQueueDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(BlackoutQueueData, Formatting.Indented);
+            File.WriteAllText(blackoutSavePath, contents);
+            return;
+        }
+
 
         //Gets the save files
         private static void GetFilePath(string textFileName, ref string path)
