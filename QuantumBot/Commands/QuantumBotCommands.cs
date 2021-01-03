@@ -57,10 +57,13 @@ namespace DiscordBot.Commands
                                     $"ViewNames {{Monster Name}} - Returns the nicknames given to the Monster\n" +
                                     $"RemoveAdopt {{Monster Name}}  {{Nickname}} - Removes a nickname from the Monster\n" +
                                     $"MonsterStats - Returns stats about the adopt system\n" +
-                                    $"Alatreon - Adds one to the Alatreon cart counter\n" +
-                                    $"AlatreonCount - Returns the current Alatreon cart counter\n" +
+                                    $"Alatreon/Fatalis - Adds one to the Alatreon/Fatalis cart counter\n" +
+                                    $"AlatreonCount/FatalisCount - Returns the current Alatreon/Fatalis cart counter\n" +
                                     $"\n" +
                                     $"\n")
+                            .AddField("Accountabilibuddy",
+                                    $"StartDay {{\"Work Duration in Min\"}} {{\"Break Duration in Min\"}} - Starts a looping timer that pings you when you should take breaks\n" +
+                                    $"EndDay - Ends the timer")
                             .AddField("Admin",
                                      $"SendIntro {{@User}} - Sends the user the introduction msg\n" +
                                      $"UpdateUserList - Logs server members\n" +
@@ -1041,13 +1044,13 @@ namespace DiscordBot.Commands
 
                 if (currentBuddy.isWorking == true)
                 {
-                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to take a {breakTime}min break! ");
+                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to take a {breakTime} min break!");
                     await Task.Delay(60000 * breakTime);
                 }
 
                 if (currentBuddy.isWorking == true)
                 {
-                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to get back to work! ");
+                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to get back to work!");
                 }
             }
             return;
@@ -1072,6 +1075,7 @@ namespace DiscordBot.Commands
                 {
                     currentBuddy = buddy;
                     buddy.isWorking = false;
+                    buddy.timeWorked += (int)(buddy.startTime - DateTime.Now).TotalMinutes;
                     Program.SaveAccountabilibuddyDataToFile();
                     break;
                 }
