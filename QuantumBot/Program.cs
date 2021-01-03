@@ -40,7 +40,7 @@ namespace DiscordBot
         public static List<MonsterHunterNicknames> MonsterHunterData = new List<MonsterHunterNicknames>();
         public static List<ReactEmote> ReactEmoteData = new List<ReactEmote>();
         public static BlackoutQueue BlackoutQueueData = new BlackoutQueue();
-
+        public static AccountabilibuddyQueue AccountabilibuddyData = new AccountabilibuddyQueue();
 
         private static DiscordSocketClient _client;
         private CommandService _commands;
@@ -56,8 +56,7 @@ namespace DiscordBot
         public static string monsterHunterSavePath = "MonsterHunterData.json";
         public static string reactEmoteSavePath = "ReactEmote.json";
         public static string blackoutSavePath = "BlackoutData.json";
-
-
+        public static string accountabilibuddySavePath = "AccountabilibuddyData.json";
 
         #region Bot Core
         static void Main(string[] args)
@@ -79,6 +78,7 @@ namespace DiscordBot
             GetFilePath(monsterHunterSavePath, ref monsterHunterSavePath);
             GetFilePath(reactEmoteSavePath, ref reactEmoteSavePath);
             GetFilePath(blackoutSavePath, ref blackoutSavePath);
+            GetFilePath(accountabilibuddySavePath, ref accountabilibuddySavePath);
 
             UpdateAllDataFromFiles();
 
@@ -161,12 +161,12 @@ namespace DiscordBot
                 if (context.Message.HasCharPrefix('!', ref argPos))
                 {
                     //this can cause issues, so care
-                    Task.Run(() => WaitThenDeleteMessage(context.Message));
+                    await Task.Run(() => WaitThenDeleteMessage(context.Message));
                     return;
                 }
                 else if (context.User.Id == ServerConfigData.PointersAnonUserID["Rythm Bot"])
                 {
-                    Task.Run(() => WaitThenDeleteMessage(context.Message));
+                    await Task.Run(() => WaitThenDeleteMessage(context.Message));
                     return;
                 }
             }
@@ -358,6 +358,9 @@ namespace DiscordBot
 
             //Load Blackout Data
             LoadBlackoutDataFromFile();
+
+            //Load Accountabilibuddy Data
+            LoadAccountabilibuddyDataFromFile();
         }
 
         //User Data Handling
@@ -635,11 +638,29 @@ namespace DiscordBot
                 BlackoutQueueData = new BlackoutQueue();
             };
         }
-
         public static void SaveBlackoutQueueDataToFile()
         {
             string contents = JsonConvert.SerializeObject(BlackoutQueueData, Formatting.Indented);
             File.WriteAllText(blackoutSavePath, contents);
+            return;
+        }
+
+
+        //Accountabilibuddy Data Handleing
+        private static void LoadAccountabilibuddyDataFromFile()
+        {
+            string contents = File.ReadAllText(accountabilibuddySavePath);
+            AccountabilibuddyData = JsonConvert.DeserializeObject<AccountabilibuddyQueue>(contents);
+
+            if (AccountabilibuddyData == null)
+            {
+                AccountabilibuddyData = new AccountabilibuddyQueue();
+            };
+        }
+        public static void SaveAccountabilibuddyDataToFile()
+        {
+            string contents = JsonConvert.SerializeObject(AccountabilibuddyData, Formatting.Indented);
+            File.WriteAllText(accountabilibuddySavePath, contents);
             return;
         }
 

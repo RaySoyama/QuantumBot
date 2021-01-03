@@ -988,6 +988,103 @@ namespace DiscordBot.Commands
             }
         }
 
+        [Command("StartDay")]
+        public async Task StartDay(int workTime, int breakTime)
+        {
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"])
+            {
+                var botMsg = await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"]}>");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            var botMsg1 = await Context.Channel.SendMessageAsync($"Day Started! Current schedule is to work for {workTime} min(s) and then take a break for {breakTime} min(s)");
+
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = null;
+
+            foreach (var buddy in Program.AccountabilibuddyData.AllAccountabilibuddy)
+            {
+                if (buddy.userToken == Context.User.Id) //id already exists
+                {
+                    currentBuddy = buddy;
+
+                    buddy.workTime = workTime;
+                    buddy.breakTime = breakTime;
+                    buddy.isWorking = true;
+
+                    buddy.startTime = DateTime.Now;
+                    break;
+                }
+            }
+
+            if (currentBuddy == null) //no user data, create profile
+            {
+                currentBuddy = new AccountabilibuddyQueue.Accountabilibuddy()
+                {
+                    userToken = Context.User.Id,
+                    isWorking = true,
+                    workTime = workTime,
+                    breakTime = breakTime,
+                    startTime = DateTime.Now
+                };
+                Program.AccountabilibuddyData.AllAccountabilibuddy.Add(currentBuddy);
+            }
+            Program.SaveAccountabilibuddyDataToFile();
+
+            //start timer
+
+            while (currentBuddy.isWorking == true)
+            {
+                //play timer
+                await Task.Delay(60000 * workTime);
+
+                if (currentBuddy.isWorking == true)
+                {
+                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to take a {breakTime}min break! ");
+                    await Task.Delay(60000 * breakTime);
+                }
+
+                if (currentBuddy.isWorking == true)
+                {
+                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to get back to work! ");
+                }
+            }
+            return;
+        }
+
+        [Command("EndDay"), Alias("StopDay")]
+        public async Task EndDay()
+        {
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"])
+            {
+                var botMsg = await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"]}>");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = null;
+
+            foreach (var buddy in Program.AccountabilibuddyData.AllAccountabilibuddy)
+            {
+                if (buddy.userToken == Context.User.Id && buddy.isWorking != false) //id already exists
+                {
+                    currentBuddy = buddy;
+                    buddy.isWorking = false;
+                    Program.SaveAccountabilibuddyDataToFile();
+                    break;
+                }
+            }
+
+            if (currentBuddy == null)
+            {
+                var botMsg = await Context.Channel.SendMessageAsync($"You need to start a day to end one");
+                return;
+            }
+
+            var botMsg1 = await Context.Channel.SendMessageAsync($"Day Ended!");
+        }
 
         #endregion
 
