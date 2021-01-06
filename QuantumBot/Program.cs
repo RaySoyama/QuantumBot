@@ -58,6 +58,10 @@ namespace DiscordBot
         public static string blackoutSavePath = "BlackoutData.json";
         public static string accountabilibuddySavePath = "AccountabilibuddyData.json";
 
+        public static Dictionary<System.Timers.Timer, ulong> AccountabilibuddyTimers = new Dictionary<System.Timers.Timer, ulong>();
+        public static Dictionary<System.Timers.Timer, ulong> AccountabilibuddyLunchTimers = new Dictionary<System.Timers.Timer, ulong>();
+
+
         #region Bot Core
         static void Main(string[] args)
         {

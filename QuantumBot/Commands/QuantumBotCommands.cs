@@ -990,6 +990,9 @@ namespace DiscordBot.Commands
                 }
             }
         }
+        #endregion
+
+        #region Accountabilibuddy
 
         [Command("StartDay")]
         public async Task StartDay(int workTime, int breakTime)
@@ -1002,58 +1005,29 @@ namespace DiscordBot.Commands
                 return;
             }
 
+            if (Program.AccountabilibuddyTimers.ContainsValue(Context.User.Id) == true)
+            {
+                await Context.Channel.SendMessageAsync("You have already started your day. Use the \"EndDay\" command before trying again");
+                return;
+            }
+
             var botMsg1 = await Context.Channel.SendMessageAsync($"Day Started! Current schedule is to work for {workTime} min(s) and then take a break for {breakTime} min(s)");
 
-            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = null;
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Context.User.Id);
 
-            foreach (var buddy in Program.AccountabilibuddyData.AllAccountabilibuddy)
-            {
-                if (buddy.userToken == Context.User.Id) //id already exists
-                {
-                    currentBuddy = buddy;
+            currentBuddy.isWorking = true;
+            currentBuddy.workTime = workTime;
+            currentBuddy.breakTime = breakTime;
+            currentBuddy.startTime = DateTime.Now;
 
-                    buddy.workTime = workTime;
-                    buddy.breakTime = breakTime;
-                    buddy.isWorking = true;
-
-                    buddy.startTime = DateTime.Now;
-                    break;
-                }
-            }
-
-            if (currentBuddy == null) //no user data, create profile
-            {
-                currentBuddy = new AccountabilibuddyQueue.Accountabilibuddy()
-                {
-                    userToken = Context.User.Id,
-                    isWorking = true,
-                    workTime = workTime,
-                    breakTime = breakTime,
-                    startTime = DateTime.Now
-                };
-                Program.AccountabilibuddyData.AllAccountabilibuddy.Add(currentBuddy);
-            }
             Program.SaveAccountabilibuddyDataToFile();
 
-            //start timer
+            //dont forget to fix timer mult
+            System.Timers.Timer newTimer = new System.Timers.Timer(workTime * 60000) { AutoReset = false };
+            newTimer.Elapsed += OnAccountabilibuddyTimedEvent;
+            newTimer.Enabled = true;
 
-            while (currentBuddy.isWorking == true)
-            {
-                //play timer
-                await Task.Delay(60000 * workTime);
-
-                if (currentBuddy.isWorking == true)
-                {
-                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to take a {breakTime} min break!");
-                    await Task.Delay(60000 * breakTime);
-                }
-
-                if (currentBuddy.isWorking == true)
-                {
-                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to get back to work!");
-                }
-            }
-            return;
+            Program.AccountabilibuddyTimers.Add(newTimer, Context.User.Id);
         }
 
         [Command("EndDay"), Alias("StopDay")]
@@ -1067,28 +1041,163 @@ namespace DiscordBot.Commands
                 return;
             }
 
-            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = null;
-
-            foreach (var buddy in Program.AccountabilibuddyData.AllAccountabilibuddy)
+            //Check if Timer Exists
+            if (Program.AccountabilibuddyTimers.ContainsValue(Context.User.Id) == false)
             {
-                if (buddy.userToken == Context.User.Id && buddy.isWorking != false) //id already exists
+                await Context.Channel.SendMessageAsync($"You need to start a day to end one");
+                return;
+            }
+
+            //Update Buddy Data
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Context.User.Id);
+            currentBuddy.timeWorked += (int)(currentBuddy.startTime - DateTime.Now).TotalMinutes;
+
+            //Find delete work timer
+            foreach (var kvPair in Program.AccountabilibuddyTimers)
+            {
+                if (kvPair.Value == Context.User.Id)
                 {
-                    currentBuddy = buddy;
-                    buddy.isWorking = false;
-                    buddy.timeWorked += (int)(buddy.startTime - DateTime.Now).TotalMinutes;
-                    Program.SaveAccountabilibuddyDataToFile();
+                    Program.AccountabilibuddyTimers.Remove(kvPair.Key);
+                    kvPair.Key.Dispose();
                     break;
                 }
             }
 
-            if (currentBuddy == null)
+            //find and delete lunch timer
+            foreach (var kvPair in Program.AccountabilibuddyLunchTimers)
             {
-                var botMsg = await Context.Channel.SendMessageAsync($"You need to start a day to end one");
-                return;
+                if (kvPair.Value == Context.User.Id)
+                {
+                    Program.AccountabilibuddyLunchTimers.Remove(kvPair.Key);
+                    kvPair.Key.Dispose();
+                    break;
+                }
             }
 
             var botMsg1 = await Context.Channel.SendMessageAsync($"Day Ended!");
         }
+
+        [Command("StartLunch"), Alias("Lunch")]
+        public async Task StartLunch(int duration)
+        {
+            if (Context.Channel.Id != Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"])
+            {
+                var botMsg = await Context.User.SendMessageAsync($"> {Context.Message.ToString()}\n" +
+                                                    $"This Command can only be used in <#{Program.ServerConfigData.PointersAnonChatID["Accountabilibuddy"]}>");
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
+            //Check if Timer Exists
+            if (Program.AccountabilibuddyTimers.ContainsValue(Context.User.Id) == false)
+            {
+                await Context.Channel.SendMessageAsync($"You need to start a day to start a Lunch");
+                return;
+            }
+
+            //check if Lunch timer Exists
+            if (Program.AccountabilibuddyLunchTimers.ContainsValue(Context.User.Id) == true)
+            {
+                await Context.Channel.SendMessageAsync($"You have already started your lunch");
+                return;
+            }
+
+            await Context.Channel.SendMessageAsync($"Now starting timer for a {duration} min lunch.");
+
+            //dont forget to fix timer mult
+            System.Timers.Timer newTimer = new System.Timers.Timer(duration * 60000) { AutoReset = false };
+            newTimer.Elapsed += OnAccountabilibuddyLunchTimedEvent;
+            newTimer.Enabled = true;
+
+            Program.AccountabilibuddyLunchTimers.Add(newTimer, Context.User.Id);
+
+            //find and pause work timer
+            foreach (var kvPair in Program.AccountabilibuddyTimers)
+            {
+                if (kvPair.Value == Context.User.Id)
+                {
+                    kvPair.Key.Stop();
+                    return;
+                }
+            }
+        }
+
+        //EndLunch
+
+        private AccountabilibuddyQueue.Accountabilibuddy GetBuddyFromUID(ulong user)
+        {
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = null;
+
+            foreach (var buddy in Program.AccountabilibuddyData.AllAccountabilibuddy)
+            {
+                if (buddy.userToken == Context.User.Id) //id already exists
+                {
+                    currentBuddy = buddy;
+                    break;
+                }
+            }
+
+            if (currentBuddy == null) //no user data, create profile
+            {
+                currentBuddy = new AccountabilibuddyQueue.Accountabilibuddy()
+                {
+                    userToken = Context.User.Id,
+                };
+
+                Program.AccountabilibuddyData.AllAccountabilibuddy.Add(currentBuddy);
+            }
+
+            return currentBuddy;
+        }
+        private void OnAccountabilibuddyTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            //I might not need to do this with the way Contex doesn't change
+
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyTimers[(System.Timers.Timer)source]);
+
+            if (currentBuddy.isWorking == true) //go to break
+            {
+                Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Time to take a {currentBuddy.breakTime} min break!" +
+                " Don't forget to post what you did this \"working period\" in <#795698234893795368>");
+                //change timer
+                currentBuddy.isWorking = false;
+                ((System.Timers.Timer)source).Interval = currentBuddy.breakTime * 60000;
+                ((System.Timers.Timer)source).Enabled = true;
+            }
+            else
+            {
+                Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Break ended! Time to get back to work!");
+                //change timer
+                currentBuddy.isWorking = true;
+                ((System.Timers.Timer)source).Interval = currentBuddy.workTime * 60000;
+                ((System.Timers.Timer)source).Enabled = true;
+            }
+
+            Program.SaveAccountabilibuddyDataToFile();
+            return;
+        }
+        private void OnAccountabilibuddyLunchTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyLunchTimers[(System.Timers.Timer)source]);
+
+            Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Lunch timer has ended! Time to get back to work!");
+
+            //destroy and remove lunch timer
+            Program.AccountabilibuddyTimers.Remove((System.Timers.Timer)source);
+            ((System.Timers.Timer)source).Dispose();
+
+            //find and start work timer
+            foreach (var kvPair in Program.AccountabilibuddyTimers)
+            {
+                if (kvPair.Value == Context.User.Id)
+                {
+                    kvPair.Key.Start();
+                    return;
+                }
+            }
+            return;
+        }
+
 
         #endregion
 
