@@ -993,6 +993,8 @@ namespace DiscordBot.Commands
         #endregion
 
         #region Accountabilibuddy
+        public static int MiliToMin = 1000;
+
 
         [Command("StartDay")]
         public async Task StartDay(int workTime, int breakTime)
@@ -1023,9 +1025,10 @@ namespace DiscordBot.Commands
             Program.SaveAccountabilibuddyDataToFile();
 
             //dont forget to fix timer mult
-            System.Timers.Timer newTimer = new System.Timers.Timer(workTime * 60000) { AutoReset = false };
+            QuantumTimer newTimer = new QuantumTimer(workTime * MiliToMin) { AutoReset = false };
             newTimer.Elapsed += OnAccountabilibuddyTimedEvent;
             newTimer.Enabled = true;
+            newTimer.Start();
 
             Program.AccountabilibuddyTimers.Add(newTimer, Context.User.Id);
         }
@@ -1105,9 +1108,10 @@ namespace DiscordBot.Commands
             await Context.Channel.SendMessageAsync($"Now starting timer for a {duration} min lunch.");
 
             //dont forget to fix timer mult
-            System.Timers.Timer newTimer = new System.Timers.Timer(duration * 60000) { AutoReset = false };
+            QuantumTimer newTimer = new QuantumTimer(duration * MiliToMin) { AutoReset = false };
             newTimer.Elapsed += OnAccountabilibuddyLunchTimedEvent;
             newTimer.Enabled = true;
+            newTimer.Start();
 
             Program.AccountabilibuddyLunchTimers.Add(newTimer, Context.User.Id);
 
@@ -1116,7 +1120,7 @@ namespace DiscordBot.Commands
             {
                 if (kvPair.Value == Context.User.Id)
                 {
-                    kvPair.Key.Stop();
+                    kvPair.Key.Pause();
                     return;
                 }
             }
@@ -1153,7 +1157,7 @@ namespace DiscordBot.Commands
         {
             //I might not need to do this with the way Contex doesn't change
 
-            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyTimers[(System.Timers.Timer)source]);
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyTimers[(QuantumTimer)source]);
 
             if (currentBuddy.isWorking == true) //go to break
             {
@@ -1161,16 +1165,18 @@ namespace DiscordBot.Commands
                 " Don't forget to post what you did this \"working period\" in <#795698234893795368>");
                 //change timer
                 currentBuddy.isWorking = false;
-                ((System.Timers.Timer)source).Interval = currentBuddy.breakTime * 60000;
-                ((System.Timers.Timer)source).Enabled = true;
+                ((QuantumTimer)source).Interval = currentBuddy.breakTime * MiliToMin;
+                ((QuantumTimer)source).Enabled = true;
+                ((QuantumTimer)source).Start();
             }
             else
             {
                 Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Break ended! Time to get back to work!");
                 //change timer
                 currentBuddy.isWorking = true;
-                ((System.Timers.Timer)source).Interval = currentBuddy.workTime * 60000;
-                ((System.Timers.Timer)source).Enabled = true;
+                ((QuantumTimer)source).Interval = currentBuddy.workTime * MiliToMin;
+                ((QuantumTimer)source).Enabled = true;
+                ((QuantumTimer)source).Start();
             }
 
             Program.SaveAccountabilibuddyDataToFile();
@@ -1178,20 +1184,20 @@ namespace DiscordBot.Commands
         }
         private void OnAccountabilibuddyLunchTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyLunchTimers[(System.Timers.Timer)source]);
+            AccountabilibuddyQueue.Accountabilibuddy currentBuddy = GetBuddyFromUID(Program.AccountabilibuddyLunchTimers[(QuantumTimer)source]);
 
             Context.Channel.SendMessageAsync($"<@{Context.User.Id}> Lunch timer has ended! Time to get back to work!");
 
             //destroy and remove lunch timer
-            Program.AccountabilibuddyTimers.Remove((System.Timers.Timer)source);
-            ((System.Timers.Timer)source).Dispose();
+            Program.AccountabilibuddyTimers.Remove((QuantumTimer)source);
+            ((QuantumTimer)source).Dispose();
 
             //find and start work timer
             foreach (var kvPair in Program.AccountabilibuddyTimers)
             {
                 if (kvPair.Value == Context.User.Id)
                 {
-                    kvPair.Key.Start();
+                    kvPair.Key.Resume();
                     return;
                 }
             }
