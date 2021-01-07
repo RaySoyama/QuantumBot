@@ -993,7 +993,7 @@ namespace DiscordBot.Commands
         #endregion
 
         #region Accountabilibuddy
-        public static int MiliToMin = 1000;
+        public static int MiliToMin = 60000;
 
 
         [Command("StartDay")]
