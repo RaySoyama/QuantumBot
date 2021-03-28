@@ -593,6 +593,88 @@ namespace DiscordBot
                 MonsterHunterData = new List<MonsterHunterNicknames>();
             }
 
+            //Easy adding new mons
+            /*
+            List<String> newNames = new List<string>()
+            {
+                "Bishaten",
+                "Great Wroggi",
+                "Magnamalo",
+                "Royal Ludroth",
+                "Somnacanth",
+                "Goss Harag",
+                "Lagombi",
+                "Khezu",
+                "Great Baggi",
+                "Barioth",
+                "Mizutsune",
+                "Rathalos",
+                "Tigrex",
+                "Great Izuchi",
+                "Arzuros",
+                "Tetranadon",
+                "Aknosom",
+                "Rathian",
+                "Rakna-Kadaki",
+                "Basarios",
+                "Volvidon",
+                "Almudron",
+                "Diablos",
+                "Rajang",
+                "Apex Arzuros",
+                "Kulu-Ya-Ku",
+                "Barroth",
+                "Pukei-Pukei",
+                "Jyuratodus",
+                "Tobi-Kadachi",
+                "Anjanath",
+                "Nargacuga",
+                "Zinogre",
+                "Wind Serpent Ibushi",
+                "Apex Rathian",
+                "Thunder Serpent Narwa",
+                "Chameleos",
+                "Apex Rathalos"
+            };
+            foreach (string newName in newNames)
+            {
+                bool isNewMon = true;
+
+                foreach (MonsterHunterNicknames shit in MonsterHunterData)
+                {
+                    if (newName.ToLower() == shit.monsterName.ToLower())
+                    {
+                        isNewMon = false;
+                        break;
+                    }
+                }
+
+                Console.WriteLine($"{newName} is new: {isNewMon}");
+
+                MonsterHunterNicknames newNickNameData = new MonsterHunterNicknames();
+
+                if (isNewMon == true)
+                {
+                    newNickNameData.monsterName = newName;
+                }
+                else
+                {
+                    newNickNameData.monsterName = $"{newName} Rise";
+                }
+
+                //parser
+                string cleanName = newName.ToLower();
+                cleanName = cleanName.Replace(' ', '_');
+
+                newNickNameData.monsterIconURL = $"https://monsterhunterrise.wiki.fextralife.com/file/XMonster-Hunter-Rise/{cleanName}_main_image-large-monsters-monster-hunter-rise-wiki-guide-200px.jpg";
+
+                MonsterHunterData.Add(newNickNameData);
+            }
+            */
+
+            //Sort Alphabetically
+            MonsterHunterData = MonsterHunterData.OrderBy(name => name.monsterName).ToList();
+            SaveMonsterHunterDataToFile();
             return;
         }
 

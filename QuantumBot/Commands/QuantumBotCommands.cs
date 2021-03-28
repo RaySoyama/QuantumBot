@@ -51,7 +51,7 @@ namespace DiscordBot.Commands
                                      $"GameCode - Returns User Game Codes\n" +
                                      $"AddGameCode {{\"Platform\"}} {{\"Code\"}} - Adds a Game Code to the users profile\n" +
                                      $"RemoveGameCode {{\"Platform\"}} - Remove a Game Code\n")
-                            .AddField("Monster Hunter World",
+                            .AddField("Monster Hunter World + Rise",
                                     $"Adopt {{\"Monster Name\"}} {{\"Nickname\"}} - Give a Monster a nick name\n" +
                                     $"ViewNames - Returns the list of all MHW names\n" +
                                     $"ViewNames {{Monster Name}} - Returns the nicknames given to the Monster\n" +
@@ -544,7 +544,7 @@ namespace DiscordBot.Commands
         [Command("ViewNames"), Alias("ViewName")]
         public async Task DisplayMonsterNicknames()
         {
-            string msg = "Monster Hunter World Monsters\n**A**\n";
+            string msg = "Monster Hunter World+Rise Monsters\n**A**\n";
             char startIdx = 'A';
 
             foreach (MonsterHunterNicknames monsterData in Program.MonsterHunterData)
