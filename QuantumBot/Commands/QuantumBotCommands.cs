@@ -2207,34 +2207,130 @@ namespace DiscordBot.Commands
             await Context.Guild.GetUser(targetUser).SendMessageAsync(msg);
         }
 
-        [Command("SecretSanta")]
-        public async Task SecretSantaDM(ulong sender, string receiver, string discordID, string interest1, string interest2, string interest3, string address)
+        //Secret Santa
+        /*
+
+                [Command("SecretSanta")]
+                public async Task SecretSantaDM(ulong sender, string receiver, string discordID, string interest1, string interest2, string interest3, string address)
+                {
+                    if (await IsUserAuthorized("Admin") == false)
+                    {
+                        return;
+                    }
+                    var builder = new EmbedBuilder()
+                        .WithTitle("Pointers Anonymous Secret Santa 2020")
+                        .WithDescription($"Hello! You are officially a Pointers Anonymous Secret Santa~ \nThey are: {receiver} ({discordID})\nI have listed their interests below~\n\nPlease keep the gifts under $20, and message Ray once the gift has been sent.")
+                        .WithColor(new Color(0xF7833))
+                        .WithFooter(footer =>
+                        {
+                            footer
+                                .WithText("Sent by Ray (AKA Quantum Blue)");
+                        })
+                        .WithThumbnailUrl("https://cdn.discordapp.com/attachments/545297341368762368/785383889463148614/unknown.png")
+                        .AddField("Interest 1", $"{interest1}")
+                        .AddField("Interest 2", $"{interest2}")
+                        .AddField("Interest 3", $"{interest3}")
+                        .AddField("Address", $"{address}");
+                    var embed = builder.Build();
+
+                    await Context.Guild.GetUser(sender).SendMessageAsync(
+                        null,
+                        embed: embed)
+                        .ConfigureAwait(false);
+                }
+        */
+
+        //April Fools
+        /*
+                [Command("StartAprilFools")]
+                public async Task StartAprilFools()
+                {
+                    if (await IsUserAuthorized("Admin") == false)
+                    {
+                        return;
+                    }
+
+                    var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
+
+                    foreach (var users in AllUsers)
+                    {
+                        //creates a user if it doesn't exist
+                        UserProfile user = GetUserProfile(users.Id);
+                        user.userNickname = users.Nickname;
+
+
+                        var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+
+                        if (((SocketGuildUser)users).Roles.Contains(AuthRole) == true || users.Nickname == "Terry H. N.")
+                        {
+                            Console.WriteLine($"Skipping {users.Nickname}'s name...");
+                            continue;
+                        }
+
+                        Console.WriteLine($"Changing {users.Nickname}'s name...");
+
+                        await users.ModifyAsync(x =>
+                         {
+                             x.Nickname = "Terry H. N.";
+                         }
+                         );
+
+                        Console.WriteLine($"Changed {users.Nickname}'s name...");
+
+                        await Task.Delay(500);
+                    }
+                    Console.WriteLine($"Finished");
+
+                    //Program.SaveUserDataToFile();
+                }
+        
+        [Command("EndAprilFools")]
+        public async Task EndAprilFools()
         {
             if (await IsUserAuthorized("Admin") == false)
             {
                 return;
             }
-            var builder = new EmbedBuilder()
-                .WithTitle("Pointers Anonymous Secret Santa 2020")
-                .WithDescription($"Hello! You are officially a Pointers Anonymous Secret Santa~ \nThey are: {receiver} ({discordID})\nI have listed their interests below~\n\nPlease keep the gifts under $20, and message Ray once the gift has been sent.")
-                .WithColor(new Color(0xF7833))
-                .WithFooter(footer =>
-                {
-                    footer
-                        .WithText("Sent by Ray (AKA Quantum Blue)");
-                })
-                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/545297341368762368/785383889463148614/unknown.png")
-                .AddField("Interest 1", $"{interest1}")
-                .AddField("Interest 2", $"{interest2}")
-                .AddField("Interest 3", $"{interest3}")
-                .AddField("Address", $"{address}");
-            var embed = builder.Build();
 
-            await Context.Guild.GetUser(sender).SendMessageAsync(
-                null,
-                embed: embed)
-                .ConfigureAwait(false);
+            var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
+
+            foreach (var users in AllUsers)
+            {
+                //creates a user if it doesn't exist
+                UserProfile user = GetUserProfile(users.Id);
+
+
+                var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+                if (((SocketGuildUser)users).Roles.Contains(AuthRole) == true)
+                {
+                    Console.WriteLine($"Skipping {users.Username}'s name...");
+
+                    continue;
+                }
+
+
+                if (users.Nickname == "NaN_NO_LONGER_IN_SERVER")
+                {
+                    Console.WriteLine($"Changing {users.Username}'s name...");
+
+                    await users.ModifyAsync(x =>
+                     {
+                         x.Nickname = null;
+                     }
+                     );
+                    Console.WriteLine($"Changed {users.Username}'s name...\n");
+
+                }
+                else
+                {
+                    Console.WriteLine($"Skipping {users.Username}'s name...");
+                }
+            }
+
+            Console.WriteLine($"Finished");
+            Program.SaveUserDataToFile();
         }
+*/
 
         #endregion
 
