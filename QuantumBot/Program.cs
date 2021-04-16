@@ -90,7 +90,8 @@ namespace DiscordBot
             {
                 LogLevel = LogSeverity.Info,
                 ExclusiveBulkDelete = true,
-                AlwaysDownloadUsers = true
+                AlwaysDownloadUsers = true,
+                ConnectionTimeout = 60000
             });
 
             _commands = new CommandService(new CommandServiceConfig

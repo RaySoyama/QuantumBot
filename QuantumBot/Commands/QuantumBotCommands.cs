@@ -1972,7 +1972,7 @@ namespace DiscordBot.Commands
 
                 if (users.Nickname == null || users.Nickname == "" || users.Nickname == "null")
                 {
-                    user.userNickname = "NaN_NO_NICKNAME";
+                    user.userNickname = null;
                 }
                 else
                 {
