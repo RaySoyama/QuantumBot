@@ -759,7 +759,7 @@ namespace DiscordBot.Commands
             return;
         }
 
-        [Command("RemoveGameCode"), Alias("DeleteGameCode"), Summary("Delete a Game code")]
+        [Command("RemoveGameCode"), Alias("DeleteGameCode","DeleteGameCodes","RemoveGameCodes"), Summary("Delete a Game code")]
         public async Task RemoveGameCode(string Platform)
         {
             foreach (UserProfile profile in Program.UserData)
@@ -793,7 +793,7 @@ namespace DiscordBot.Commands
             return;
         }
 
-        [Command("GameCode"), Alias("GetGameCode", "ShowGameCode", "ViewGameCode", "GameCodes"), Summary("Show a users Game code")]
+        [Command("GameCode"), Alias("GetGameCode", "ShowGameCode", "ViewGameCode", "GameCodes", "ViewGameCodes"), Summary("Show a users Game code")]
         public async Task ViewGameCode()
         {
             await Context.Message.DeleteAsync();
