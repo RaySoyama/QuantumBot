@@ -958,14 +958,15 @@ namespace DiscordBot.Commands
                 await Context.Channel.SendMessageAsync("You have already redeemed your token");
                 return;
             }
-
+            
+            
             if (Program.BlackoutQueueData.lastShot == "") //invalid time. Take shot
             {
                 Program.BlackoutQueueData.tokensUsed.Add(Context.User.Id);
                 Program.BlackoutQueueData.lastShot = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
                 Program.SaveBlackoutQueueDataToFile();
 
-                await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> used redeemed a shot! Bottoms up <@194151124704428032>");
+                await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> used redeemed a shot! Bottoms up <@{Program.BlackoutQueueData.shotTaker}>");
                 return;
             }
             else
@@ -979,7 +980,7 @@ namespace DiscordBot.Commands
                     Program.BlackoutQueueData.lastShot = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
                     Program.SaveBlackoutQueueDataToFile();
 
-                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> used redeemed a shot! Bottoms up <@194151124704428032>");
+                    await Context.Channel.SendMessageAsync($"<@{Context.User.Id}> used redeemed a shot! Bottoms up <@{Program.BlackoutQueueData.shotTaker}>");
                     return;
                 }
                 else
