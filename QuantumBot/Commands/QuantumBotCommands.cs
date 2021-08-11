@@ -23,53 +23,50 @@ namespace DiscordBot.Commands
                                             $"Note: {{Parameters}} are wrapped with curly brackets\n" +
                                             $"Sentences should be wrapped in \"Quotation Marks\"")
                           .AddField("General",
-                                    $"Ping - returns current server latency\n" +
-                                    $"VaultSeeker - Gives you access to the vault\n" +
-                                    $"Suggestion {{your suggestion}} - Makes a suggestion post in  <#{Program.ServerConfigData.PointersAnonChatID["Suggestions"]}>\n" +
-                                    $"GetServerStats - Returns data on the server members\n" +
-                                    $"Crash - Adds to the \"Unity Crash Counter\"\n" +
-                                    $"CrashCounter - Returns the \"Unity Crash Counter\"\n" +
-                                    $"React {{Shorthand}} - Adds a animated emote to the previous msg\n" +
-                                    $"ReactList - Prints the list of animated gif shorthands")
+                                    $"__Ping__ - returns current server latency\n" +
+                                    $"__VaultSeeker__ - Gives you access to the vault\n" +
+                                    $"__Suggestion__ {{your suggestion}} - Makes a suggestion post in  <#{Program.ServerConfigData.PointersAnonChatID["Suggestions"]}>\n" +
+                                    $"__GetServerStats__ - Returns data on the server members\n" +
+                                    $"__Crash__ - Adds to the \"Unity Crash Counter\"\n" +
+                                    $"__CrashCounter__ - Returns the \"Unity Crash Counter\"\n" +
+                                    $"__React__ {{Shorthand}} - Adds a animated emote to the previous msg\n" +
+                                    $"__ReactList__ - Prints the list of animated gif shorthands")
                           .AddField("School",
-                                    $"UnityVersion - Returns the version of Unity AIE is currently using\n" +
-                                    $"ProposalTemplate - Returns the download link to the doc\n" +
-                                    $"AIESchedule - Returns the download link to the doc\n" +
-                                    $"Graduation - Returns some graduation stats\n" +
-                                    $"Website {{Domain}} {{URL}} - Adds/Updates link in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>\n" +
-                                    $"AdminWebsite {{userID}} {{Domain}} {{URL}} - Admins Add/Update links in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>")
+                                    $"__UnityVersion__ - Returns the version of Unity AIE is currently using\n" +
+                                    $"__ProposalTemplate__ - Returns the download link to the doc\n" +
+                                    $"__AIESchedule__ - Returns the download link to the doc\n" +
+                                    $"__Graduation__ - Returns some graduation stats\n" +
+                                    $"__Website__ {{Domain}} {{URL}} - Adds/Updates link in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>\n" +
+                                    $"__AdminWebsite__ {{userID}} {{Domain}} {{URL}} - Admins Add/Update links in <#{Program.ServerConfigData.PointersAnonChatID["Personal Links"]}>")
                            .AddField("Bulletin Board",
-                                     $"Lunchbox - Returns the next lunchbox event\n" +
-                                     $"AddLunchbox {{Year}} {{Month}} {{Day}} {{Topic}} {{Speaker}} - Adds a lunchbox event\n" +
-                                     $"RemoveLunchbox {{Topic}} - Removes a lunchbox event with the same topic\n" +
-                                     $"UpdateLunchbox - Updates the Lunchbox embeds\n" +
-                                     $"NewEvent {{Year}} {{Month}} {{Day}} {{Hour}} {{Minute}} {{Title}} - Create a new bulletin event\n" +
-                                     $"InfoEvent {{Description}} {{Location}} {{Cost}} {{Capacity}} {{EventURL}} {{IconURL}} - Add information to the bulletin Event\n" +
-                                     $"RemoveEvent {{Topic}} - Removes a bulletin event with the same topic\n" +
-                                     $"UpdateEvents - Updates the bulletin embeds")
+                                     $"__Lunchbox__ - Returns the next lunchbox event\n" +
+                                     $"__AddLunchbox__ {{Year}} {{Month}} {{Day}} {{Topic}} {{Speaker}} - Adds a lunchbox event\n" +
+                                     $"__RemoveLunchbox__ {{Topic}} - Removes a lunchbox event with the same topic\n" +
+                                     $"__UpdateLunchbox__ - Updates the Lunchbox embeds\n" +
+                                     $"__NewEvent__ {{Year}} {{Month}} {{Day}} {{Hour}} {{Minute}} {{Title}} - Create a new bulletin event\n" +
+                                     $"__InfoEvent__ {{Description}} {{Location}} {{Cost}} {{Capacity}} {{EventURL}} {{IconURL}} - Add information to the bulletin Event\n" +
+                                     $"__RemoveEvent__ {{Topic}} - Removes a bulletin event with the same topic\n" +
+                                     $"__UpdateEvents__ - Updates the bulletin embeds")
                             .AddField("Game Codes",
-                                     $"GameCode - Returns User Game Codes\n" +
-                                     $"AddGameCode {{\"Platform\"}} {{\"Code\"}} - Adds a Game Code to the users profile\n" +
-                                     $"RemoveGameCode {{\"Platform\"}} - Remove a Game Code\n")
+                                     $"__GameCode__ - Returns User Game Codes\n" +
+                                     $"__AddGameCode__ {{\"Platform\"}} {{\"Code\"}} - Adds a Game Code to the users profile\n" +
+                                     $"__RemoveGameCode__ {{\"Platform\"}} - Remove a Game Code\n")
                             .AddField("Monster Hunter World + Rise",
-                                    $"Adopt {{\"Monster Name\"}} {{\"Nickname\"}} - Give a Monster a nick name\n" +
-                                    $"ViewNames - Returns the list of all MHW names\n" +
-                                    $"ViewNames {{Monster Name}} - Returns the nicknames given to the Monster\n" +
-                                    $"RemoveAdopt {{Monster Name}}  {{Nickname}} - Removes a nickname from the Monster\n" +
-                                    $"MonsterStats - Returns stats about the adopt system\n" +
-                                    $"Alatreon/Fatalis - Adds one to the Alatreon/Fatalis cart counter\n" +
-                                    $"AlatreonCount/FatalisCount - Returns the current Alatreon/Fatalis cart counter\n" +
+                                    $"__Adopt__ {{\"Monster Name\"}} {{\"Nickname\"}} - Give a Monster a nick name\n" +
+                                    $"__ViewNames__ - Returns the list of all MHW names\n" +
+                                    $"__ViewNames__ {{Monster Name}} - Returns the nicknames given to the Monster\n" +
+                                    $"__RemoveAdopt__ {{Monster Name}}  {{Nickname}} - Removes a nickname from the Monster\n" +
+                                    $"__MonsterStats__ - Returns stats about the adopt system\n" +
+                                    $"__Alatreon/Fatalis__ - Adds one to the Alatreon/Fatalis cart counter\n" +
+                                    $"__AlatreonCount/FatalisCount__ - Returns the current Alatreon/Fatalis cart counter\n" +
                                     $"\n" +
                                     $"\n")
-                            .AddField("Accountabilibuddy",
-                                    $"StartDay {{\"Work Duration in Min\"}} {{\"Break Duration in Min\"}} - Starts a looping timer that pings you when you should take breaks\n" +
-                                    $"EndDay - Ends the timer")
                             .AddField("Admin",
-                                     $"SendIntro {{@User}} - Sends the user the introduction msg\n" +
-                                     $"UpdateUserList - Logs server members\n" +
-                                     $"GetUserAnomalies - Returns server members without roles/nicknames\n" +
-                                     $"Purge {{count}} - Mass deletes messages in a channel\n" +
-                                     $"Quit - Bot commits Seppuku")
+                                     $"__SendIntro__ {{@User}} - Sends the user the introduction msg\n" +
+                                     $"__UpdateUserList__ - Logs server members\n" +
+                                     $"__GetUserAnomalies__ - Returns server members without roles/nicknames\n" +
+                                     $"__Purge__ {{count}} - Mass deletes messages in a channel\n" +
+                                     $"__Quit__ - Bot commits Seppuku")
                           .WithColor(new Color(60, 179, 113));
 
             var embed = builder.Build();
@@ -994,6 +991,7 @@ namespace DiscordBot.Commands
         #endregion
 
         #region Accountabilibuddy
+        /*
         public static int MiliToMin = 60000;
 
 
@@ -1205,7 +1203,7 @@ namespace DiscordBot.Commands
             return;
         }
 
-
+      */
         #endregion
 
         #region Personal Links
@@ -2409,7 +2407,6 @@ namespace DiscordBot.Commands
             return false;
 
         }
-
         private UserProfile GetUserProfile(ulong userID)
         {
             foreach (UserProfile user in Program.UserData)
@@ -2435,7 +2432,6 @@ namespace DiscordBot.Commands
             Program.UserData.Add(newProfile);
             return newProfile;
         }
-
         private List<Embed> CreateWebsiteEmbeds()
         {
             List<Embed> newWebsiteEmbedList = new List<Embed>();
@@ -2461,7 +2457,6 @@ namespace DiscordBot.Commands
 
             return newWebsiteEmbedList;
         }
-
         private Embed GetEmbedWebsite(Program.WEBSITES web)
         {
             string teacherData = "";
@@ -2527,7 +2522,6 @@ namespace DiscordBot.Commands
 
             return WebsiteEmbed.Build();
         }
-
         private string ServerStatBoxPrinter(int userCount)
         {
             int boxPerUser = 5;
@@ -2542,7 +2536,6 @@ namespace DiscordBot.Commands
             box += $" {userCount}";
             return box;
         }
-
         private string GraduationDialoguePrinter(int year)
         {
             string output = ":video_game:\n";
