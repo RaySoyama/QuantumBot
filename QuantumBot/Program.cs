@@ -291,7 +291,21 @@ namespace DiscordBot
 
         public async Task AnnounceLeftUser(SocketGuildUser user) //Announces the left user
         {
-            await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync($"User <@!{user.Id}> has left the Server");
+            string userLeaveMsg = $"User <@!{user.Id}> has left the Server.\nRoles - ";
+            
+            foreach(var usrRoles in user.Roles)
+            {
+                if(usrRoles.Name == "@everyone")
+                {
+                    continue;
+                }
+                
+                userLeaveMsg += $"{usrRoles.Name}  ";
+            }
+
+            userLeaveMsg += $"\nJoined - {(user.JoinedAt ?? DateTime.Now).ToString()}";
+
+            await user.Guild.GetTextChannel(Program.ServerConfigData.PointersAnonChatID["I Am Logs"]).SendMessageAsync(userLeaveMsg);
         }
 
         private async Task WaitThenDeleteMessage(IUserMessage msg)
