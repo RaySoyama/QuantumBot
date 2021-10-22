@@ -2206,6 +2206,23 @@ namespace DiscordBot.Commands
             await Context.Guild.GetUser(targetUser).SendMessageAsync(msg);
         }
 
+        [Command("Spam")]
+        public async Task SpamMsg(int count, [Remainder] string msg)
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            await Context.Channel.SendMessageAsync("💀");
+            await Context.Message.DeleteAsync();
+
+            for(int i = 0; i < count; i++)
+            {
+                await Context.Channel.SendMessageAsync(msg);
+            }
+        }
+
         //Secret Santa
         /*
 
