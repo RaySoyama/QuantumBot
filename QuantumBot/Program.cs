@@ -134,11 +134,21 @@ namespace DiscordBot
             if (context.IsPrivate == true && context.User.IsBot == false) //If they send a DM to Quantum bot
             {
                 var Ray = _client.GetUser(ServerConfigData.PointersAnonUserID["Ray Soyama"]);
-                await Ray.SendMessageAsync($"DM to Quantum Bot\n" +
-                                         $"Time: {arg.Timestamp}\n" +
-                                         $"Channel: {arg.Channel}\n" +
-                                         $"Discord ID: {arg.Author.Id}\n" +
-                                         $"Message: {arg.ToString()}\n");
+                string chatDMLog =  $"DM to Quantum Bot\n" +
+                                    $"Time: {arg.Timestamp}\n" +
+                                    $"Channel: {arg.Channel}\n" +
+                                    $"Discord ID: {arg.Author.Id}\n" +
+                                    $"Message: {arg.ToString()}\n";
+                
+                foreach (var FileLink in arg.Attachments)
+                {
+                    chatDMLog += $"File: {FileLink.Url}\n";
+                }
+
+                Console.WriteLine(chatDMLog);
+                File.AppendAllText(logFileSavePath, chatDMLog);
+
+                await Ray.SendMessageAsync(chatDMLog);
             }
             else if (context.User.IsBot == false)
             {
