@@ -301,7 +301,7 @@ namespace DiscordBot
 
         public async Task AnnounceLeftUser(SocketGuildUser user) //Announces the left user
         {
-            string userLeaveMsg = $"User <@!{user.Id}> has left the Server.\nRoles - ";
+            string userLeaveMsg = $"User <@!{user.Id}> ({user.Nickname}) has left the Server.\nRoles - ";
             
             foreach(var usrRoles in user.Roles)
             {

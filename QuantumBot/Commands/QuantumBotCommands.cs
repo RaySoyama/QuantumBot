@@ -2256,49 +2256,75 @@ namespace DiscordBot.Commands
                 }
         */
 
-        //April Fools
+        //April Fools Don't forget to move Quantum Bot to the top of the permissions List
         /*
-                [Command("StartAprilFools")]
-                public async Task StartAprilFools()
+        [Command("PrepAprilFoods")]
+        public async Task PrepAprilFools()
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+
+            var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
+            var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+            
+            await Context.Channel.SendMessageAsync($"Saving Nickname data for {AllUsers.Count} users");
+            
+            int userIdx = 1;
+
+            foreach (var users in AllUsers)
+            {
+                //creates a user if it doesn't exist
+                UserProfile user = GetUserProfile(users.Id);
+                user.userNickname = users.Nickname;
+                
+                await Context.Channel.SendMessageAsync($"{userIdx}/{AllUsers.Count} Profile Saved for User {users.Username}. Nickname is {users.Nickname}");
+                userIdx++;
+                await Task.Delay(500);
+            }
+            Console.WriteLine($"Finished");
+            Program.SaveUserDataToFile();
+        }
+
+        [Command("StartAprilFools")]
+        public async Task StartAprilFools()
+        {
+            if (await IsUserAuthorized("Admin") == false)
+            {
+                return;
+            }
+            var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
+            var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+
+            await Context.Channel.SendMessageAsync($"Changing Nickname for {AllUsers.Count} users");
+
+            int userIdx = 1;
+
+            foreach (var users in AllUsers)
+            {
+                //creates a user if it doesn't exist
+                if (((SocketGuildUser)users).Roles.Contains(AuthRole) == true || users.Nickname == "Terry H. N.")
                 {
-                    if (await IsUserAuthorized("Admin") == false)
-                    {
-                        return;
-                    }
-
-                    var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
-
-                    foreach (var users in AllUsers)
-                    {
-                        //creates a user if it doesn't exist
-                        UserProfile user = GetUserProfile(users.Id);
-                        user.userNickname = users.Nickname;
-
-
-                        var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
-
-                        if (((SocketGuildUser)users).Roles.Contains(AuthRole) == true || users.Nickname == "Terry H. N.")
-                        {
-                            Console.WriteLine($"Skipping {users.Nickname}'s name...");
-                            continue;
-                        }
-
-                        Console.WriteLine($"Changing {users.Nickname}'s name...");
-
-                        await users.ModifyAsync(x =>
-                         {
-                             x.Nickname = "Terry H. N.";
-                         }
-                         );
-
-                        Console.WriteLine($"Changed {users.Nickname}'s name...");
-
-                        await Task.Delay(500);
-                    }
-                    Console.WriteLine($"Finished");
-
-                    //Program.SaveUserDataToFile();
+                    Console.WriteLine($"Can't change admin's name. Skipping {users.Username} AKA {users.Nickname}'s 's name...");
+                    userIdx++;
+                    continue;
                 }
+                
+                Console.WriteLine($"{userIdx}/{AllUsers.Count} Changing {users.Username} AKA {users.Nickname}'s name...");
+                
+                await users.ModifyAsync(x =>
+                 {
+                     x.Nickname = "Terry H. N.";
+                 }
+                 );
+                
+                Console.WriteLine($"{userIdx}/{AllUsers.Count} Changed {users.Username}'s name...");
+                userIdx++;
+                await Task.Delay(1000);
+            }
+            Console.WriteLine($"Finished");
+        }
         
         [Command("EndAprilFools")]
         public async Task EndAprilFools()
@@ -2310,41 +2336,39 @@ namespace DiscordBot.Commands
 
             var AllUsers = await ((IGuild)Context.Guild).GetUsersAsync();
 
+            int userIdx = 1;
+            var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
+
+            await Context.Channel.SendMessageAsync($"Changing Nickname back for {AllUsers.Count} users");
+
             foreach (var users in AllUsers)
             {
                 //creates a user if it doesn't exist
                 UserProfile user = GetUserProfile(users.Id);
 
 
-                var AuthRole = Context.Guild.GetRole(Program.ServerConfigData.PointersAnonRoleID["Admin"]);
                 if (((SocketGuildUser)users).Roles.Contains(AuthRole) == true)
                 {
-                    Console.WriteLine($"Skipping {users.Username}'s name...");
-
+                    Console.WriteLine($"{userIdx}/{AllUsers.Count} Skipping {users.Username}'s name...");
+                    userIdx++;
                     continue;
                 }
 
+                Console.WriteLine($"{userIdx}/{AllUsers.Count} Changing {users.Username}'s name...");
 
-                if (users.Nickname == "NaN_NO_LONGER_IN_SERVER")
+                await users.ModifyAsync(x =>
                 {
-                    Console.WriteLine($"Changing {users.Username}'s name...");
-
-                    await users.ModifyAsync(x =>
-                     {
-                         x.Nickname = null;
-                     }
-                     );
-                    Console.WriteLine($"Changed {users.Username}'s name...\n");
-
+                    x.Nickname = user.userNickname;
                 }
-                else
-                {
-                    Console.WriteLine($"Skipping {users.Username}'s name...");
-                }
+                );
+                
+                Console.WriteLine($"{userIdx}/{AllUsers.Count} Changed {users.Username}'s name...\n");
+                
+                userIdx++;
+                await Task.Delay(1000);
             }
 
             Console.WriteLine($"Finished");
-            Program.SaveUserDataToFile();
         }
 */
 
