@@ -23,12 +23,14 @@ namespace QuantumBotv2.DataClass
             }
         }
         public ServerConfig serverConfigs = new ServerConfig();
+        public SlashCommands slashCommands = new SlashCommands();
 
         public string dataFolderPath = "QuantumBotDataFiles";
 
         public void LoadAllData()
         {
             serverConfigs = LoadData(serverConfigs);
+            slashCommands = LoadData(slashCommands);
             //add more
         }
 

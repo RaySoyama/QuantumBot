@@ -17,6 +17,9 @@ namespace QuantumBotv2.DataClass
         //Server Bot Prefix
         public char prefix;
 
+        //Server GUID 
+        public ulong serverID = 6969696969696969;
+
         //List of Channel ID's
         public Dictionary<string, ulong> channelID = new Dictionary<string, ulong>();
 

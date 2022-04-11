@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 using QuantumBotv2.DataClass;
+using QuantumBotv2.Commands;
 
 namespace QuantumBotv2
 {
@@ -31,6 +32,20 @@ namespace QuantumBotv2
             DataClassManager dataClassManager = new DataClassManager();
             DataClassManager.Instance.LoadAllData();
 
+            //Init Slash Command Logic
+            SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
+
+            /*
+            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(
+                new SlashCommands.SlashCommandData(new SlashCommandBuilder()
+                .WithName("slash-ping")
+                .WithDescription("WOOOOO")
+                .AddOption("user", ApplicationCommandOptionType.User, "Variable Description", isRequired: true)
+                .AddOption("string", ApplicationCommandOptionType.String, "Variable String Description", isRequired: true
+                ), "SlashPingCommand"));
+
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
+            */
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -44,7 +59,7 @@ namespace QuantumBotv2
             {
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
-                LogLevel = LogSeverity.Info
+                LogLevel = LogSeverity.Debug
             });
 
             await client.LoginAsync(TokenType.Bot, DataClassManager.Instance.serverConfigs.Token);
@@ -63,24 +78,26 @@ namespace QuantumBotv2
         private async Task OnClientIsReady()
         {
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
+            await LoadSlashCommands();
+        }
 
-            // Let's do our global command
-            var globalCommand = new SlashCommandBuilder()
-                .WithName("SlashPing")
-                .WithDescription("WOOOOO")
-                .AddOption("First Var", ApplicationCommandOptionType.User, "Variable Description", isRequired: true);
+        private async Task LoadSlashCommands()
+        {
+            var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
 
             try
             {
                 // With global commands we don't need the guild.
-                await client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
-                // Using the ready event is a simple implementation for the sake of the example. Suitable for testing and development.
-                // For a production bot, it is recommended to only run the CreateGlobalApplicationCommandAsync() once for each command.
+                SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
+                foreach (SlashCommands.SlashCommandData cmdData in slashCommands.AllSlashCommands)
+                {
+                    await guild.CreateApplicationCommandAsync(cmdData.slashCommandBuilder.Build());
+                }
             }
-            catch (ApplicationCommandException exception)
+            catch (Exception exception)
             {
                 // If our command was invalid, we should catch an ApplicationCommandException. This exception contains the path of the error as well as the error message. You can serialize the Error field in the exception to get a visual of where your error is.
-                var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(exception.ToString(), Formatting.Indented);
 
                 // You can send this error somewhere or just print it to the console, for this example we're just going to print it.
                 Console.WriteLine(json);
@@ -121,25 +138,26 @@ namespace QuantumBotv2
 
         private async Task OnSlashCommandCalled(SocketSlashCommand command)
         {
-            switch (command.Data.Name)
+            var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
+
+            SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
+
+            foreach (SlashCommands.SlashCommandData cmdData in slashCommands.AllSlashCommands)
             {
-                case "SlashPing":
-                    SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.First().Value;
-                    var roleList = string.Join(",\n", guildUser.Roles.Where(x => !x.IsEveryone).Select(x => x.Mention));
+                if (cmdData.slashCommandBuilder.Name == command.Data.Name)
+                {
+                    //reflect and call function
+                    Type logicClass = SlashCommandLogic.Instance.GetType();
+                    MethodInfo logic = logicClass.GetMethod(cmdData.commandMethodName);
 
-                    var embedBuiler = new EmbedBuilder()
-                        .WithAuthor(guildUser.ToString(), guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
-                        .WithTitle("Roles")
-                        .WithDescription(roleList)
-                        .WithColor(Color.Green)
-                        .WithCurrentTimestamp();
-
-                    // Now, Let's respond with the embed.
-                    await command.RespondAsync(embed: embedBuiler.Build());
-                    break;
-
+                    object[] parameters = new object[] { command };
+                    logic.Invoke(SlashCommandLogic.Instance, parameters);
+                    return;
+                }
             }
-            await command.RespondAsync($"You executed {command.Data.Name}");
+
+            //no logic
+            await command.RespondAsync("No Logic For Slash Command Found");
         }
     }
 }
