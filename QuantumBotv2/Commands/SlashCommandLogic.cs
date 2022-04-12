@@ -44,5 +44,9 @@ namespace QuantumBotv2.Commands
             await command.RespondAsync(embed: embedBuiler.Build());
         }
 
+        public async Task TestEphemeralCommand(SocketSlashCommand command)
+        {
+            await command.RespondAsync("Hello World", ephemeral: true);
+        }
     }
 }

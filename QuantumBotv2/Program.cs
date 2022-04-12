@@ -12,11 +12,69 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using QuantumBotv2.DataClass;
 using QuantumBotv2.Commands;
+using System.Collections.Generic;
 
 namespace QuantumBotv2
 {
     class Program
     {
+        /*
+        TODO
+        Logging - User Messages
+        Logging - Split Via Month? Week? Day?
+        Logging - Server Logs, Seperate
+
+        Telemetry
+            Bot Uptime?
+            User Messages Per Chat
+            User Command Usage
+
+        When User Joins
+            Latency Logging/Ping
+            Send Msg to "I am Logs"
+            Create Profile
+
+        When Username changed?
+            Update Profile?
+
+        When User Leaves
+            Log out data
+
+        Reaction Added Set Up
+        Reaction Removed Set Up
+        
+        -Message Receieved
+        When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
+        
+        Custom Keywords
+            - Happy Birthday
+            - Good Bot
+
+        Ability to sync files through a command
+        Ability to Spit out files through a command
+        Ability to Update files through a command
+
+        Custom Data Class's
+            ReactEmote
+                ServerRoleSetUpMsgID
+            Monster Hunter
+                Monster Hunter Monster Fail Count
+                    Generic
+                    Add/Subtract
+                MonsterHunterNicknames
+            Blackout Queue
+            ChannelRoles (for react to get roles)
+                add ephemeral response support
+            WebsiteProfile
+
+            
+            (Depricated) Lunchbox
+            (Depricated) BullietinEvent
+            (Depricated) BulletinBoard
+            (Depricated) Accountabilitbuddy
+
+        */
+
 
         private static DiscordSocketClient client;
         private CommandService commands;
@@ -34,18 +92,6 @@ namespace QuantumBotv2
 
             //Init Slash Command Logic
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
-
-            /*
-            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(
-                new SlashCommands.SlashCommandData(new SlashCommandBuilder()
-                .WithName("slash-ping")
-                .WithDescription("WOOOOO")
-                .AddOption("user", ApplicationCommandOptionType.User, "Variable Description", isRequired: true)
-                .AddOption("string", ApplicationCommandOptionType.String, "Variable String Description", isRequired: true
-                ), "SlashPingCommand"));
-
-            DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
-            */
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -147,17 +193,52 @@ namespace QuantumBotv2
                 if (cmdData.slashCommandBuilder.Name == command.Data.Name)
                 {
                     //reflect and call function
-                    Type logicClass = SlashCommandLogic.Instance.GetType();
-                    MethodInfo logic = logicClass.GetMethod(cmdData.commandMethodName);
+                    try
+                    {
+                        Type logicClass = SlashCommandLogic.Instance.GetType();
+                        MethodInfo logic = logicClass.GetMethod(cmdData.commandMethodName);
 
-                    object[] parameters = new object[] { command };
-                    logic.Invoke(SlashCommandLogic.Instance, parameters);
+                        object[] parameters = new object[] { command };
+                        logic.Invoke(SlashCommandLogic.Instance, parameters);
+                    }
+                    catch (Exception exception)
+                    {
+                        //TODO: log errors
+                    }
+
                     return;
+
                 }
             }
 
             //no logic
             await command.RespondAsync("No Logic For Slash Command Found");
+        }
+
+
+        private void ADMIN_ManuallyAddSlashCommand()
+        {
+            SlashCommands.SlashCommandData newScd = new SlashCommands.SlashCommandData(new SlashCommandBuilder()
+                .WithName("slash-ping")
+                .WithDescription("WOOOOO")
+                .AddOption("user", ApplicationCommandOptionType.User, "Variable Description", isRequired: true)
+                .AddOption("string", ApplicationCommandOptionType.String, "Variable String Description", isRequired: true
+                ), "SlashPingCommand");
+
+            //check if slashcommand with the same name exists
+            List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.AllSlashCommands;
+
+            foreach (SlashCommands.SlashCommandData scd in allSlashCommands)
+            {
+                if (scd.slashCommandBuilder.Name == newScd.slashCommandBuilder.Name)
+                {
+                    //ERROR
+                    return;
+                }
+            }
+            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(newScd);
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
+
         }
     }
 }
