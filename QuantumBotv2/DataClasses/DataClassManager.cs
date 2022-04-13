@@ -24,13 +24,14 @@ namespace QuantumBotv2.DataClass
         }
         public ServerConfig serverConfigs = new ServerConfig();
         public SlashCommands slashCommands = new SlashCommands();
-
+        public MessageLog messageLog = new MessageLog();
         public string dataFolderPath = "QuantumBotDataFiles";
 
         public void LoadAllData()
         {
             serverConfigs = LoadData(serverConfigs);
             slashCommands = LoadData(slashCommands);
+            messageLog = LoadData(messageLog);
             //add more
         }
 
@@ -73,6 +74,17 @@ namespace QuantumBotv2.DataClass
             string contents = JsonConvert.SerializeObject(dataClass, Formatting.Indented);
             File.WriteAllText(GetFilePath(dataClass), contents);
             return;
+        }
+
+        private void LoadMessageLogs()
+        {
+            //TODO
+            //split by Year/Month/Week
+        }
+        private void SaveMessageLogs()
+        {
+            //TODO
+            //split by Year/Month/Week
         }
     }
 }

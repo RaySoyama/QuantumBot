@@ -90,6 +90,8 @@ namespace QuantumBotv2
             DataClassManager dataClassManager = new DataClassManager();
             DataClassManager.Instance.LoadAllData();
 
+
+
             //Init Slash Command Logic
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
 
@@ -150,14 +152,30 @@ namespace QuantumBotv2
             }
         }
 
-        private async Task OnMessageReceived(SocketMessage arg)
+        private async Task OnMessageReceived(SocketMessage message)
         {
-            SocketUserMessage message = arg as SocketUserMessage;
-            SocketCommandContext context = new SocketCommandContext(client, message);
+            SocketUserMessage userMessage = message as SocketUserMessage;
+            SocketCommandContext context = new SocketCommandContext(client, userMessage);
 
-            if (context.User.IsBot == false)
+            if (context.User.IsBot == true)
             {
-                Console.WriteLine(arg.ToString());
+                return;
+            }
+
+            if (context.IsPrivate == true) //If they send a DM to Quantum bot
+            {
+                //TODO: Handle DM
+                SocketGuild guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
+                SocketGuildUser UserRay = guild.GetUser(DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]);
+                MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
+                await UserRay.SendMessageAsync(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
+            }
+            else
+            {
+                MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
+                DataClassManager.Instance.messageLog.AllMessageLogs.Add(newMessage);
+                DataClassManager.Instance.SaveData(DataClassManager.Instance.messageLog);
+                Console.WriteLine(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
             }
 
 
@@ -165,7 +183,7 @@ namespace QuantumBotv2
             int argPos = 0;
 
             //if valid command prompt
-            if (message.HasCharPrefix(DataClassManager.Instance.serverConfigs.prefix, ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) //Checks for Prefix or @Quantum Bot
+            if (userMessage.HasCharPrefix(DataClassManager.Instance.serverConfigs.prefix, ref argPos) || userMessage.HasMentionPrefix(client.CurrentUser, ref argPos)) //Checks for Prefix or @Quantum Bot
             {
                 var result = await commands.ExecuteAsync(context, argPos, services);
 
@@ -184,7 +202,7 @@ namespace QuantumBotv2
 
         private async Task OnSlashCommandCalled(SocketSlashCommand command)
         {
-            var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
+            SocketGuild guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
 
             SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
 
@@ -212,7 +230,7 @@ namespace QuantumBotv2
             }
 
             //no logic
-            await command.RespondAsync("No Logic For Slash Command Found");
+            await command.RespondAsync("No Logic For Slash Command Found", ephemeral: true);
         }
 
 
