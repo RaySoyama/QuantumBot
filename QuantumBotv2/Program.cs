@@ -20,9 +20,9 @@ namespace QuantumBotv2
     {
         /*
         TODO
-        Logging - User Messages
+        DONE - Logging - User Messages
         Logging - Split Via Month? Week? Day?
-        Logging - Server Logs, Seperate
+        DONE - Logging - Server Logs, Seperate
 
         Telemetry
             Bot Uptime?
@@ -30,7 +30,6 @@ namespace QuantumBotv2
             User Command Usage
 
         When User Joins
-            Latency Logging/Ping
             Send Msg to "I am Logs"
             Create Profile
 
@@ -44,7 +43,8 @@ namespace QuantumBotv2
         Reaction Removed Set Up
         
         -Message Receieved
-        When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
+            Update Latency Logging/Ping
+            DONE - When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
         
         Custom Keywords
             - Happy Birthday
@@ -91,7 +91,6 @@ namespace QuantumBotv2
             DataClassManager.Instance.LoadAllData();
 
 
-
             //Init Slash Command Logic
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
 
@@ -107,10 +106,13 @@ namespace QuantumBotv2
             {
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
-                LogLevel = LogSeverity.Debug
+                LogLevel = LogSeverity.Critical
             });
 
+            client.Log += OnClientLog;
+
             await client.LoginAsync(TokenType.Bot, DataClassManager.Instance.serverConfigs.Token);
+
             //attach event listeners
             await client.StartAsync();
             client.Ready += OnClientIsReady;
@@ -123,6 +125,30 @@ namespace QuantumBotv2
             await Task.Delay(-1);
         }
 
+        private Task OnClientLog(LogMessage logMessage)
+        {
+            //Stores in RAM, less read/write
+            /*
+            ClientLog.ClientLogData newClientLogData = new ClientLog.ClientLogData(logMessage);
+            DataClassManager.Instance.clientLog.allClientLogs.Add(newClientLogData);
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.clientLog);
+            Console.WriteLine(DataClassManager.Instance.clientLog.ClientLogDataAsString(newClientLogData));
+            */
+
+            //Less RAM Usage
+            //Read Data from File, Save, Delete Cache?
+            DataClassManager.Instance.clientLog = DataClassManager.Instance.LoadData(DataClassManager.Instance.clientLog);
+
+            ClientLog.ClientLogData newClientLogData = new ClientLog.ClientLogData(logMessage);
+            DataClassManager.Instance.clientLog.allClientLogs.Add(newClientLogData);
+
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.clientLog);
+            Console.WriteLine(DataClassManager.Instance.clientLog.ClientLogDataAsString(newClientLogData));
+
+            DataClassManager.Instance.clientLog = new ClientLog();
+
+            return Task.CompletedTask;
+        }
         private async Task OnClientIsReady()
         {
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
@@ -164,7 +190,6 @@ namespace QuantumBotv2
 
             if (context.IsPrivate == true) //If they send a DM to Quantum bot
             {
-                //TODO: Handle DM
                 SocketGuild guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
                 SocketGuildUser UserRay = guild.GetUser(DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]);
                 MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
@@ -172,10 +197,27 @@ namespace QuantumBotv2
             }
             else
             {
+                //Stores in RAM, less read/write
+                /*
                 MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
-                DataClassManager.Instance.messageLog.AllMessageLogs.Add(newMessage);
+                DataClassManager.Instance.messageLog.allMessageLogs.Add(newMessage);
                 DataClassManager.Instance.SaveData(DataClassManager.Instance.messageLog);
                 Console.WriteLine(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
+                */
+
+
+                //Less RAM Usage
+                //Read Data from File, Save, Delete Cache?
+                DataClassManager.Instance.messageLog = DataClassManager.Instance.LoadData(DataClassManager.Instance.messageLog);
+
+                MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
+                DataClassManager.Instance.messageLog.allMessageLogs.Add(newMessage);
+
+                DataClassManager.Instance.SaveData(DataClassManager.Instance.messageLog);
+
+                Console.WriteLine(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
+
+                DataClassManager.Instance.messageLog = new MessageLog();
             }
 
 
@@ -219,7 +261,7 @@ namespace QuantumBotv2
                         object[] parameters = new object[] { command };
                         logic.Invoke(SlashCommandLogic.Instance, parameters);
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
                         //TODO: log errors
                     }
@@ -232,7 +274,6 @@ namespace QuantumBotv2
             //no logic
             await command.RespondAsync("No Logic For Slash Command Found", ephemeral: true);
         }
-
 
         private void ADMIN_ManuallyAddSlashCommand()
         {

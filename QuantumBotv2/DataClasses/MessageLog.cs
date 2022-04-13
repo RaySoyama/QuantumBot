@@ -35,14 +35,16 @@ namespace QuantumBotv2.DataClass
             public MessageData(SocketMessage message)
             {
                 authorName = $"{message.Author.Username}#{message.Author.Discriminator}";
+
                 try
                 {
                     authorNickname = $"{((IGuildUser)message.Author).Nickname}";
                 }
-                catch (System.InvalidCastException IsDM)
+                catch (System.InvalidCastException)
                 {
                     authorNickname = "NoAuthorNickname - DM";
                 }
+
                 authorID = message.Author.Id;
                 timestamp = message.Timestamp;
                 channelName = message.Channel.Name;
@@ -55,7 +57,7 @@ namespace QuantumBotv2.DataClass
                 }
             }
         }
-        public List<MessageData> AllMessageLogs = new List<MessageData>();
+        public List<MessageData> allMessageLogs = new List<MessageData>();
 
         public string MessageDataAsString(MessageData messageData)
         {
