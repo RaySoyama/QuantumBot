@@ -22,6 +22,7 @@ namespace QuantumBotv2.DataClass
             }
         }
 
-        public List<SlashCommandData> AllSlashCommands = new List<SlashCommandData>();
+        public List<SlashCommandData> allSlashCommands = new List<SlashCommandData>();
+        public Dictionary<string, string> allButtonCommands = new Dictionary<string, string>();
     }
 }

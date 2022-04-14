@@ -173,9 +173,44 @@ namespace QuantumBotv2.Commands
                 }
             }
 
-            await command.RespondAsync($"You do not have have the required roles to use this command.", ephemeral: true);
+            await command.RespondAsync($"You do not have have the required roles to use this command. ({string.Join(", ", roles)}). \nMessage a Admin if you think this is wrong", ephemeral: true);
             return false;
         }
 
+        /// <summary>
+        /// Call when you run a SlashCommand to add logging in Bot-History and logs
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public async Task OnSlashCommandInvoked(SocketSlashCommand command, bool isFailed)
+        {
+            SocketGuildUser guildUser = (SocketGuildUser)command.User;
+
+            var embedBuiler = new EmbedBuilder()
+                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                .WithAuthor(guildUser.ToString())
+                .WithCurrentTimestamp();
+
+            if (isFailed)
+            {
+                embedBuiler.WithTitle($":warning: Failed Slash Command Invoked! :warning:");
+            }
+            else
+            {
+                embedBuiler.WithTitle($"Slash Command Invoked!");
+            }
+
+            string commandString = $"{command.Data.Name} ";
+
+            foreach (var arg in command.Data.Options)
+            {
+                commandString += $"\"{arg.Value.ToString()}\" ";
+            }
+
+            commandString += $"\nChannel: <#{command.Channel.Id}>";
+            embedBuiler.WithDescription(commandString);
+
+            await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Bot History"]).SendMessageAsync(embed: embedBuiler.Build());
+        }
     }
 }

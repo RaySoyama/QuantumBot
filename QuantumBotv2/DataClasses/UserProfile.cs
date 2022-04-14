@@ -34,11 +34,11 @@ namespace QuantumBotv2.DataClass
             {
 
             }
-            public UserData(IGuildUser user)
+            public UserData(SocketGuildUser guildUser)
             {
-                userName = $"{user.Username}#{user.Discriminator}";
-                userNickname = $"{user.Nickname}";
-                userID = user.Id;
+                userName = $"{guildUser.Username}#{guildUser.Discriminator}";
+                userNickname = $"{guildUser.Nickname}";
+                userID = guildUser.Id;
             }
         }
 

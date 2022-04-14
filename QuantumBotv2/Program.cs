@@ -36,6 +36,8 @@ namespace QuantumBotv2
             User Command Usage
         OnSlashCommands
             - Log Slash Commands
+        OnButtonClicked
+            - Log Button Clicks, Role Updates
 
 
         When User Joins
@@ -45,8 +47,8 @@ namespace QuantumBotv2
         When Username changed?
             Update Profile?
 
-        When User Leaves
-            Log out data
+        *When User Leaves
+            *Log out data
 
         Reaction Added Set Up
         Reaction Removed Set Up
@@ -105,14 +107,16 @@ namespace QuantumBotv2
 
             DataClassManager.Instance.LoadAllData();
 
-            //Init Slash Command Logic
+            //Init Command Logic Singletons
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
+            ButtonCommandLogic buttonCommandLogic = new ButtonCommandLogic();
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info,
                 GatewayIntents = GatewayIntents.All,
                 AlwaysDownloadUsers = true,
+                UseInteractionSnowflakeDate = false,
                 ConnectionTimeout = 60000
             });
 
@@ -133,6 +137,9 @@ namespace QuantumBotv2
             client.MessageReceived += OnMessageReceived;
             client.SlashCommandExecuted += OnSlashCommandCalled;
             client.UserJoined += OnUserJoined;
+            client.UserLeft += OnUserLeft;
+
+            client.ButtonExecuted += OnButtonClicked;
 
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
             services = new ServiceCollection().BuildServiceProvider();
@@ -169,7 +176,6 @@ namespace QuantumBotv2
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
             await LoadSlashCommands();
         }
-
         private async Task LoadSlashCommands()
         {
             var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
@@ -178,7 +184,7 @@ namespace QuantumBotv2
             {
                 // With global commands we don't need the guild.
                 SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
-                foreach (SlashCommands.SlashCommandData cmdData in slashCommands.AllSlashCommands)
+                foreach (SlashCommands.SlashCommandData cmdData in slashCommands.allSlashCommands)
                 {
                     await guild.CreateApplicationCommandAsync(cmdData.slashCommandBuilder.Build());
                 }
@@ -192,7 +198,6 @@ namespace QuantumBotv2
                 Console.WriteLine(json);
             }
         }
-
         private async Task OnMessageReceived(SocketMessage message)
         {
             SocketUserMessage userMessage = message as SocketUserMessage;
@@ -256,14 +261,11 @@ namespace QuantumBotv2
             }
 
         }
-
         private async Task OnSlashCommandCalled(SocketSlashCommand command)
         {
-            SocketGuild guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
-
             SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
 
-            foreach (SlashCommands.SlashCommandData cmdData in slashCommands.AllSlashCommands)
+            foreach (SlashCommands.SlashCommandData cmdData in slashCommands.allSlashCommands)
             {
                 if (cmdData.slashCommandBuilder.Name == command.Data.Name)
                 {
@@ -275,6 +277,8 @@ namespace QuantumBotv2
 
                         object[] parameters = new object[] { command };
                         logic.Invoke(SlashCommandLogic.Instance, parameters);
+
+                        await SlashCommandLogic.Instance.OnSlashCommandInvoked(command, false);
                     }
                     catch (Exception)
                     {
@@ -282,14 +286,13 @@ namespace QuantumBotv2
                     }
 
                     return;
-
                 }
             }
 
             //no logic
+            await SlashCommandLogic.Instance.OnSlashCommandInvoked(command, true);
             await command.RespondAsync("No Logic For Slash Command Found", ephemeral: true);
         }
-
         private async Task OnUserJoined(SocketGuildUser guildUser)
         {
             var embedBuiler = new EmbedBuilder()
@@ -301,13 +304,82 @@ namespace QuantumBotv2
 
             await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["I Am Logs"]).SendMessageAsync(embed: embedBuiler.Build());
             DataClassManager.Instance.userProfile.GetUserData(guildUser);
+
+            await SendIntroductionMessage(guildUser);
+        }
+        private async Task OnUserLeft(SocketGuild guild, SocketUser user)
+        {
+            var embedBuiler = new EmbedBuilder()
+                .WithThumbnailUrl(user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl())
+                .WithAuthor(user.ToString())
+                .WithTitle("User Left")
+                .WithDescription($"ID: {user.Id}")
+                .WithCurrentTimestamp();
+
+            // Now, Let's respond with the embed.
+            await guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["I Am Logs"]).SendMessageAsync(embed: embedBuiler.Build());
+        }
+        private async Task OnButtonClicked(SocketMessageComponent component)
+        {
+            string methodName = null;
+            if (DataClassManager.Instance.slashCommands.allButtonCommands.TryGetValue(component.Data.CustomId, out methodName))
+            {
+                //reflect and call function
+                try
+                {
+                    Type logicClass = ButtonCommandLogic.Instance.GetType();
+                    MethodInfo logic = logicClass.GetMethod(methodName);
+
+                    object[] parameters = new object[] { component };
+                    logic.Invoke(ButtonCommandLogic.Instance, parameters);
+
+                    await ButtonCommandLogic.Instance.OnButtonCommandInvoked(component, false);
+                }
+                catch (Exception)
+                {
+                    //TODO: log errors
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                await component.RespondAsync("No Logic For Button Press Found", ephemeral: true);
+                await ButtonCommandLogic.Instance.OnButtonCommandInvoked(component, true);
+            }
         }
 
+        public static async Task SendIntroductionMessage(SocketGuildUser user)
+        {
+            //check if bot
+            if (user.IsBot == true)
+            {
+                return;
+            }
+
+            string Msg = $"Welcome, {user.Mention} to Pointers Anonymous!\n" +
+                            $"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
+                            $"A few things before we get you started,\n" +
+                            $"";
+
+            var builder = new EmbedBuilder()
+                            .WithColor(Color.Blue)
+                            .WithTitle($"Welcome {user.Nickname} to Pointers Anonymous!")
+                            .WithDescription($"I am the helper bot created by <@!173226502710755328> to maintain the server~\n" +
+                                            $":sparkles: A few things before we get you started:sparkles: \n\n" +
+                                            $"Read the rules at <#{DataClassManager.Instance.serverConfigs.channelID["The Law"]}>")
+                            .AddField("If you're a guest and would like to get access to the Game Development Channels", $"Please give us your name in <#{DataClassManager.Instance.serverConfigs.channelID["Introductions"]}>")
+                            //.AddField("If you're an AIE Student", $"Type the following in <#{DataClassManager.Instance.serverConfigs.channelID["Introductions"]}>\n    Full Name:\n    Alias (Optional):\n    Graduating year:")
+                            .AddField($"If you're just here to chill and play games", $"Welcome!~ You should play some <#{DataClassManager.Instance.serverConfigs.channelID["Monster Hunter"]}> with us :)");
+
+
+            var embed = builder.Build();
+            await user.SendMessageAsync(null, embed: embed).ConfigureAwait(false);
+        }
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("view-game-code")
-                .WithDescription("View users Game Code");
+                .WithName("create-button-message")
+                .WithDescription("Creates a message with buttons you can click");
 
             /*             SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
                                 .WithName("platform-name")
@@ -323,12 +395,12 @@ namespace QuantumBotv2
 
             //add options
             //newSCB.AddOption(newSCOB);
-            newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
+            //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewGameCodeCommand");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "CreateButtonMessageCommand");
 
             //check if slashcommand with the same name exists
-            List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.AllSlashCommands;
+            List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;
 
             foreach (SlashCommands.SlashCommandData scd in allSlashCommands) //prevent dupes? (doesn't work with overrides, so def fix later)
             {
@@ -338,7 +410,7 @@ namespace QuantumBotv2
                     throw new NotImplementedException();
                 }
             }
-            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(newSCD);
+            DataClassManager.Instance.slashCommands.allSlashCommands.Add(newSCD);
             DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
         }
     }
