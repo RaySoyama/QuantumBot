@@ -20,14 +20,23 @@ namespace QuantumBotv2
     {
         /*
         TODO
-        DONE - Logging - User Messages
+        *Logging - User Messages
+        *Logging - Server Logs, Seperate
         Logging - Split Via Month? Week? Day?
-        DONE - Logging - Server Logs, Seperate
+
+        *UserProfiles
+            *- GameCodes
+                *- Add Game Codes
+                *- Remove Game Codes
+                *- View Game Codes
 
         Telemetry
             Bot Uptime?
             User Messages Per Chat
             User Command Usage
+        OnSlashCommands
+            - Log Slash Commands
+
 
         When User Joins
             Send Msg to "I am Logs"
@@ -43,8 +52,8 @@ namespace QuantumBotv2
         Reaction Removed Set Up
         
         -Message Receieved
-            Update Latency Logging/Ping
-            DONE - When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
+            - Update Latency Logging/Ping
+            *- When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
         
         Custom Keywords
             - Happy Birthday
@@ -65,9 +74,9 @@ namespace QuantumBotv2
             Blackout Queue
             ChannelRoles (for react to get roles)
                 add ephemeral response support
-            WebsiteProfile
 
             
+            (Depricated) WebsiteProfile
             (Depricated) Lunchbox
             (Depricated) BullietinEvent
             (Depricated) BulletinBoard
@@ -123,6 +132,7 @@ namespace QuantumBotv2
             client.Ready += OnClientIsReady;
             client.MessageReceived += OnMessageReceived;
             client.SlashCommandExecuted += OnSlashCommandCalled;
+            client.UserJoined += OnUserJoined;
 
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
             services = new ServiceCollection().BuildServiceProvider();
@@ -280,27 +290,42 @@ namespace QuantumBotv2
             await command.RespondAsync("No Logic For Slash Command Found", ephemeral: true);
         }
 
+        private async Task OnUserJoined(SocketGuildUser guildUser)
+        {
+            var embedBuiler = new EmbedBuilder()
+                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                .WithAuthor(guildUser.ToString())
+                .WithTitle("New User Joined!")
+                .WithDescription($"<@{guildUser.Id}>\n" + $"ID: {guildUser.Id}\n" + "Intro message sent")
+                .WithCurrentTimestamp();
+
+            await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["I Am Logs"]).SendMessageAsync(embed: embedBuiler.Build());
+            DataClassManager.Instance.userProfile.GetUserData(guildUser);
+        }
+
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("remove-game-code")
-                .WithDescription("remove a game code");
+                .WithName("view-game-code")
+                .WithDescription("View users Game Code");
 
-            SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
-                    .WithName("platform-name")
-                    .WithDescription("Name of the Platform")
-                    .WithRequired(true)
-                    .WithType(ApplicationCommandOptionType.Integer);
+            /*             SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
+                                .WithName("platform-name")
+                                .WithDescription("Name of the Platform")
+                                .WithRequired(true)
+                                .WithType(ApplicationCommandOptionType.Integer);
 
-            foreach (int gamePlatform in Enum.GetValues(typeof(UserProfile.UserData.GamePlatforms)))
-            {
-                newSCOB.AddChoice($"{Enum.GetName(typeof(UserProfile.UserData.GamePlatforms), gamePlatform)}", gamePlatform);
-            }
+                        foreach (int gamePlatform in Enum.GetValues(typeof(UserProfile.UserData.GamePlatforms)))
+                        {
+                            newSCOB.AddChoice($"{Enum.GetName(typeof(UserProfile.UserData.GamePlatforms), gamePlatform)}", gamePlatform);
+                        } 
+            */
 
             //add options
-            newSCB.AddOption(newSCOB);
+            //newSCB.AddOption(newSCOB);
+            newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "RemoveGameCodeCommand");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewGameCodeCommand");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.AllSlashCommands;

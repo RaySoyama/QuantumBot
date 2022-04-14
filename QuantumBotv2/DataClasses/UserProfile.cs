@@ -41,6 +41,12 @@ namespace QuantumBotv2.DataClass
                 userID = user.Id;
             }
         }
+
+        /// <summary>
+        /// Tries to find UserData from database, if it doesn't exist, create a profile
+        /// </summary>
+        /// <param name="guildUser"></param>
+        /// <returns></returns>
         public UserData GetUserData(SocketGuildUser guildUser)
         {
             UserData userData = null;
@@ -66,6 +72,7 @@ namespace QuantumBotv2.DataClass
             DataClassManager.Instance.SaveData(DataClassManager.Instance.userProfile);
             return userData;
         }
+
         public UserData UpdateUserData(UserData userData, SocketGuildUser guildUser)
         {
             userData.userName = $"{guildUser.Username}#{guildUser.Discriminator}";

@@ -78,7 +78,7 @@ namespace QuantumBotv2.Commands
                 .AddField($"{inputGamePlatformEnum.ToString()}", $":star2: NEW! :star2: {inputGameCode}")
                 .WithCurrentTimestamp();
 
-                userData.UserGameCodeIndex[inputGamePlatformEnum] = inputGameCode;
+                userData.UserGameCodeIndex.Add(inputGamePlatformEnum, inputGameCode);
 
                 await command.RespondAsync(embed: embedBuiler.Build());
             }
