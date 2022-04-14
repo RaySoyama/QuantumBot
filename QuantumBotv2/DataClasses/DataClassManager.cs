@@ -26,6 +26,7 @@ namespace QuantumBotv2.DataClass
         public SlashCommands slashCommands = new SlashCommands();
         public ClientLog clientLog = new ClientLog();
         public MessageLog messageLog = new MessageLog();
+        public UserProfile userProfile = new UserProfile();
 
         public string dataFolderPath = "QuantumBotDataFiles";
 
@@ -35,6 +36,7 @@ namespace QuantumBotv2.DataClass
             slashCommands = LoadData(slashCommands);
             clientLog = LoadData(clientLog);
             messageLog = LoadData(messageLog);
+            userProfile = LoadData(userProfile);
             //add more
         }
 

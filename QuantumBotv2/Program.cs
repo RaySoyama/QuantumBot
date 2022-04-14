@@ -88,8 +88,13 @@ namespace QuantumBotv2
         {
             //Init Data
             DataClassManager dataClassManager = new DataClassManager();
-            DataClassManager.Instance.LoadAllData();
 
+            /*
+            UserProfile test = new UserProfile();
+            DataClassManager.Instance.SaveData(test);
+            */
+
+            DataClassManager.Instance.LoadAllData();
 
             //Init Slash Command Logic
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
@@ -277,27 +282,39 @@ namespace QuantumBotv2
 
         private void ADMIN_ManuallyAddSlashCommand()
         {
-            SlashCommands.SlashCommandData newScd = new SlashCommands.SlashCommandData(new SlashCommandBuilder()
-                .WithName("slash-ping")
-                .WithDescription("WOOOOO")
-                .AddOption("user", ApplicationCommandOptionType.User, "Variable Description", isRequired: true)
-                .AddOption("string", ApplicationCommandOptionType.String, "Variable String Description", isRequired: true
-                ), "SlashPingCommand");
+            SlashCommandBuilder newSCB = new SlashCommandBuilder()
+                .WithName("remove-game-code")
+                .WithDescription("remove a game code");
+
+            SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
+                    .WithName("platform-name")
+                    .WithDescription("Name of the Platform")
+                    .WithRequired(true)
+                    .WithType(ApplicationCommandOptionType.Integer);
+
+            foreach (int gamePlatform in Enum.GetValues(typeof(UserProfile.UserData.GamePlatforms)))
+            {
+                newSCOB.AddChoice($"{Enum.GetName(typeof(UserProfile.UserData.GamePlatforms), gamePlatform)}", gamePlatform);
+            }
+
+            //add options
+            newSCB.AddOption(newSCOB);
+
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "RemoveGameCodeCommand");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.AllSlashCommands;
 
-            foreach (SlashCommands.SlashCommandData scd in allSlashCommands)
+            foreach (SlashCommands.SlashCommandData scd in allSlashCommands) //prevent dupes? (doesn't work with overrides, so def fix later)
             {
-                if (scd.slashCommandBuilder.Name == newScd.slashCommandBuilder.Name)
+                if (scd.slashCommandBuilder.Name == newSCD.slashCommandBuilder.Name)
                 {
                     //ERROR
-                    return;
+                    throw new NotImplementedException();
                 }
             }
-            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(newScd);
+            DataClassManager.Instance.slashCommands.AllSlashCommands.Add(newSCD);
             DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
-
         }
     }
 }
