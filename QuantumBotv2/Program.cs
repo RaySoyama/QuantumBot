@@ -18,8 +18,43 @@ namespace QuantumBotv2
 {
     class Program
     {
+        //dotnet publish -c Build{value}
+
         /*
         TODO
+        List of Commands to Transfer
+            - Help
+            - Ping
+            - ServerStats
+                
+          Admin Only      
+            - Quit
+            - SendIntro
+            - Spam
+            - (Prefix Only) DM 
+            
+
+            - add-monster-nickname
+            - remove-monster-nickname
+            - view-monster-nickname
+            - view-monsters
+            - (maybe) alatreon
+            - (maybe) fatalis
+
+            - (maybe) UpdateUserList
+            - (Maybe) Suggestion
+            - (Maybe) Shot
+            - (Maybe) add-link
+            - (Maybe) remove-link
+            
+
+
+            - (Depricated) VaultSeeker
+            - (Depricated) Lunchbox
+            - (Depricated) Bulletin Events
+
+        Update Help Command
+
         *Logging - User Messages
         *Logging - Server Logs, Seperate
         Logging - Split Via Month? Week? Day?
@@ -30,36 +65,30 @@ namespace QuantumBotv2
                 *- Remove Game Codes
                 *- View Game Codes
 
-        Telemetry
+        Telemetry (TBD, Parsing user data came come later)
             Bot Uptime?
             User Messages Per Chat
             User Command Usage
-        OnSlashCommands
-            - Log Slash Commands
-        OnButtonClicked
-            - Log Button Clicks, Role Updates
 
+        OnSlashCommands
+            *- Log Slash Commands
+        OnButtonClicked
+            *- Log Button Clicks, Role Updates
 
         When User Joins
-            Send Msg to "I am Logs"
-            Create Profile
-
-        When Username changed?
-            Update Profile?
+            * Send Msg to "I am Logs"
+            * Create Profile
 
         *When User Leaves
             *Log out data
 
-        Reaction Added Set Up
-        Reaction Removed Set Up
         
-        -Message Receieved
-            - Update Latency Logging/Ping
-            *- When someone DM's the Bot, relay to Ray. Add edge case If Ray msm Bot
+        *Message Receieved
+            *- Update Latency Logging/Ping (No Longer updated in Program, but at runtime in the command)
+            *- When someone DM's the Bot, relay to Ray. Add edge case If Ray msgs Bot
         
         Custom Keywords
-            - Happy Birthday
-            - Good Bot
+            *- Happy Birthday
 
         Ability to sync files through a command
         Ability to Spit out files through a command
@@ -74,10 +103,12 @@ namespace QuantumBotv2
                     Add/Subtract
                 MonsterHunterNicknames
             Blackout Queue
-            ChannelRoles (for react to get roles)
-                add ephemeral response support
+           
+        *ChannelRoles (for react to get roles)
+            *- add ephemeral response support
 
-            
+            (Depricated) Reaction Added Set Up
+            (Depricated) Reaction Removed Set Up
             (Depricated) WebsiteProfile
             (Depricated) Lunchbox
             (Depricated) BullietinEvent
@@ -86,10 +117,14 @@ namespace QuantumBotv2
 
         */
 
+        public static readonly string QuantumBotVersion = "4.0.00";
+
 
         private static DiscordSocketClient client;
         private CommandService commands;
         private IServiceProvider services;
+
+
 
         static void Main(string[] args)
         {
@@ -174,11 +209,14 @@ namespace QuantumBotv2
         }
         private async Task OnClientIsReady()
         {
+            await OnClientLog(new LogMessage(LogSeverity.Info, $"Manual Logging", $"Quantum Bot Version {QuantumBotVersion}"));
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
             await LoadSlashCommands();
         }
         private async Task LoadSlashCommands()
         {
+            await OnClientLog(new LogMessage(LogSeverity.Info, $"Manual Logging", $"Loading Slash Commands"));
+
             var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
 
             /*
@@ -221,7 +259,7 @@ namespace QuantumBotv2
                 return;
             }
 
-            if (context.IsPrivate == true) //If they send a DM to Quantum bot
+            if (context.IsPrivate == true && context.User.Id != DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]) //If they send a DM to Quantum bot and it's not from Ray
             {
                 SocketGuild guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
                 SocketGuildUser UserRay = guild.GetUser(DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]);
@@ -253,7 +291,6 @@ namespace QuantumBotv2
                 DataClassManager.Instance.messageLog = new MessageLog();
             }
 
-
             //Commands
             int argPos = 0;
 
@@ -271,6 +308,15 @@ namespace QuantumBotv2
                 else if (result.IsSuccess == false) //If the command failed, run this
                 {
 
+                }
+            }
+            else //Not from a bot, not in a dm, and not part of a command, parse custom keywords
+            {
+                string lowerCaseMessageString = context.Message.ToString().ToLower();
+
+                if (lowerCaseMessageString.Contains("happy birthday") || lowerCaseMessageString.Contains("happy bday"))
+                {
+                    var msg = await context.Channel.SendMessageAsync("<a:rave:647212416618332161>~Happy Birthday!~<a:rave:647212416618332161>");
                 }
             }
 

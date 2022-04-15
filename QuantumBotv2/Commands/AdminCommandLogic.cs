@@ -16,7 +16,7 @@ namespace QuantumBotv2.Commands
         public async Task Ping()
         {
             //var msg = await Context.Message.Channel.SendMessageAsync($"MS {Program.latency}");
-            var botMsg = await Context.Message.Channel.SendMessageAsync($"Pong");
+            var botMsg = await Context.Message.Channel.SendMessageAsync($"{Context.Client.Latency} MS");
 
             await Task.Delay(5000);
             await Context.Message.DeleteAsync();
@@ -29,7 +29,8 @@ namespace QuantumBotv2.Commands
         {
             var embed = new EmbedBuilder()
                         .WithDescription("React with these emotes to get access to the corresponding channels!~\n(You need to be a Student or a Guest)")
-                        .WithAuthor("Pointers Anonymous", "https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128", null);
+                        .WithAuthor("Pointers Anonymous Role Selection")
+                        .WithThumbnailUrl("https://cdn.discordapp.com/icons/487403414741975040/a_c01491057777dfa5b5313a65868fd1a4.webp?size=128");
 
             var builder = new ComponentBuilder()
                 .WithButton("Programming", "programming-button")
