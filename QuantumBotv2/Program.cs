@@ -24,15 +24,16 @@ namespace QuantumBotv2
         TODO
         List of Commands to Transfer
             - Help
-            - Ping
+            *- Ping
             - ServerStats
                 
           Admin Only      
             - Quit
-            - SendIntro
+            *- SendIntro
             - Spam
+            - Purge
             - (Prefix Only) DM 
-            
+
 
             - add-monster-nickname
             - remove-monster-nickname
@@ -52,6 +53,17 @@ namespace QuantumBotv2
             - (Depricated) VaultSeeker
             - (Depricated) Lunchbox
             - (Depricated) Bulletin Events
+            - (Depricated) Crash
+            - (Depricated) CrashCount
+            - (Depricated) UnityVersion
+            - (Depricated) ProposalTemplate
+            - (Depricated) AIESchedule
+            - (Depricated) Graduation
+            - (Depricated) Iceborne
+            - (Depricated) React
+            - (Depricated) ReactList
+
+            
 
         Update Help Command
 
@@ -119,7 +131,7 @@ namespace QuantumBotv2
 
         public static readonly string QuantumBotVersion = "4.0.00";
 
-
+        public static int clientPing = 696969;
         private static DiscordSocketClient client;
         private CommandService commands;
         private IServiceProvider services;
@@ -142,6 +154,11 @@ namespace QuantumBotv2
             */
 
             DataClassManager.Instance.LoadAllData();
+
+            /*
+            ADMIN_ManuallyAddSlashCommand();
+            return;
+            */
 
             //Init Command Logic Singletons
             SlashCommandLogic slashCommandLogic = new SlashCommandLogic();
@@ -251,6 +268,8 @@ namespace QuantumBotv2
         }
         private async Task OnMessageReceived(SocketMessage message)
         {
+            clientPing = client.Latency;
+
             SocketUserMessage userMessage = message as SocketUserMessage;
             SocketCommandContext context = new SocketCommandContext(client, userMessage);
 
@@ -303,7 +322,7 @@ namespace QuantumBotv2
                 if (result.IsSuccess == true)
                 {
                     //TODO: Add logging when command gets called. Add admin only filter
-                    await AdminCommandLogic.OnCommandInvoked(context);
+                    await PrefixCommandLogic.OnCommandInvoked(context);
                 }
                 else if (result.IsSuccess == false) //If the command failed, run this
                 {
@@ -438,9 +457,10 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("create-button-message")
-                .WithDescription("Creates a message with buttons you can click");
+                .WithName("send-intro-message")
+                .WithDescription("DM's the Server intro Message to user");
 
+            newSCB.AddOption("user", ApplicationCommandOptionType.User, "Target User", isRequired: true);
             /*             SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
                                 .WithName("platform-name")
                                 .WithDescription("Name of the Platform")
@@ -457,7 +477,7 @@ namespace QuantumBotv2
             //newSCB.AddOption(newSCOB);
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "CreateButtonMessageCommand");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "SendServerIntroMessage");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;

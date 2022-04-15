@@ -29,6 +29,44 @@ namespace QuantumBotv2.Commands
             }
         }
 
+        public async Task Ping(SocketSlashCommand command)
+        {
+            await command.RespondAsync($"{Program.clientPing} MS", ephemeral: true);
+            return;
+        }
+
+        public async Task SendBotHelpMessage(SocketSlashCommand command)
+        {
+            SocketGuildUser guildUser = (SocketGuildUser)command.User;
+
+            var builder = new EmbedBuilder()
+                          .WithTitle("Quantum Bot - Commands")
+                          .WithDescription($"Ping one of the moderators, or <@{DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]}> if you have any questions!\n" +
+                                            //$"Current Prefix is \"{DataClassManager.Instance.serverConfigs.prefix}\"\n" +
+                                            $"Almost all of the commands have been translated to SlashCommands! Try them out by typing /")
+                          .AddField("General",
+                                    $"ping - returns current bot latency\n" +
+                                    $"help - DM's a the message you are reading right now")
+                            .AddField("Game Codes",
+                                     $"game-code-add - Add a game code\n" +
+                                     $"game-code-remove - Remove a game code\n" +
+                                     $"game-code-view - View a users game codes\n")
+                            .AddField("Monster Hunter World + Rise",
+                                    $"add-monster-nickname - Give a monster a nickname\n" +
+                                    $"remove-monster-nickname - Remove a nickname from a monster\n" +
+                                    $"view-monster-nickname - View all nicknames given to a monster \n" +
+                                    $"view-monsters - View all Monsters\n")
+                            .AddField("Admin",
+                                     $"admin-send-intro-message - Sends the user the introduction msg\n" +
+                                     $"admin-purge - Mass deletes messages in a channel\n" +
+                                     $"admin-quit - Bot commits Seppuku")
+                          .WithColor(new Color(60, 179, 113));
+
+            await guildUser.SendMessageAsync("", embed: builder.Build());
+            await command.RespondAsync($"A DM with commands sent!", ephemeral: true);
+        }
+
+
         public async Task AddGameCodeCommand(SocketSlashCommand command)
         {
             UserProfile.UserData userData = DataClassManager.Instance.userProfile.GetUserData((SocketGuildUser)command.User);
@@ -125,6 +163,10 @@ namespace QuantumBotv2.Commands
             }
         }
 
+
+
+
+
         public async Task UpdateUserProfilesCommand(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
@@ -142,7 +184,25 @@ namespace QuantumBotv2.Commands
             await command.RespondAsync("Succesfully Updated All User Profiles ", ephemeral: true);
         }
 
-        public async Task<bool> SlashCommandUserHasRoles(string[] roles, SocketSlashCommand command)
+        public async Task SendServerIntroMessage(SocketSlashCommand command)
+        {
+            if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
+            {
+                return;
+            }
+
+            SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.First().Value;
+
+            await Program.SendIntroductionMessage(guildUser);
+            await command.RespondAsync($"Server Intro Message Sent to <@{guildUser.Id}>", ephemeral: true);
+        }
+
+
+
+
+
+
+        private async Task<bool> SlashCommandUserHasRoles(string[] roles, SocketSlashCommand command)
         {
             SocketGuildUser guildUser = (SocketGuildUser)command.User;
 
