@@ -1,6 +1,7 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using QuantumBotv2.DataClass;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,24 @@ namespace QuantumBotv2.Commands
                 .WithButton("TechArt", "techart-button");
 
             await ReplyAsync(embed: embed.Build(), components: builder.Build());
+        }
+
+        public static async Task OnCommandInvoked(SocketCommandContext context)
+        {
+            SocketGuildUser guildUser = (SocketGuildUser)context.User;
+
+            var embedBuiler = new EmbedBuilder()
+                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                .WithTitle("Prefix Command Invoked!")
+                .WithAuthor(guildUser.ToString())
+                .WithDescription($"{context.Message.Content}\nChannel: <#{context.Channel.Id}>")
+                .WithCurrentTimestamp();
+
+            await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Bot History"]).SendMessageAsync(embed: embedBuiler.Build());
+
+            //Not RAM friendly
+            DataClassManager.Instance.telemetryLog.allCommandTelemetryLogs.Add(new TelemetryLog.CommandTelemetryData(context));
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.telemetryLog);
         }
     }
 }

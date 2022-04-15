@@ -101,8 +101,9 @@ namespace QuantumBotv2
             DataClassManager dataClassManager = new DataClassManager();
 
             /*
-            UserProfile test = new UserProfile();
+            TelemetryLog test = new TelemetryLog();
             DataClassManager.Instance.SaveData(test);
+            return;
             */
 
             DataClassManager.Instance.LoadAllData();
@@ -180,6 +181,18 @@ namespace QuantumBotv2
         {
             var guild = client.GetGuild(DataClassManager.Instance.serverConfigs.serverID);
 
+            /*
+            //Deleting Global Commands
+            var globalCommands = await client.GetGlobalApplicationCommandsAsync();
+            foreach (var globCmd in globalCommands)
+            {
+                await globCmd.DeleteAsync();
+            }
+            */
+
+            //when rebooting the bot, delete and remake all slash commands
+            await guild.DeleteApplicationCommandsAsync();
+
             try
             {
                 // With global commands we don't need the guild.
@@ -253,6 +266,7 @@ namespace QuantumBotv2
                 if (result.IsSuccess == true)
                 {
                     //TODO: Add logging when command gets called. Add admin only filter
+                    await AdminCommandLogic.OnCommandInvoked(context);
                 }
                 else if (result.IsSuccess == false) //If the command failed, run this
                 {

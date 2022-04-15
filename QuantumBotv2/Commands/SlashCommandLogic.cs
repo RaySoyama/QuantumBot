@@ -29,22 +29,6 @@ namespace QuantumBotv2.Commands
             }
         }
 
-        public async Task SlashPingCommand(SocketSlashCommand command)
-        {
-            SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.First().Value;
-            var roleList = string.Join(",\n", guildUser.Roles.Where(x => !x.IsEveryone).Select(x => x.Mention));
-
-            var embedBuiler = new EmbedBuilder()
-                .WithAuthor(guildUser.ToString(), guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
-                .WithTitle("Roles")
-                .WithDescription(roleList)
-                .WithColor(Color.Green)
-                .WithCurrentTimestamp();
-
-            // Now, Let's respond with the embed.
-            await command.RespondAsync(embed: embedBuiler.Build());
-        }
-
         public async Task AddGameCodeCommand(SocketSlashCommand command)
         {
             UserProfile.UserData userData = DataClassManager.Instance.userProfile.GetUserData((SocketGuildUser)command.User);
@@ -211,6 +195,11 @@ namespace QuantumBotv2.Commands
             embedBuiler.WithDescription(commandString);
 
             await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Bot History"]).SendMessageAsync(embed: embedBuiler.Build());
+
+
+            //Not RAM friendly
+            DataClassManager.Instance.telemetryLog.allCommandTelemetryLogs.Add(new TelemetryLog.CommandTelemetryData(command));
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.telemetryLog);
         }
     }
 }

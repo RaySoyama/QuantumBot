@@ -27,7 +27,7 @@ namespace QuantumBotv2.DataClass
         public ClientLog clientLog = new ClientLog();
         public MessageLog messageLog = new MessageLog();
         public UserProfile userProfile = new UserProfile();
-
+        public TelemetryLog telemetryLog = new TelemetryLog();
         public string dataFolderPath = "QuantumBotDataFiles";
 
         public void LoadAllData()
@@ -37,6 +37,7 @@ namespace QuantumBotv2.DataClass
             clientLog = LoadData(clientLog);
             messageLog = LoadData(messageLog);
             userProfile = LoadData(userProfile);
+            telemetryLog = LoadData(telemetryLog);
             //add more
         }
 

@@ -92,6 +92,10 @@ namespace QuantumBotv2.Commands
             }
 
             await guildUser.Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Bot History"]).SendMessageAsync(embed: embedBuiler.Build());
+
+            //Not RAM friendly
+            DataClassManager.Instance.telemetryLog.allCommandTelemetryLogs.Add(new TelemetryLog.CommandTelemetryData(component));
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.telemetryLog);
         }
 
         private async Task ToggleRoles(string roleName, SocketMessageComponent component)
