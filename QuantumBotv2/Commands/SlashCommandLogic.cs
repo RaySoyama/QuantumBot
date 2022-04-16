@@ -67,6 +67,8 @@ namespace QuantumBotv2.Commands
         }
 
 
+
+
         public async Task AddGameCodeCommand(SocketSlashCommand command)
         {
             UserProfile.UserData userData = DataClassManager.Instance.userProfile.GetUserData((SocketGuildUser)command.User);
@@ -165,8 +167,46 @@ namespace QuantumBotv2.Commands
 
 
 
+        public async Task PurgeMessagesFromChannel(SocketSlashCommand command)
+        {
+            if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
+            {
+                return;
+            }
 
+            int purgeAmount = Convert.ToInt32((Int64)command.Data.Options.First().Value);
 
+            if (purgeAmount > 100)
+            {
+                purgeAmount = 100;
+            }
+            else if (purgeAmount < 0)
+            {
+                purgeAmount = 0;
+            }
+
+            var messages = await command.Channel.GetMessagesAsync(purgeAmount).FlattenAsync();
+            await (command.Channel as ITextChannel).DeleteMessagesAsync(messages);
+
+            await (command.User as SocketGuildUser).Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Admin"]).SendMessageAsync($"User: <@{command.User.Id}> purged {purgeAmount} messages in the <#{command.Channel.Id}>");
+
+            await command.RespondAsync($"Succesfully purged {purgeAmount} messages from <#{command.Channel.Id}>", ephemeral: true);
+        }
+
+        public async Task QuitBot(SocketSlashCommand command)
+        {
+            if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
+            {
+                return;
+            }
+
+            await command.RespondAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+            await (command.User as SocketGuildUser).Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Admin"]).SendMessageAsync($"<@{command.User.Id}> just pulled the plug. Good bye <:SadCat:656612740718133289>");
+
+            await Task.Delay(5000);
+
+            System.Environment.Exit(1);
+        }
         public async Task UpdateUserProfilesCommand(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)

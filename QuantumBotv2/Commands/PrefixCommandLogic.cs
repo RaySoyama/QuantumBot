@@ -34,6 +34,53 @@ namespace QuantumBotv2.Commands
             await ReplyAsync(embed: embed.Build(), components: builder.Build());
         }
 
+        [Command("DM"), Summary("Sends a DM to a user on behalf of Quantum Bot")]
+        public async Task SendDM(ulong targetUser, [Remainder] string msg)
+        {
+            if (await PrefixCommandUserHasRoles(new string[] { "Admin" }) == false)
+            {
+                return;
+            }
+
+            await Context.Guild.GetUser(targetUser).SendMessageAsync(msg);
+        }
+
+        [Command("Spam"), Summary("Spams a copy of a message in the channel")]
+        public async Task SpamMsg(int count, [Remainder] string msg)
+        {
+            if (await PrefixCommandUserHasRoles(new string[] { "Admin" }) == false)
+            {
+                return;
+            }
+
+            await Context.Message.ReplyAsync("💀");
+
+            for (int i = 0; i < count; i++)
+            {
+                await Context.Channel.SendMessageAsync(msg);
+            }
+        }
+
+        [Command("Quit"), Alias("quit"), Summary("Quits the bot exe")]
+        public async Task QuitBot()
+        {
+            if (await PrefixCommandIsDepricated())
+            {
+                return;
+            }
+
+            if (await PrefixCommandUserHasRoles(new string[] { "Admin" }) == false)
+            {
+                return;
+            }
+
+            await Context.Message.Channel.SendMessageAsync("I'll be back - Gandhi\nhttps://media.giphy.com/media/gFwZfXIqD0eNW/giphy.gif");
+            await (Context.User as SocketGuildUser).Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Admin"]).SendMessageAsync($"<@{Context.User.Id}> just pulled the plug. Good bye <:SadCat:656612740718133289>");
+            await Task.Delay(5000);
+
+            System.Environment.Exit(1);
+        }
+
         #region Depricated Prefix Commands
         [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
         public async Task Ping()
@@ -107,6 +154,37 @@ namespace QuantumBotv2.Commands
                 await Context.Message.ReplyAsync($"Server Intro Message Sent to <@{targetUser.Id}>");
             }
         }
+
+        [Command("Purge", RunMode = RunMode.Async)]
+        public async Task PurgeMessagesFromChannel(int purgeAmount)
+        {
+            if (await PrefixCommandIsDepricated())
+            {
+                return;
+            }
+
+            if (await PrefixCommandUserHasRoles(new string[] { "Admin" }) == false)
+            {
+                return;
+            }
+
+            if (purgeAmount > 100)
+            {
+                purgeAmount = 100;
+            }
+            else if (purgeAmount < 0)
+            {
+                purgeAmount = 0;
+            }
+
+            var messages = await Context.Channel.GetMessagesAsync(purgeAmount).FlattenAsync();
+            await (Context.Channel as ITextChannel).DeleteMessagesAsync(messages);
+
+            await (Context.User as SocketGuildUser).Guild.GetTextChannel(DataClassManager.Instance.serverConfigs.channelID["Admin"]).SendMessageAsync($"User: <@{Context.User.Id}> purged {purgeAmount} messages in the <#{Context.Channel.Id}>");
+
+            //await Context.Message.ReplyAsync($"Succesfully purged {purgeAmount} messages from <#{Context.Channel.Id}>");
+        }
+
         #endregion
 
         public static async Task OnCommandInvoked(SocketCommandContext context)

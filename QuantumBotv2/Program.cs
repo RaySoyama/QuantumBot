@@ -23,16 +23,28 @@ namespace QuantumBotv2
         /*
         TODO
         List of Commands to Transfer
-            - Help
+            *- Help
             *- Ping
             - ServerStats
+                - User Count
+                - Students
+                - Programming
+                - Art
+                - Design
+                - Techart
+                Other Metrics
+                    - Top 3 most used slash commands?
+                    - Most messages sent User/Number?
+                    - Most used active channel?
+                    - oo, hours spent in VC would be cool
                 
           Admin Only      
-            - Quit
+            *- Quit
             *- SendIntro
-            - Spam
-            - Purge
-            - (Prefix Only) DM 
+            *- Purge
+
+            * - (Prefix Only) Spam
+            * - (Prefix Only) DM 
 
 
             - add-monster-nickname
@@ -342,6 +354,8 @@ namespace QuantumBotv2
         }
         private async Task OnSlashCommandCalled(SocketSlashCommand command)
         {
+            clientPing = client.Latency;
+
             SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
 
             foreach (SlashCommands.SlashCommandData cmdData in slashCommands.allSlashCommands)
@@ -457,10 +471,10 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("send-intro-message")
-                .WithDescription("DM's the Server intro Message to user");
+                .WithName("admin-quit")
+                .WithDescription("Kills Quantum Bot");
 
-            newSCB.AddOption("user", ApplicationCommandOptionType.User, "Target User", isRequired: true);
+            //newSCB.AddOption("purge-amount", ApplicationCommandOptionType.Integer, "Number of Messages you want to purge", isRequired: true);
             /*             SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
                                 .WithName("platform-name")
                                 .WithDescription("Name of the Platform")
@@ -477,7 +491,7 @@ namespace QuantumBotv2
             //newSCB.AddOption(newSCOB);
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "SendServerIntroMessage");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "QuitBot");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;
