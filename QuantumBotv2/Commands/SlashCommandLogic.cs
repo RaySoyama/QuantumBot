@@ -34,7 +34,6 @@ namespace QuantumBotv2.Commands
             await command.RespondAsync($"{Program.clientPing} MS", ephemeral: true);
             return;
         }
-
         public async Task SendBotHelpMessage(SocketSlashCommand command)
         {
             SocketGuildUser guildUser = (SocketGuildUser)command.User;
@@ -42,8 +41,7 @@ namespace QuantumBotv2.Commands
             var builder = new EmbedBuilder()
                           .WithTitle("Quantum Bot - Commands")
                           .WithDescription($"Ping one of the moderators, or <@{DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]}> if you have any questions!\n" +
-                                            //$"Current Prefix is \"{DataClassManager.Instance.serverConfigs.prefix}\"\n" +
-                                            $"Almost all of the commands have been translated to SlashCommands! Try them out by typing /")
+                                    $"Almost all of the commands have been translated to SlashCommands! Try them out by typing /")
                           .AddField("General",
                                     $"ping - returns current bot latency\n" +
                                     $"help - DM's a the message you are reading right now")
@@ -59,6 +57,7 @@ namespace QuantumBotv2.Commands
                                      $"admin-send-intro-message - Sends the user the introduction msg\n" +
                                      $"admin-purge - Mass deletes messages in a channel\n" +
                                      $"admin-quit - Bot commits Seppuku")
+                            .WithFooter($"build#{Program.QuantumBotVersion}")
                           .WithColor(new Color(60, 179, 113));
 
             await guildUser.SendMessageAsync("", embed: builder.Build());
@@ -82,7 +81,8 @@ namespace QuantumBotv2.Commands
             if (userData.UserGameCodeIndex.ContainsKey(inputGamePlatformEnum)) //Stomp over existing value
             {
                 EmbedBuilder embedBuiler = new EmbedBuilder()
-                .WithAuthor(guildUser.ToString(), guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                .WithAuthor(guildUser.ToString())
+                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
                 .WithTitle("Game Codes")
                 .AddField($"{inputGamePlatformEnum.ToString()}", $"~~{userData.UserGameCodeIndex[inputGamePlatformEnum]}~~ {inputGameCode}")
                 .WithCurrentTimestamp();
@@ -96,12 +96,11 @@ namespace QuantumBotv2.Commands
                 userData.UserGameCodeIndex.Add(inputGamePlatformEnum, inputGameCode);
 
                 EmbedBuilder embedBuiler = new EmbedBuilder()
-                .WithAuthor(guildUser.ToString(), guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                .WithAuthor(guildUser.ToString())
+                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
                 .WithTitle("Game Codes")
                 .AddField($"{inputGamePlatformEnum.ToString()}", $":star2: NEW! :star2: {inputGameCode}")
                 .WithCurrentTimestamp();
-
-                userData.UserGameCodeIndex.Add(inputGamePlatformEnum, inputGameCode);
 
                 await command.RespondAsync(embed: embedBuiler.Build());
             }
@@ -126,7 +125,7 @@ namespace QuantumBotv2.Commands
                                 .AddField($"{inputGamePlatformEnum.ToString()}", $"~~{userData.UserGameCodeIndex[inputGamePlatformEnum]}~~ Removed!")
                                 .WithCurrentTimestamp();
 
-                await command.RespondAsync(embed: embedBuiler.Build());
+                await command.RespondAsync(embed: embedBuiler.Build(), ephemeral: true);
 
                 userData.UserGameCodeIndex.Remove(inputGamePlatformEnum);
                 DataClassManager.Instance.SaveData(DataClassManager.Instance.userProfile);
@@ -148,7 +147,8 @@ namespace QuantumBotv2.Commands
             else
             {
                 EmbedBuilder embedBuiler = new EmbedBuilder()
-                                .WithAuthor(guildUser.ToString(), guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
+                                .WithAuthor(guildUser.ToString())
+                                .WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl())
                                 .WithTitle("Game Codes")
                                 .WithCurrentTimestamp();
 
@@ -206,8 +206,6 @@ namespace QuantumBotv2.Commands
             //No Monster with that name found, alert
             await command.RespondAsync($"Couldn't find a monster with the name \"{inputMonsterName}\" \nCheck the supported monster list with the \"monsterhunter-nickname-view\" command", ephemeral: true);
         }
-
-        //NEEDS TESTING
         public async Task RemoveMonsterHunterNickname(SocketSlashCommand command)
         {
             List<MonsterHunterNicknames.MonsterNicknames> allMonsterHunterNicknames = DataClassManager.Instance.monsterHunterNicknames.allMonsterHunterNicknames;
@@ -236,9 +234,9 @@ namespace QuantumBotv2.Commands
                     if (monsterNicknames.nicknameData.ContainsKey(inputMonsterNickname) == true)
                     {
                         //Check if the person trying to remove it is also the original author
-                        if (monsterNicknames.nicknameData[inputMonsterName] == command.User.Id)
+                        if (monsterNicknames.nicknameData[inputMonsterNickname] == command.User.Id)
                         {
-                            monsterNicknames.nicknameData.Remove(inputMonsterName);
+                            monsterNicknames.nicknameData.Remove(inputMonsterNickname);
                             DataClassManager.Instance.SaveData(DataClassManager.Instance.monsterHunterNicknames);
 
                             await command.RespondAsync($"The nickname \"{inputMonsterNickname}\" for \"{inputMonsterName}\" removed!", ephemeral: true);
@@ -260,15 +258,65 @@ namespace QuantumBotv2.Commands
             //No Monster with that name found, alert
             await command.RespondAsync($"Couldn't find a monster with the name \"{inputMonsterName}\" \nCheck the supported monster list with the \"monsterhunter-nickname-view\" command", ephemeral: true);
         }
-
-        /*         
         public async Task ViewMonsterHunterNickname(SocketSlashCommand command)
+        {
+            //show all or just the monsters
+            string inputMonsterName = "NoInputMonsterName";
+
+            if (command.Data.Options.Count == 1)
+            {
+                inputMonsterName = command.Data.Options.First().Value.ToString();
+            }
+
+            List<MonsterHunterNicknames.MonsterNicknames> allMonsterHunterNicknames = DataClassManager.Instance.monsterHunterNicknames.allMonsterHunterNicknames;
+
+            foreach (MonsterHunterNicknames.MonsterNicknames monsterNicknames in allMonsterHunterNicknames) //If the monster name is given and valid
+            {
+                if (monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower() || monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower().Replace(' ', '-'))
                 {
-                    //show all or just the monsters
+                    await command.RespondAsync(embed: CreateMonsterNicknameEmbed(monsterNicknames, command));
+                    return;
+                }
+            }
 
-                } 
-        */
+            allMonsterHunterNicknames = allMonsterHunterNicknames.OrderBy(monsters => monsters.monsterName).ToList();
 
+            string msg = "Monster Hunter World+Rise Monsters\n**A**\n";
+            char startIdx = 'A';
+
+            //I can make this prettier later
+
+            foreach (MonsterHunterNicknames.MonsterNicknames monsterData in allMonsterHunterNicknames)
+            {
+                if (monsterData.monsterName[0] == startIdx)
+                {
+                    msg += $"{monsterData.monsterName}, ";
+                }
+                else
+                {
+                    startIdx = monsterData.monsterName[0];
+                    msg += $"\n**{startIdx}**\n";
+                    msg += $"{monsterData.monsterName}, ";
+                }
+            }
+
+            await command.RespondAsync(msg, ephemeral: true);
+        }
+
+
+        public async Task AddGuest(SocketSlashCommand command)
+        {
+            if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
+            {
+                return;
+            }
+
+            SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.ElementAt(0).Value;
+            string inputNickname = command.Data.Options.ElementAt(1).Value.ToString();
+
+            await guildUser.ModifyAsync(x => x.Nickname = $"{inputNickname}");
+            await guildUser.AddRoleAsync(DataClassManager.Instance.serverConfigs.roleID["Guest"]);
+        }
         public async Task PurgeMessagesFromChannel(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
@@ -324,7 +372,6 @@ namespace QuantumBotv2.Commands
 
             await command.RespondAsync("Succesfully Updated All User Profiles ", ephemeral: true);
         }
-
         public async Task SendServerIntroMessage(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
@@ -397,7 +444,7 @@ namespace QuantumBotv2.Commands
 
             foreach (KeyValuePair<ulong, string> creatorKVP in fieldContents)
             {
-                SocketGuildUser guildUser = ((SocketGuildChannel)command.Channel).Guild.GetUser(creatorKVP.Key);
+                SocketGuildUser guildUser = (command.Channel as SocketGuildChannel).Guild.GetUser(creatorKVP.Key);
 
                 if (guildUser != null)
                 {

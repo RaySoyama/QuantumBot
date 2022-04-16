@@ -83,7 +83,7 @@ namespace QuantumBotv2
 
             
 
-        Update Help Command
+        *Update Help Command
 
         *Logging - User Messages
         *Logging - Server Logs, Seperate
@@ -142,7 +142,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.0.00";
+        public static readonly string QuantumBotVersion = "4.00.00";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -374,6 +374,8 @@ namespace QuantumBotv2
                         MethodInfo logic = logicClass.GetMethod(cmdData.commandMethodName);
 
                         object[] parameters = new object[] { command };
+
+                        var isItNull = SlashCommandLogic.Instance;
                         logic.Invoke(SlashCommandLogic.Instance, parameters);
 
                         await SlashCommandLogic.Instance.OnSlashCommandInvoked(command, false);
@@ -476,11 +478,11 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("monsterhunter-nicknames-remove")
-                .WithDescription("Remove a existing nickname from a Monster");
+                .WithName("monsterhunter-nicknames-view")
+                .WithDescription("View the list of monsters, or nicknames for a specific monster");
 
-            newSCB.AddOption("monster-name", ApplicationCommandOptionType.String, "Name of the Monster of who you're trying to remove a nickname from", isRequired: true);
-            newSCB.AddOption("monster-nickname", ApplicationCommandOptionType.String, "Nickname you're trying to remove", isRequired: true);
+            newSCB.AddOption("monster-name", ApplicationCommandOptionType.String, "Optional: Pick a specific monster who you'd like to see", isRequired: false);
+            //newSCB.AddOption("monster-nickname", ApplicationCommandOptionType.String, "Nickname you're trying to remove", isRequired: true);
 
             /*
             //Adding options, (25 max)
@@ -504,7 +506,7 @@ namespace QuantumBotv2
             //add options
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "RemoveMonsterHunterNickname");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewMonsterHunterNickname");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;
@@ -517,6 +519,7 @@ namespace QuantumBotv2
                     throw new NotImplementedException();
                 }
             }
+
             DataClassManager.Instance.slashCommands.allSlashCommands.Add(newSCD);
             DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
         }

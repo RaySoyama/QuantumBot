@@ -51,8 +51,6 @@ namespace QuantumBotv2.Commands
                     break;
             }
         }
-
-
         public async Task<bool> ButtonCommandUserHasRoles(string[] roles, SocketMessageComponent component)
         {
             SocketGuildUser guildUser = (SocketGuildUser)component.User;
@@ -71,6 +69,7 @@ namespace QuantumBotv2.Commands
             await component.RespondAsync($"You do not have have the required roles to use this command. ({string.Join(", ", roles)}). \nMessage a Admin if you think this is wrong", ephemeral: true);
             return false;
         }
+
 
         public async Task OnButtonCommandInvoked(SocketMessageComponent component, bool isFailed)
         {
@@ -97,7 +96,6 @@ namespace QuantumBotv2.Commands
             DataClassManager.Instance.telemetryLog.allCommandTelemetryLogs.Add(new TelemetryLog.CommandTelemetryData(component));
             DataClassManager.Instance.SaveData(DataClassManager.Instance.telemetryLog);
         }
-
         private async Task ToggleRoles(string roleName, SocketMessageComponent component)
         {
             if (await ButtonCommandUserHasRoles(new string[] { "Student", "Guest" }, component) == false)

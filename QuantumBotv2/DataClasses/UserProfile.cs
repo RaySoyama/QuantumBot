@@ -69,6 +69,9 @@ namespace QuantumBotv2.DataClass
 
             userData = UpdateUserData(userData, guildUser);
 
+            //Sort aphabetically based off userName?
+            DataClassManager.Instance.userProfile.allUserData = DataClassManager.Instance.userProfile.allUserData.OrderBy(name => name.userName).ToList();
+
             DataClassManager.Instance.SaveData(DataClassManager.Instance.userProfile);
             return userData;
         }
