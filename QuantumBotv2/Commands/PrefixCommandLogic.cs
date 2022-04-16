@@ -81,6 +81,17 @@ namespace QuantumBotv2.Commands
             System.Environment.Exit(1);
         }
 
+        /*         [Command("ADMINTESTING")]
+                public async Task ADMINTEST()
+                {
+                    IUserMessage message = (IUserMessage)await Context.Guild.GetTextChannel(487666653690200064).GetMessageAsync(675211861708374046);
+
+                    var builder = new EmbedBuilder()
+                                .WithTitle("Depricated Role Assignment Message")
+                                .WithDescription("The reactions are cute so I'm leaving this here :)");
+                    await message.ModifyAsync(x => x.Embed = builder.Build());
+                } */
+
         #region Depricated Prefix Commands
         [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
         public async Task Ping()
