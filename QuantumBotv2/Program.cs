@@ -25,6 +25,7 @@ namespace QuantumBotv2
         List of Commands to Transfer
             *- Help
             *- Ping
+            *- AddGuest
             - ServerStats
                 - User Count
                 - Students
@@ -38,6 +39,11 @@ namespace QuantumBotv2
                     - Most used active channel?
                     - oo, hours spent in VC would be cool
                 
+        Telemetry (TBD, Parsing user data came come later)
+            Bot Uptime?
+            User Messages Per Chat
+            User Command Usage
+
           Admin Only      
             *- Quit
             *- SendIntro
@@ -88,11 +94,6 @@ namespace QuantumBotv2
                 *- Add Game Codes
                 *- Remove Game Codes
                 *- View Game Codes
-
-        Telemetry (TBD, Parsing user data came come later)
-            Bot Uptime?
-            User Messages Per Chat
-            User Command Usage
 
         OnSlashCommands
             *- Log Slash Commands
@@ -160,7 +161,7 @@ namespace QuantumBotv2
             DataClassManager dataClassManager = new DataClassManager();
 
             /*
-            TelemetryLog test = new TelemetryLog();
+            MonsterHunterNicknames test = new MonsterHunterNicknames();
             DataClassManager.Instance.SaveData(test);
             return;
             */
@@ -262,12 +263,16 @@ namespace QuantumBotv2
 
             try
             {
-                // With global commands we don't need the guild.
                 SlashCommands slashCommands = DataClassManager.Instance.slashCommands;
+
+                List<ApplicationCommandProperties> allGuildSlashCommands = new List<ApplicationCommandProperties>();
+
                 foreach (SlashCommands.SlashCommandData cmdData in slashCommands.allSlashCommands)
                 {
-                    await guild.CreateApplicationCommandAsync(cmdData.slashCommandBuilder.Build());
+                    allGuildSlashCommands.Add(cmdData.slashCommandBuilder.Build());
                 }
+
+                await guild.BulkOverwriteApplicationCommandAsync(allGuildSlashCommands.ToArray());
             }
             catch (Exception exception)
             {
@@ -471,27 +476,35 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("admin-quit")
-                .WithDescription("Kills Quantum Bot");
+                .WithName("monsterhunter-nicknames-remove")
+                .WithDescription("Remove a existing nickname from a Monster");
 
-            //newSCB.AddOption("purge-amount", ApplicationCommandOptionType.Integer, "Number of Messages you want to purge", isRequired: true);
-            /*             SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
-                                .WithName("platform-name")
-                                .WithDescription("Name of the Platform")
-                                .WithRequired(true)
-                                .WithType(ApplicationCommandOptionType.Integer);
+            newSCB.AddOption("monster-name", ApplicationCommandOptionType.String, "Name of the Monster of who you're trying to remove a nickname from", isRequired: true);
+            newSCB.AddOption("monster-nickname", ApplicationCommandOptionType.String, "Nickname you're trying to remove", isRequired: true);
 
-                        foreach (int gamePlatform in Enum.GetValues(typeof(UserProfile.UserData.GamePlatforms)))
-                        {
-                            newSCOB.AddChoice($"{Enum.GetName(typeof(UserProfile.UserData.GamePlatforms), gamePlatform)}", gamePlatform);
-                        } 
+            /*
+            //Adding options, (25 max)
+            SlashCommandOptionBuilder newSCOB = new SlashCommandOptionBuilder()
+                   .WithName("platform-name")
+                   .WithDescription("Name of the Platform")
+                   .WithRequired(true)
+                   .WithType(ApplicationCommandOptionType.Integer);
+
+            int i = 0;
+            foreach (var monsters in DataClassManager.Instance.monsterHunterNicknames.allMonsterHunterNicknames)
+            {
+                newSCOB.AddChoice($"{monsters.monsterName}", i);
+                i++;
+            }
+            
+            newSCB.AddOption(newSCOB);
             */
 
+
             //add options
-            //newSCB.AddOption(newSCOB);
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "QuitBot");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "RemoveMonsterHunterNickname");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;

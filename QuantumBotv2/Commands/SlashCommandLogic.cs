@@ -52,10 +52,9 @@ namespace QuantumBotv2.Commands
                                      $"game-code-remove - Remove a game code\n" +
                                      $"game-code-view - View a users game codes\n")
                             .AddField("Monster Hunter World + Rise",
-                                    $"add-monster-nickname - Give a monster a nickname\n" +
-                                    $"remove-monster-nickname - Remove a nickname from a monster\n" +
-                                    $"view-monster-nickname - View all nicknames given to a monster \n" +
-                                    $"view-monsters - View all Monsters\n")
+                                    $"monsterhunter-nickname-add - Give a monster a nickname\n" +
+                                    $"monsterhunter-nickname-remove - Remove a nickname from a monster\n" +
+                                    $"monsterhunter-nickname-view - View monster nicknames")
                             .AddField("Admin",
                                      $"admin-send-intro-message - Sends the user the introduction msg\n" +
                                      $"admin-purge - Mass deletes messages in a channel\n" +
@@ -75,7 +74,7 @@ namespace QuantumBotv2.Commands
 
             //lierally disgusting
             int inputGamePlatform = Convert.ToInt32((Int64)command.Data.Options.ElementAt(0).Value);
-            string inputGameCode = (string)command.Data.Options.ElementAt(1).Value;
+            string inputGameCode = command.Data.Options.ElementAt(1).Value.ToString();
             UserProfile.UserData.GamePlatforms inputGamePlatformEnum = (UserProfile.UserData.GamePlatforms)inputGamePlatform;
 
             SocketGuildUser guildUser = (SocketGuildUser)command.User;
@@ -109,7 +108,6 @@ namespace QuantumBotv2.Commands
 
             DataClassManager.Instance.SaveData(DataClassManager.Instance.userProfile);
         }
-
         public async Task RemoveGameCodeCommand(SocketSlashCommand command)
         {
             UserProfile.UserData userData = DataClassManager.Instance.userProfile.GetUserData((SocketGuildUser)command.User);
@@ -138,7 +136,6 @@ namespace QuantumBotv2.Commands
                 await command.RespondAsync($"No Code found for {inputGamePlatformEnum.ToString()}", ephemeral: true);
             }
         }
-
         public async Task ViewGameCodeCommand(SocketSlashCommand command)
         {
             SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.First().Value;
@@ -166,6 +163,111 @@ namespace QuantumBotv2.Commands
         }
 
 
+        public async Task AddMonsterHunterNickname(SocketSlashCommand command)
+        {
+            List<MonsterHunterNicknames.MonsterNicknames> allMonsterHunterNicknames = DataClassManager.Instance.monsterHunterNicknames.allMonsterHunterNicknames;
+
+            string inputMonsterName = command.Data.Options.ElementAt(0).Value.ToString();
+            string inputMonsterNickname = command.Data.Options.ElementAt(1).Value.ToString();
+
+            /*
+             * -> Find Monster with the same Name
+             *      -> Does the nickname already exist?
+             *          -> Add Nickname, print
+             *          !-> Alert, print 
+             * !-> Doesn't exist, print
+            */
+
+            //Try and find a matching Monster Name
+            foreach (MonsterHunterNicknames.MonsterNicknames monsterNicknames in allMonsterHunterNicknames)
+            {
+                if (monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower() || monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower().Replace(' ', '-'))
+                {
+                    //we found our monster
+
+                    //If the nickname already exists, we can't add it
+                    if (monsterNicknames.nicknameData.ContainsKey(inputMonsterNickname) == true)
+                    {
+                        //ALERT THE USER THE NICKNAME EXISTS
+                        await command.RespondAsync($"The nickname \"{inputMonsterNickname}\" for \"{inputMonsterName}\" already exists!", ephemeral: true);
+                        return;
+                    }
+                    else
+                    {
+                        monsterNicknames.nicknameData.Add(inputMonsterNickname, command.User.Id);
+                        DataClassManager.Instance.SaveData(DataClassManager.Instance.monsterHunterNicknames);
+
+                        await command.RespondAsync(embed: CreateMonsterNicknameEmbed(monsterNicknames, command));
+                        return;
+                    }
+                }
+            }
+
+            //No Monster with that name found, alert
+            await command.RespondAsync($"Couldn't find a monster with the name \"{inputMonsterName}\" \nCheck the supported monster list with the \"monsterhunter-nickname-view\" command", ephemeral: true);
+        }
+
+        //NEEDS TESTING
+        public async Task RemoveMonsterHunterNickname(SocketSlashCommand command)
+        {
+            List<MonsterHunterNicknames.MonsterNicknames> allMonsterHunterNicknames = DataClassManager.Instance.monsterHunterNicknames.allMonsterHunterNicknames;
+
+            string inputMonsterName = command.Data.Options.ElementAt(0).Value.ToString();
+            string inputMonsterNickname = command.Data.Options.ElementAt(1).Value.ToString();
+
+            /*
+             * -> Find Monster with the same Name
+             *      -> Does the nickname exist?
+             *          -> Check if original author
+             *              -> Remove Nickname, print
+                            !-> Alert
+             *          !-> Alert, print 
+             * !-> Doesn't exist, print
+            */
+
+            //Try and find a matching Monster Name
+            foreach (MonsterHunterNicknames.MonsterNicknames monsterNicknames in allMonsterHunterNicknames)
+            {
+                if (monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower() || monsterNicknames.monsterName.ToLower() == inputMonsterName.ToLower().Replace(' ', '-'))
+                {
+                    //we found our monster
+
+                    //If the nickname already exists, remove it
+                    if (monsterNicknames.nicknameData.ContainsKey(inputMonsterNickname) == true)
+                    {
+                        //Check if the person trying to remove it is also the original author
+                        if (monsterNicknames.nicknameData[inputMonsterName] == command.User.Id)
+                        {
+                            monsterNicknames.nicknameData.Remove(inputMonsterName);
+                            DataClassManager.Instance.SaveData(DataClassManager.Instance.monsterHunterNicknames);
+
+                            await command.RespondAsync($"The nickname \"{inputMonsterNickname}\" for \"{inputMonsterName}\" removed!", ephemeral: true);
+                        }
+                        else
+                        {
+                            await command.RespondAsync($"Can't remove the nickname \"{inputMonsterNickname}\" for \"{inputMonsterName}\"\nOnly the author of the nickname can delete that nickname", ephemeral: true);
+                        }
+                        return;
+                    }
+                    else //Nickname doesn't exist
+                    {
+                        await command.RespondAsync($"The nickname \"{inputMonsterNickname}\" for \"{inputMonsterName}\" doesn't exist!", ephemeral: true);
+                        return;
+                    }
+                }
+            }
+
+            //No Monster with that name found, alert
+            await command.RespondAsync($"Couldn't find a monster with the name \"{inputMonsterName}\" \nCheck the supported monster list with the \"monsterhunter-nickname-view\" command", ephemeral: true);
+        }
+
+        /*         
+        public async Task ViewMonsterHunterNickname(SocketSlashCommand command)
+                {
+                    //show all or just the monsters
+
+                } 
+        */
 
         public async Task PurgeMessagesFromChannel(SocketSlashCommand command)
         {
@@ -192,7 +294,6 @@ namespace QuantumBotv2.Commands
 
             await command.RespondAsync($"Succesfully purged {purgeAmount} messages from <#{command.Channel.Id}>", ephemeral: true);
         }
-
         public async Task QuitBot(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
@@ -239,9 +340,6 @@ namespace QuantumBotv2.Commands
 
 
 
-
-
-
         private async Task<bool> SlashCommandUserHasRoles(string[] roles, SocketSlashCommand command)
         {
             SocketGuildUser guildUser = (SocketGuildUser)command.User;
@@ -259,6 +357,66 @@ namespace QuantumBotv2.Commands
 
             await command.RespondAsync($"You do not have have the required roles to use this command. ({string.Join(", ", roles)}). \nMessage a Admin if you think this is wrong", ephemeral: true);
             return false;
+        }
+
+        private Discord.Embed CreateMonsterNicknameEmbed(MonsterHunterNicknames.MonsterNicknames monsterData, SocketSlashCommand command)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            try
+            {
+                builder = new EmbedBuilder()
+                                        .WithTitle("Monster Hunter Nicknames!~")
+                                        .WithDescription($"Nicknames for {monsterData.monsterName}")
+                                        .WithThumbnailUrl(monsterData.monsterIconURL);
+            }
+            catch (ArgumentException) //incase a URL is dead
+            {
+                builder = new EmbedBuilder()
+                                        .WithTitle("Monster Hunter Nicknames!~")
+                                        .WithDescription($"Nicknames for {monsterData.monsterName}\nURL is dead, please alert an Admin");
+            }
+
+            Dictionary<ulong, string> fieldContents = new Dictionary<ulong, string>();
+
+            foreach (KeyValuePair<string, ulong> nicknamesKVP in monsterData.nicknameData)
+            {
+                if (fieldContents.ContainsKey(nicknamesKVP.Value))
+                {
+                    fieldContents[nicknamesKVP.Value] += $"\n{nicknamesKVP.Key}";
+                }
+                else
+                {
+                    fieldContents.Add(nicknamesKVP.Value, nicknamesKVP.Key);
+                }
+            }
+
+            if (fieldContents.Count() == 0)
+            {
+                builder.AddField($"No nicknames found <:SadCat:656612740718133289>", $"Use the \"monsterhunter-nicknames-add\" slash command!");
+            }
+
+            foreach (KeyValuePair<ulong, string> creatorKVP in fieldContents)
+            {
+                SocketGuildUser guildUser = ((SocketGuildChannel)command.Channel).Guild.GetUser(creatorKVP.Key);
+
+                if (guildUser != null)
+                {
+                    if (guildUser.Nickname == "" || guildUser.Nickname == null)
+                    {
+                        builder.AddField($"By {guildUser.Username}#{guildUser.Discriminator}", creatorKVP.Value);
+                    }
+                    else
+                    {
+                        builder.AddField($"By {guildUser.Nickname}", creatorKVP.Value);
+                    }
+                }
+                else
+                {
+                    builder.AddField($"By UserNotFound", creatorKVP.Value);
+                }
+            }
+
+            return builder.Build();
         }
 
         /// <summary>

@@ -28,6 +28,8 @@ namespace QuantumBotv2.DataClass
         public MessageLog messageLog = new MessageLog();
         public UserProfile userProfile = new UserProfile();
         public TelemetryLog telemetryLog = new TelemetryLog();
+        public MonsterHunterNicknames monsterHunterNicknames = new MonsterHunterNicknames();
+
         public string dataFolderPath = "QuantumBotDataFiles";
 
         public void LoadAllData()
@@ -38,6 +40,7 @@ namespace QuantumBotv2.DataClass
             messageLog = LoadData(messageLog);
             userProfile = LoadData(userProfile);
             telemetryLog = LoadData(telemetryLog);
+            monsterHunterNicknames = LoadData(monsterHunterNicknames);
             //add more
         }
 
