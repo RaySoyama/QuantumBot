@@ -92,5 +92,18 @@ namespace QuantumBotv2.DataClass
             }
         }
         public List<CommandTelemetryData> allCommandTelemetryLogs = new List<CommandTelemetryData>();
+
+        public int NumberOfCommandInvokesFromUser(ulong userId)
+        {
+            int invkCount = 0;
+            foreach (CommandTelemetryData commandTelemetryData in allCommandTelemetryLogs)
+            {
+                if (commandTelemetryData.authorID == userId)
+                {
+                    invkCount++;
+                }
+            }
+            return invkCount;
+        }
     }
 }

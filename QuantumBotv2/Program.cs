@@ -19,6 +19,7 @@ namespace QuantumBotv2
     class Program
     {
         //dotnet publish -c Build{value}
+        //Don't forget to uncomment the "LoadCommands" when client is ready
 
         /*
         TODO
@@ -142,7 +143,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.00.00";
+        public static readonly string QuantumBotVersion = "4.00.01";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -241,6 +242,7 @@ namespace QuantumBotv2
         {
             await OnClientLog(new LogMessage(LogSeverity.Info, $"Manual Logging", $"Quantum Bot Version {QuantumBotVersion}"));
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
+            //Don't forget to uncomment this
             await LoadSlashCommands();
         }
         private async Task LoadSlashCommands()
@@ -306,15 +308,16 @@ namespace QuantumBotv2
             {
                 //Stores in RAM, less read/write
                 /*
+                */
                 MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
                 DataClassManager.Instance.messageLog.allMessageLogs.Add(newMessage);
                 DataClassManager.Instance.SaveData(DataClassManager.Instance.messageLog);
                 Console.WriteLine(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
-                */
 
 
                 //Less RAM Usage
                 //Read Data from File, Save, Delete Cache?
+                /*
                 DataClassManager.Instance.messageLog = DataClassManager.Instance.LoadData(DataClassManager.Instance.messageLog);
 
                 MessageLog.MessageData newMessage = new MessageLog.MessageData(message);
@@ -325,6 +328,7 @@ namespace QuantumBotv2
                 Console.WriteLine(DataClassManager.Instance.messageLog.MessageDataAsString(newMessage));
 
                 DataClassManager.Instance.messageLog = new MessageLog();
+                */
             }
 
             //Commands
@@ -478,10 +482,10 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("monsterhunter-nicknames-view")
-                .WithDescription("View the list of monsters, or nicknames for a specific monster");
+                .WithName("admin-user-stats")
+                .WithDescription("View details of a user");
 
-            newSCB.AddOption("monster-name", ApplicationCommandOptionType.String, "Optional: Pick a specific monster who you'd like to see", isRequired: false);
+            newSCB.AddOption("user", ApplicationCommandOptionType.User, "User you'd like to see the stats of", isRequired: true);
             //newSCB.AddOption("monster-nickname", ApplicationCommandOptionType.String, "Nickname you're trying to remove", isRequired: true);
 
             /*
@@ -506,7 +510,7 @@ namespace QuantumBotv2
             //add options
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewMonsterHunterNickname");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewMemberStats");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;

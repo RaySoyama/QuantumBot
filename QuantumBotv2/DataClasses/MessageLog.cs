@@ -68,5 +68,19 @@ namespace QuantumBotv2.DataClass
 
             return JsonConvert.SerializeObject(messageData, Formatting.Indented);
         }
+
+        public int NumberOfMessagesFromUser(ulong userId)
+        {
+            //note: this does not load the data, so you're gonna have to do that yourself
+            int msgCount = 0;
+            foreach (MessageData messageData in allMessageLogs)
+            {
+                if (messageData.authorID == userId)
+                {
+                    msgCount++;
+                }
+            }
+            return msgCount;
+        }
     }
 }

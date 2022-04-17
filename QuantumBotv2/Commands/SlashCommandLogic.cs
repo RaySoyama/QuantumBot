@@ -317,6 +317,40 @@ namespace QuantumBotv2.Commands
             await guildUser.ModifyAsync(x => x.Nickname = $"{inputNickname}");
             await guildUser.AddRoleAsync(DataClassManager.Instance.serverConfigs.roleID["Guest"]);
         }
+        public async Task ViewMemberStats(SocketSlashCommand command)
+        {
+            if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
+            {
+                return;
+            }
+
+
+            /*
+                Things to note?
+                Name
+                Nickname
+                Pfp
+                Roles
+                # of messages sent?
+                # of times commands used?
+            */
+            SocketGuildUser guildUser = (SocketGuildUser)command.Data.Options.First().Value;
+            EmbedBuilder embed = new EmbedBuilder();
+
+            var roleList = string.Join(", ", guildUser.Roles.Where(x => !x.IsEveryone).Select(x => x.Mention));
+
+            embed.WithTitle("Member Profile!");
+            embed.WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl());
+            embed.WithDescription($"Username: {guildUser.Username}#{guildUser.Discriminator}\n" +
+                                $"Nickname: {(guildUser.Nickname == null ? "No Nickname" : $"{guildUser.Nickname}")}\n\n" +
+                                $"Messages Sent: {DataClassManager.Instance.messageLog.NumberOfMessagesFromUser(guildUser.Id)}\n" +
+                                $"Commands Invoked: {DataClassManager.Instance.telemetryLog.NumberOfCommandInvokesFromUser(guildUser.Id)}\n\n" +
+                                $"Joined Server on <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:F>\n" +
+                                $"Joined Server: <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:R>\n\n" +
+                                $"Roles: {roleList}");
+
+            await command.RespondAsync(embed: embed.Build());
+        }
         public async Task PurgeMessagesFromChannel(SocketSlashCommand command)
         {
             if (await SlashCommandUserHasRoles(new string[] { "Admin" }, command) == false)
