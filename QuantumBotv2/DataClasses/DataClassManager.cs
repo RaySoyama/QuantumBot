@@ -26,6 +26,7 @@ namespace QuantumBotv2.DataClass
         public SlashCommands slashCommands = new SlashCommands();
         public ClientLog clientLog = new ClientLog();
         public MessageLog messageLog = new MessageLog();
+        public VoiceLog voiceLog = new VoiceLog();
         public UserProfile userProfile = new UserProfile();
         public TelemetryLog telemetryLog = new TelemetryLog();
         public MonsterHunterNicknames monsterHunterNicknames = new MonsterHunterNicknames();
@@ -38,6 +39,7 @@ namespace QuantumBotv2.DataClass
             slashCommands = LoadData(slashCommands);
             clientLog = LoadData(clientLog);
             messageLog = LoadData(messageLog);
+            voiceLog = LoadData(voiceLog);
             userProfile = LoadData(userProfile);
             telemetryLog = LoadData(telemetryLog);
             monsterHunterNicknames = LoadData(monsterHunterNicknames);

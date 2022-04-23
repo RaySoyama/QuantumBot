@@ -143,7 +143,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.00.02";
+        public static readonly string QuantumBotVersion = "4.01.00";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -161,8 +161,9 @@ namespace QuantumBotv2
             //Init Data
             DataClassManager dataClassManager = new DataClassManager();
 
-            /*
-            MonsterHunterNicknames test = new MonsterHunterNicknames();
+            /* 
+            //To Initialize Files
+            VoiceLog test = new VoiceLog();
             DataClassManager.Instance.SaveData(test);
             return;
             */
@@ -452,14 +453,12 @@ namespace QuantumBotv2
                 await ButtonCommandLogic.Instance.OnButtonCommandInvoked(component, true);
             }
         }
-        private async Task OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState oldSocketVoiceState, SocketVoiceState newSocketVoiceState)
+        private Task OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState oldSocketVoiceState, SocketVoiceState newSocketVoiceState)
         {
-            //I can check simply log voice activity?
-            //the only issue is if my bot lags and I miss this event, then I won't know if they actually joined/left
-
-            //I can subtract the time between join/leave, and have a handler in the voice logs for any holes 
-
-            //throw new NotImplementedException();
+            //This actually gets called when a user mutes themselves as well, so it might be too often to log?  We shall see
+            DataClassManager.Instance.voiceLog.allVoiceLogs.AddRange(DataClassManager.Instance.voiceLog.ParseVoiceData(socketUser, oldSocketVoiceState, newSocketVoiceState));
+            DataClassManager.Instance.SaveData(DataClassManager.Instance.voiceLog);
+            return Task.CompletedTask;
         }
 
         public static async Task SendIntroductionMessage(SocketGuildUser user)

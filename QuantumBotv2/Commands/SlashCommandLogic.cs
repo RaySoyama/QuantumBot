@@ -339,12 +339,15 @@ namespace QuantumBotv2.Commands
             EmbedBuilder embed = new EmbedBuilder();
 
             var roleList = string.Join(", ", guildUser.Roles.Where(x => !x.IsEveryone).Select(x => x.Mention));
+            VoiceLog.UserVoiceStats userVoiceStats = DataClassManager.Instance.voiceLog.GetUserVoiceCallStats(guildUser.Id);
 
             embed.WithTitle("Member Profile!");
             embed.WithThumbnailUrl(guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl());
             embed.WithDescription($"Username: {guildUser.Username}#{guildUser.Discriminator}\n" +
                                 $"Nickname: {(guildUser.Nickname == null ? "No Nickname" : $"{guildUser.Nickname}")}\n\n" +
                                 $"Messages Sent: {DataClassManager.Instance.messageLog.NumberOfMessagesFromUser(guildUser.Id)}\n" +
+                                $"Time spent in voice chat: {Convert.ToInt32(userVoiceStats.totalTimeInCall.TotalMinutes)} mins\n" +
+                                $"Time muted in voice chat: {Convert.ToInt32(userVoiceStats.totalTimeMuted.TotalMinutes)} mins\n" +
                                 $"Commands Invoked: {DataClassManager.Instance.telemetryLog.NumberOfCommandInvokesFromUser(guildUser.Id)}\n\n" +
                                 $"Joined Server on <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:F>\n" +
                                 $"Joined Server: <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:R>\n\n" +
