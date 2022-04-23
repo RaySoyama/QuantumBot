@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using QuantumBotv2.DataClass;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -418,7 +419,32 @@ namespace QuantumBotv2.Commands
             await Program.SendIntroductionMessage(guildUser);
             await command.RespondAsync($"Server Intro Message Sent to <@{guildUser.Id}>", ephemeral: true);
         }
+        public async Task RestartRaysAudioDriver(SocketSlashCommand command)
+        {
+            try
+            {
+                Process voiceMeterProcess = Process.GetProcessesByName("voicemeeterpro")[0];
+                string voiceMeterPath = null;
 
+                if (voiceMeterProcess != null)
+                {
+                    voiceMeterPath = voiceMeterProcess.MainModule.FileName;
+                    voiceMeterProcess.Kill();
+                }
+
+                await Task.Delay(1000);
+                Process.Start(voiceMeterPath); //Should Fail if null
+            }
+            catch
+            {
+                await command.RespondAsync("Failed to Restart Ray's Audio Driver", ephemeral: true);
+                await (command.User as SocketGuildUser).Guild.GetUser(DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]).SendMessageAsync($"VOICEMETER FAILED TO RESET. COMMAND CALLED BY USER <@{command.User.Id}> in <#{command.Channel.Id}>");
+                return;
+            }
+
+            await (command.User as SocketGuildUser).Guild.GetUser(DataClassManager.Instance.serverConfigs.userID["Ray Soyama"]).SendMessageAsync($"VOICEMETER HAS BEEN RESET BY USER <@{command.User.Id}> in <#{command.Channel.Id}>");
+            await command.RespondAsync("Successfully Restarted Ray's Audio Driver", ephemeral: true);
+        }
 
 
         private async Task<bool> SlashCommandUserHasRoles(string[] roles, SocketSlashCommand command)
@@ -439,7 +465,6 @@ namespace QuantumBotv2.Commands
             await command.RespondAsync($"You do not have have the required roles to use this command. ({string.Join(", ", roles)}). \nMessage a Admin if you think this is wrong", ephemeral: true);
             return false;
         }
-
         private Discord.Embed CreateMonsterNicknameEmbed(MonsterHunterNicknames.MonsterNicknames monsterData, SocketSlashCommand command)
         {
             EmbedBuilder builder = new EmbedBuilder();
@@ -499,7 +524,6 @@ namespace QuantumBotv2.Commands
 
             return builder.Build();
         }
-
         /// <summary>
         /// Call when you run a SlashCommand to add logging in Bot-History and logs
         /// </summary>

@@ -143,7 +143,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.00.01";
+        public static readonly string QuantumBotVersion = "4.00.02";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -205,6 +205,7 @@ namespace QuantumBotv2
             client.SlashCommandExecuted += OnSlashCommandCalled;
             client.UserJoined += OnUserJoined;
             client.UserLeft += OnUserLeft;
+            client.UserVoiceStateUpdated += OnUserVoiceStateUpdated;
 
             client.ButtonExecuted += OnButtonClicked;
 
@@ -243,7 +244,7 @@ namespace QuantumBotv2
             await OnClientLog(new LogMessage(LogSeverity.Info, $"Manual Logging", $"Quantum Bot Version {QuantumBotVersion}"));
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
             //Don't forget to uncomment this
-            await LoadSlashCommands();
+            //await LoadSlashCommands();
         }
         private async Task LoadSlashCommands()
         {
@@ -451,6 +452,15 @@ namespace QuantumBotv2
                 await ButtonCommandLogic.Instance.OnButtonCommandInvoked(component, true);
             }
         }
+        private async Task OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState oldSocketVoiceState, SocketVoiceState newSocketVoiceState)
+        {
+            //I can check simply log voice activity?
+            //the only issue is if my bot lags and I miss this event, then I won't know if they actually joined/left
+
+            //I can subtract the time between join/leave, and have a handler in the voice logs for any holes 
+
+            //throw new NotImplementedException();
+        }
 
         public static async Task SendIntroductionMessage(SocketGuildUser user)
         {
@@ -482,10 +492,10 @@ namespace QuantumBotv2
         private void ADMIN_ManuallyAddSlashCommand()
         {
             SlashCommandBuilder newSCB = new SlashCommandBuilder()
-                .WithName("admin-user-stats")
-                .WithDescription("View details of a user");
+                .WithName("admin-restart-rays-audio")
+                .WithDescription("If Ray is in a Blizzard, run this command");
 
-            newSCB.AddOption("user", ApplicationCommandOptionType.User, "User you'd like to see the stats of", isRequired: true);
+            //newSCB.AddOption("user", ApplicationCommandOptionType.User, "User you'd like to see the stats of", isRequired: true);
             //newSCB.AddOption("monster-nickname", ApplicationCommandOptionType.String, "Nickname you're trying to remove", isRequired: true);
 
             /*
@@ -510,7 +520,7 @@ namespace QuantumBotv2
             //add options
             //newSCB.AddOption("user", ApplicationCommandOptionType.User, "The user whoms't you want to see the game codes of", isRequired: true);
 
-            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "ViewMemberStats");
+            SlashCommands.SlashCommandData newSCD = new SlashCommands.SlashCommandData(newSCB, "RestartRaysAudioDriver");
 
             //check if slashcommand with the same name exists
             List<SlashCommands.SlashCommandData> allSlashCommands = DataClassManager.Instance.slashCommands.allSlashCommands;
