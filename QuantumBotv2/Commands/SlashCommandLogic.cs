@@ -351,7 +351,9 @@ namespace QuantumBotv2.Commands
                                 $"Commands Invoked: {DataClassManager.Instance.telemetryLog.NumberOfCommandInvokesFromUser(guildUser.Id)}\n\n" +
                                 $"Joined Server on <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:F>\n" +
                                 $"Joined Server: <t:{((DateTimeOffset)guildUser.JoinedAt).ToUnixTimeSeconds()}:R>\n\n" +
-                                $"Roles: {roleList}");
+                                $"Account Created at: <t:{((DateTimeOffset)((guildUser as SocketUser).CreatedAt)).ToUnixTimeSeconds()}:F>\n" +
+                                $"Acount Age: <t:{((DateTimeOffset)((guildUser as SocketUser).CreatedAt)).ToUnixTimeSeconds()}:R>\n\n" +
+                                $"Roles: {roleList}\n");
 
             await command.RespondAsync(embed: embed.Build());
         }

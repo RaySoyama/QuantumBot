@@ -98,7 +98,7 @@ namespace QuantumBotv2.Commands
         }
         private async Task ToggleRoles(string roleName, SocketMessageComponent component)
         {
-            if (await ButtonCommandUserHasRoles(new string[] { "Student", "Guest" }, component) == false)
+            if (await ButtonCommandUserHasRoles(new string[] { "Student", "Guest", "Teacher" }, component) == false)
             {
                 return;
             }
