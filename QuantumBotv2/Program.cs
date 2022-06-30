@@ -144,7 +144,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.01.01";
+        public static readonly string QuantumBotVersion = "4.02.00";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -332,6 +332,22 @@ namespace QuantumBotv2
 
                 DataClassManager.Instance.messageLog = new MessageLog();
                 */
+            }
+
+            try
+            {
+                if(message.Channel is SocketVoiceChannel)
+                {
+                    if(((SocketVoiceChannel)message.Channel).IsTextInVoice == true)
+                    {
+                        OnUserSendsMsgInVoiceChannel(message);
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                //?? lol
             }
 
             //Commands
@@ -536,6 +552,13 @@ namespace QuantumBotv2
 
             DataClassManager.Instance.slashCommands.allSlashCommands.Add(newSCD);
             DataClassManager.Instance.SaveData(DataClassManager.Instance.slashCommands);
+        }
+        private async Task OnUserSendsMsgInVoiceChannel(SocketMessage message)
+        {
+            var botMsg = await message.Channel.SendMessageAsync($"<@{message.Author.Id}> Please do not use the voice text channels.\nUse <#{DataClassManager.Instance.serverConfigs.channelID["Voice Text"]}> instead");
+            await Task.Delay(10000);
+            await message.DeleteAsync();
+            await botMsg.DeleteAsync();
         }
     }
 }
