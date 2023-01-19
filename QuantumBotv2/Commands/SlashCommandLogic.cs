@@ -73,7 +73,7 @@ namespace QuantumBotv2.Commands
             UserProfile.UserData userData = DataClassManager.Instance.userProfile.GetUserData((SocketGuildUser)command.User);
 
             //lierally disgusting
-            int inputGamePlatform = Convert.ToInt32((Int64)command.Data.Options.ElementAt(0).Value);
+            int inputGamePlatform = Convert.ToInt32(command.Data.Options.ElementAt(0).Value);
             string inputGameCode = command.Data.Options.ElementAt(1).Value.ToString();
             UserProfile.UserData.GamePlatforms inputGamePlatformEnum = (UserProfile.UserData.GamePlatforms)inputGamePlatform;
 

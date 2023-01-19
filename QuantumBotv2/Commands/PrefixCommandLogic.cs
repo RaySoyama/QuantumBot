@@ -92,6 +92,24 @@ namespace QuantumBotv2.Commands
                     await message.ModifyAsync(x => x.Embed = builder.Build());
                 } */
 
+        [Command("ADMINTESTING")]
+        public async Task ADMINTEST()
+        {
+            //Soren
+            await Context.Guild.GetUser(213158825413312515).SendMessageAsync("Hello <@213158825413312515>! You are officially a Gamer Chef Secret Santa for: Travis F!");
+            //Fisk
+            await Context.Guild.GetUser(266306624107446291).SendMessageAsync("Hello <@266306624107446291>! You are officially a Gamer Chef Secret Santa for: Lucario!");
+            //Soreiany
+            await Context.Guild.GetUser(194151124704428032).SendMessageAsync("Hello <@194151124704428032>! You are officially a Gamer Chef Secret Santa for: Camden!");
+            //Lucario
+            await Context.Guild.GetUser(192068604156444673).SendMessageAsync("Hello <@192068604156444673>! You are officially a Gamer Chef Secret Santa for: Soreiany!");
+            //Ray
+            await Context.Guild.GetUser(173226502710755328).SendMessageAsync("Hello <@173226502710755328>! You are officially a Gamer Chef Secret Santa for: Soren!");
+            //Camden
+            await Context.Guild.GetUser(159305214128553985).SendMessageAsync("Hello <@159305214128553985>! You are officially a Gamer Chef Secret Santa for: Ray!");
+
+        }
+
         #region Depricated Prefix Commands
         [Command("Ping"), Alias("ping"), Summary("Returns the latency")]
         public async Task Ping()

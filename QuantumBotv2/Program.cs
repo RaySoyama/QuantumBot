@@ -144,7 +144,7 @@ namespace QuantumBotv2
 
         */
 
-        public static readonly string QuantumBotVersion = "4.02.00";
+        public static readonly string QuantumBotVersion = "4.03.00";
 
         public static int clientPing = 696969;
         private static DiscordSocketClient client;
@@ -246,7 +246,7 @@ namespace QuantumBotv2
             await OnClientLog(new LogMessage(LogSeverity.Info, $"Manual Logging", $"Quantum Bot Version {QuantumBotVersion}"));
             await client.SetGameAsync($"{DataClassManager.Instance.serverConfigs.prefix}Help");
             //Don't forget to uncomment this
-            await LoadSlashCommands();
+            //await LoadSlashCommands();
         }
         private async Task LoadSlashCommands()
         {
@@ -340,7 +340,7 @@ namespace QuantumBotv2
                 {
                     if(((SocketVoiceChannel)message.Channel).IsTextInVoice == true)
                     {
-                        OnUserSendsMsgInVoiceChannel(message);
+                        await OnUserSendsMsgInVoiceChannel(message);
                         return;
                     }
                 }
